@@ -13,17 +13,41 @@ Other branches can be freely created and then merged by **pull requests**.
 
 We use [ESLint](https://eslint.org/) and [Prettier](https://prettier.io/) to lint and format our code, yielding uniform code styles. We name all variables and functions with [camel case](https://en.wikipedia.org/wiki/Camel_case).
 
-## Available Scripts
+## Getting Started
 
-In the project directory, you can run:
+First, install `yarn`:
 
-### `yarn start`
+```shell script
+npm install -g yarn
+```
+
+Install dependencies:
+
+```shell script
+yarn
+```
+
+Start developing:
+
+```shell script
+yarn start
+```
 
 Runs the app in the development mode.<br />
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
 The page will reload if you make edits.<br />
 You will also see any lint errors in the console.
+
+To format code:
+
+```shell script
+yarn format
+yarn format:staged  # format staged files only
+yarn format:check # lint and check the format of all files
+```
+
+In the project directory, you can also run:
 
 ### `yarn test`
 
