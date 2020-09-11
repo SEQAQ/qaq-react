@@ -1,4 +1,17 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# QAQ
+
+💡 QAQ Frontend: A university QA community powered by [React](https://github.com/facebook/create-react-app)
+
+## Collabration Tips
+
+### Branches
+
+We use [master](https://github.com/SEQAQ/qaq-react/tree/master) as main branch and [dev](https://github.com/SEQAQ/qaq-react/tree/dev) for development.
+Other branches can be freely created and then merged by **pull requests**.
+
+### Code Styles
+
+We use [ESLint](https://eslint.org/) and [Prettier](https://prettier.io/) to lint and format our code, yielding uniform code styles. We name all variables and functions with [camel case](https://en.wikipedia.org/wiki/Camel_case).
 
 ## Available Scripts
 
