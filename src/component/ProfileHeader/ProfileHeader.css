@@ -1,0 +1,40 @@
+.profile-card {
+  position: relative;
+  width: 1000px;
+  padding: 0 16px;
+  margin: 10px auto;
+}
+
+.profile-header {
+  margin-top: 30px;
+  margin-bottom: 30px;
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+.profile-avatar {
+  position: absolute;
+  z-index: 1;
+}
+
+.profile-info {
+  padding-top: 16px;
+  padding-left: 32px;
+  border-left: 164px solid transparent;
+}
+
+.profile-detail {
+  position: relative;
+  color: gray;
+  width: 524px;
+}
+
+.profile-footer {
+  margin-top: 20px;
+}
+
+.user-name {
+  font-size: 26px;
+  font-weight: 600;
+  line-height: 30px;
+}
