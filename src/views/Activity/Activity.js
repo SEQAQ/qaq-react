@@ -13,7 +13,6 @@ const Activity = () => {
 
   return (
     <div>
-      <div style={{ float: 'left', top: '10px', position: 'fixed', zIndex: 100 }}>{new Date().toLocaleString()}</div>
       <ProfileHeader
         data={{
           username: 'QAQ 小编',

@@ -1,5 +1,7 @@
 # QAQ
 
+![Deploy to Github Pages](https://github.com/SEQAQ/qaq-react/workflows/Deploy%20to%20Github%20Pages/badge.svg)
+
 💡 QAQ Frontend: A university QA community powered by [React](https://github.com/facebook/create-react-app)
 
 ## Collabration Tips

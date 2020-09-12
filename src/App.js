@@ -1,18 +1,16 @@
 import React from 'react';
 import './App.css';
+import BasicRoute from "./Router";
 import { ThemeProvider } from '@material-ui/core/styles';
-import Activity from './views/Activity/Activity';
 import { blueTheme } from './utils/theme';
 
-function App() {
-  return (
+const App = () =>
+  (
     <div className="App">
       <ThemeProvider theme={blueTheme}>
-        {/* For Demo Purpose */}
-        <Activity />
+        <BasicRoute/>
       </ThemeProvider>
     </div>
   );
-}
 
 export default App;
