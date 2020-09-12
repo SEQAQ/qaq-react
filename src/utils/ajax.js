@@ -1,25 +1,32 @@
-const fetch = require("node-fetch");
-let postRequest = (url, json, callback) => {
+import axios from 'axios';
 
-    let opts = {
-        method: "POST",
-        body: JSON.stringify(json),
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        credentials: "include"
+const axiosRequest = (method, url = '', options = {}) => {
+    const auth = options.auth;
+    const payload = options.payload;
+    const params = options.params;
+    const requestConfig = {
+      method,
+      url,
+      params,
+      data: payload,
     };
-
-    fetch(url,opts)
-        .then((response) => {
-            return response.json()
+    if (auth) {
+      // TODO: implement authentication
+    }
+    return new Promise((resolve, reject) =>
+      axios(requestConfig)
+        .then((res) => {
+          if (res.status === 200) {
+            resolve(res);
+          } else {
+            reject(res);
+          }
         })
-        .then((data) => {
-            callback(data);
+        .catch((err) => {
+          reject(err);
         })
-        .catch((error) => {
-            console.log(error);
-        });
-};
+    );
+  };
 
-export {postRequest};
+export const post = (url, data = {}, auth = false) => axiosRequest('post', url, { payload: data, auth });
+

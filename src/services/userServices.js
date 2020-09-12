@@ -1,9 +1,7 @@
-import config from 'config';
-import {postRequest} from "../utils/ajax";
+import config from '../utils/config';
+import {post} from "../utils/ajax";
 import {history} from '../utils/history';
 import {message} from 'antd';
-
-
 
 export const login = (data) => {
     const url = `${config.apiUrl}/login`;
@@ -17,7 +15,7 @@ export const login = (data) => {
             message.error(data.msg);
         }
     };
-    postRequest(url, data, callback);
+    post(url, data).then((res)=> callback(res));
 };
 
 export const logout = () => {
@@ -33,10 +31,10 @@ export const logout = () => {
             message.error(data.msg);
         }
     };
-    postRequest(url, {}, callback);
+    post(url, {}).then((res)=>callback(res));
 };
 
 export const checkSession = (callback) => {
     const url = `${config.apiUrl}/checkSession`;
-    postRequest(url, {}, callback);
+    post(url, {}).then((res)=>callback(res));
 };
