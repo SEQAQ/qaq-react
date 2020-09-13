@@ -3,7 +3,7 @@ import {Route, Redirect} from 'react-router-dom';
 import * as userService from "./services/userServices";
 import {message} from "antd";
 
-export default class PrivateRoute extends React.Component{
+export default class PrivateRoute extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -35,7 +35,7 @@ export default class PrivateRoute extends React.Component{
 
         console.log(this.state.isAuthed);
 
-        //如果曾经没有登陆过，那么直接返回NULL
+        // 如果曾经没有登陆过，那么直接返回NULL
         if (!this.state.hasAuthed) {
             return null;
         }
