@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import './ProfileHeader.css';
 import Avatar from '../../component/Avatar/Avatar';
@@ -9,6 +9,7 @@ const ProfileHeader = (props) => {
   const gender = props.data.gender;
   const intro = props.data.intro;
   const img = props.data.img;
+  const [followed, setFollowed] = useState(false);
 
   return (
     <div className={'profile-card card'}>
@@ -33,7 +34,7 @@ const ProfileHeader = (props) => {
           <div className="divider" />
           <span className={'profile-detail'}>{intro}</span>
           <div className="profile-footer">
-            <FollowButton />
+            <FollowButton followed={followed} onClick={() => setFollowed(!followed)} />
           </div>
         </div>
       </div>
