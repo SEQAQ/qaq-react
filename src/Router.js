@@ -1,9 +1,10 @@
 import React from 'react';
 import { Router, Route, Switch, Redirect, Link } from 'react-router-dom';
-import PrivateRoute from './PrivateRoute';
-import HomeView from './views/homeView/HomeView';
-import LoginView from './views/loginView/LoginView';
-import RegisterView from './views/registerView/RegisterView';
+
+/* import PrivateRoute from './PrivateRoute';*/
+import HomeView from './views/HomeView/HomeView';
+import LoginView from './views/LoginView/LoginView';
+import RegisterView from './views/RegisterView/RegisterView';
 import Activity from './views/Activity/Activity';
 import { history } from './utils/history';
 
@@ -15,7 +16,8 @@ const BasicRoute = () => (
         <Link to="/people">用户动态(Avatar, Follow Button, Profile Header)</Link>
       </div>
       <Switch>
-        <PrivateRoute exact path="/" component={HomeView} />
+        {/* <PrivateRoute exact path="/" component={HomeView} />*/}
+        <Route exact path="/" component={HomeView} />
         <Route path="/people">
           <Activity />
         </Route>
