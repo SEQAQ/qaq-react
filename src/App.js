@@ -1,7 +1,9 @@
-import React from 'react';
 import './App.css';
-import BasicRoute from './Router';
+
 import { ThemeProvider } from '@material-ui/core/styles';
+import React from 'react';
+
+import BasicRoute from './Router';
 import { blueTheme } from './utils/theme';
 
 const App = () => (
