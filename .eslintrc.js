@@ -13,6 +13,7 @@ module.exports = {
   },
   env: {
     browser: true,
+    node: true,
     es6: true,
   },
   globals: {
@@ -31,7 +32,6 @@ module.exports = {
     beforeEach: true,
     on: true,
     config: true,
-    process: true,
   },
   rules: {
     'jsx-a11y/anchor-is-valid': 0,
