@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
-import { Route, Redirect } from 'react-router-dom';
-import * as userService from './services/userServices';
 import { message } from 'antd';
+import PropTypes from 'prop-types';
+import React, { useEffect, useState } from 'react';
+import { Redirect, Route } from 'react-router-dom';
+
+import * as userService from './services/userServices';
 
 const PrivateRoute = (props) => {
   const [isAuthed, setIsAuthed] = useState(false); // 已经登陆

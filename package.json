@@ -1,6 +1,6 @@
 {
   "name": "qaq",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": true,
   "dependencies": {
     "@material-ui/core": "^4.11.0",
@@ -8,9 +8,10 @@
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
-    "prop-types": "^15.7.2",
     "antd": "^4.6.3",
     "axios": "^0.20.0",
+    "node-sass": "^4.14.1",
+    "prop-types": "^15.7.2",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-router-dom": "^5.2.0",
@@ -21,9 +22,9 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "format": "eslint \"**/*.js\" --fix && prettier \"**/*.{css,html,js,json,md}\" --write",
-    "format:check": "eslint \"**/*.js\" && prettier-check \"**/*.{css,html,js,json,md}\"",
-    "format:staged": "eslint \"**/*.js\" --fix && pretty-quick --staged --verbose --pattern \"**/*.{css,html,js,json,md}\""
+    "format": "eslint \"**/*.js\" --fix && prettier \"**/*.{css,html,js,json,md,sass}\" --write",
+    "format:check": "eslint \"**/*.js\" && prettier-check \"**/*.{css,html,js,json,md,sass}\"",
+    "format:staged": "eslint \"**/*.js\" --fix && pretty-quick --staged --verbose --pattern \"**/*.{css,html,js,json,md,sass}\""
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -50,6 +51,7 @@
     "eslint": "^6.6.0",
     "eslint-plugin-prettier": "^3.1.4",
     "eslint-plugin-react": "^7.20.6",
+    "eslint-plugin-simple-import-sort": "^5.0.3",
     "husky": "^4.3.0",
     "prettier": "^2.1.1",
     "prettier-check": "^2.0.0",

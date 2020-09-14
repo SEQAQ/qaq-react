@@ -1,6 +1,7 @@
 # QAQ
 
 ![Deploy to Github Pages](https://github.com/SEQAQ/qaq-react/workflows/Deploy%20to%20Github%20Pages/badge.svg)
+[![Netlify Status](https://api.netlify.com/api/v1/badges/a2adae3c-9901-42a5-8d68-6a006fe26bff/deploy-status)](https://app.netlify.com/sites/qaq-react/deploys)
 
 💡 QAQ Frontend: A university QA community powered by [React](https://github.com/facebook/create-react-app)
 
