@@ -7,7 +7,7 @@ import ThumbUpIcon from '@material-ui/icons/ThumbUp';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import React, { useEffect, useState } from 'react';
 
-import { StoryItem } from '../../component/Card';
+import { FeedList } from '../../component/Feed';
 import ProfileHeader from '../../component/Profile/ProfileHeader';
 
 const Activity = () => {
@@ -40,9 +40,7 @@ const Activity = () => {
             <Tab label="问题" />
             <Tab label="关注" />
           </Tabs>
-          {feedList.map((feed, idx) => (
-            <StoryItem data={feed} key={idx} />
-          ))}
+          <FeedList dataSource={feedList} />
         </div>
         <div className="profile-side">
           <div className="card">
