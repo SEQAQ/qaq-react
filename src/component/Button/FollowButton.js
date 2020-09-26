@@ -4,7 +4,7 @@ import CheckIcon from '@material-ui/icons/Check';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-const FollowButton = ({ followed, onClick }) => {
+const FollowButton = ({ followed, onClick, ...otherProps }) => {
   const muiBtnProps = {
     color: followed ? 'default' : 'primary',
     variant: 'contained',
@@ -12,7 +12,11 @@ const FollowButton = ({ followed, onClick }) => {
     onClick,
   };
 
-  return <Button {...muiBtnProps}>{followed ? '已关注' : '关注'}</Button>;
+  return (
+    <Button {...muiBtnProps} {...otherProps}>
+      {followed ? '已关注' : '关注'}
+    </Button>
+  );
 };
 
 FollowButton.propTypes = {
