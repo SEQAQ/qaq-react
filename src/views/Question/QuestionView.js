@@ -1,12 +1,16 @@
+import './QuestionView.scss';
+
 import React, { useEffect, useState } from 'react';
 
 import AnswerList from '../../component/Answer/AnswerList';
 import { Card, QuestionCard } from '../../component/Card';
+import MdEditor from '../../component/Editor/Editor';
 
 const QuestionView = () => {
   const [followed, setFollowed] = useState(false);
   const [question, setQuestion] = useState({});
   const [answers, setAnswers] = useState([]);
+  const [showAnsEditor, setShowAnsEditor] = useState(true);
 
   useEffect(() => {
     setAnswers([
@@ -17,13 +21,22 @@ const QuestionView = () => {
     setFollowed(false);
   }, []);
 
+  const onAns = () => {
+    setShowAnsEditor(!showAnsEditor);
+  };
+
   return (
     <div>
       <Card style={{ width: '100vw' }}>
         <div style={{ display: 'flex', width: '1000px', margin: '0 auto' }}>
-          <QuestionCard data={question} followed={followed} followHandler={(old) => setFollowed(!old)} />
+          <QuestionCard data={question} followed={followed} followHandler={(old) => setFollowed(!old)} answerHandler={onAns} />
         </div>
       </Card>
+      {showAnsEditor && (
+        <Card id="answer-editor" className="main-editor">
+          <MdEditor style={{ width: '100%' }} />
+        </Card>
+      )}
       <div className="profile-main">
         <div className="card profile-act">
           <AnswerList dataSource={answers} />

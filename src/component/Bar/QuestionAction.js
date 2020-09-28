@@ -4,11 +4,11 @@ import React from 'react';
 import { FollowButton } from '../Button';
 import AnswerButton from '../Button/AnswerButton';
 
-const QuestionAction = ({ followed, followHandler }) => (
+const QuestionAction = ({ followed, followHandler, answerHandler }) => (
   <div className="feed-item-action">
     <div style={{ display: 'flex', flexDirection: 'row' }}>
       <FollowButton onClick={() => followHandler(followed)} followed={followed} style={{ marginRight: '16px' }} />
-      <AnswerButton />
+      <AnswerButton onClick={answerHandler} />
     </div>
   </div>
 );
@@ -16,6 +16,7 @@ const QuestionAction = ({ followed, followHandler }) => (
 QuestionAction.propTypes = {
   followed: PropTypes.bool.isRequired,
   followHandler: PropTypes.func.isRequired,
+  answerHandler: PropTypes.func.isRequired,
 };
 
 export default QuestionAction;
