@@ -6,10 +6,8 @@
 }
 
 .profile-header {
-  margin-top: 30px;
-  margin-bottom: 30px;
-  margin-left: 20px;
-  margin-right: 20px;
+  margin: 30px 20px;
+  min-height: 160px;
 }
 
 .profile-avatar {

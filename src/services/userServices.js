@@ -1,7 +1,8 @@
-import config from '../utils/config';
-import { post } from '../utils/ajax';
-import { history } from '../utils/history';
 import { message } from 'antd';
+
+import { post } from '../utils/ajax';
+import config from '../utils/config';
+import { history } from '../utils/history';
 
 export const login = (data) => {
   const url = `${config.apiUrl}/login`;

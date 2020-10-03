@@ -1,15 +1,26 @@
-import React, { useState } from 'react';
-import ProfileHeader from '../../component/ProfileHeader/ProfileHeader';
 import './Activity.css';
-import Tabs from '@material-ui/core/Tabs';
+
 import Tab from '@material-ui/core/Tab';
-import ThumbUpIcon from '@material-ui/icons/ThumbUp';
+import Tabs from '@material-ui/core/Tabs';
 import PersonIcon from '@material-ui/icons/Person';
+import ThumbUpIcon from '@material-ui/icons/ThumbUp';
 import VisibilityIcon from '@material-ui/icons/Visibility';
+import React, { useEffect, useState } from 'react';
+
+import { FeedList } from '../../component/Feed';
+import ProfileHeader from '../../component/Profile/ProfileHeader';
 
 const Activity = () => {
   const [value, setValue] = useState(0);
+  const [feedList, setFeedList] = useState([]);
   const handleChange = (ev, newVal) => setValue(newVal);
+
+  useEffect(() => {
+    setFeedList([
+      { author: 'Author', action: 0, title: '什么是 QAQ?', content: '知乎，不行！\nQAQ 彳亍！\n' },
+      { author: 'undefined!', action: 1, title: '宇宙的终极答案是什么？', content: '4 2\n' },
+    ]);
+  }, []);
 
   return (
     <div>
@@ -29,6 +40,7 @@ const Activity = () => {
             <Tab label="问题" />
             <Tab label="关注" />
           </Tabs>
+          <FeedList dataSource={feedList} />
         </div>
         <div className="profile-side">
           <div className="card">
