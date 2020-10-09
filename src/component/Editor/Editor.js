@@ -15,8 +15,7 @@ import React from 'react';
 
 const { useState, useRef, useCallback } = React;
 
-function MdEditor() {
-  // const initState = EditorState.createWithContent(convertFromRaw(markdownToDraft('# Hi')));
+function MdEditor(props) {
   const initState = EditorState.createEmpty();
   const [editorState, setEditorState] = useState(initState);
   const [mode, setMode] = useState(0);
@@ -86,7 +85,7 @@ function MdEditor() {
   };
 
   return (
-    <div className="RichEditor-root">
+    <div className="RichEditor-root" {...props}>
       <span>{modeString[mode]}</span>
       <Switch checked={mode === 0} onChange={changeView} color={'primary'}></Switch>
       {mode === 0 && (
@@ -115,7 +114,7 @@ function MdEditor() {
           handleKeyCommand={handleKeyCommand}
           keyBindingFn={mapKeyToEditorCommand}
           onChange={setEditorState}
-          placeholder="Tell a story..."
+          placeholder="蟹邀~"
           ref={editor}
           spellCheck={true}
         />
