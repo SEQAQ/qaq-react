@@ -10,7 +10,7 @@ const QuestionView = () => {
   const [followed, setFollowed] = useState(false);
   const [question, setQuestion] = useState({});
   const [answers, setAnswers] = useState([]);
-  const [showAnsEditor, setShowAnsEditor] = useState(true);
+  const [showAnsEditor, setShowAnsEditor] = useState(false);
 
   useEffect(() => {
     setAnswers([
@@ -34,7 +34,7 @@ const QuestionView = () => {
       </Card>
       {showAnsEditor && (
         <Card id="answer-editor" className="main-editor">
-          <MdEditor style={{ width: '100%' }} />
+          <MdEditor style={{ width: '100%', padding: '15px' }} />
         </Card>
       )}
       <div className="profile-main">
