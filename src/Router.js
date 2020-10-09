@@ -15,8 +15,18 @@ const BasicRoute = () => (
     <Router history={history}>
       <div>
         This part is for development preview purpose when the homepage is not fully implemented. Remove this section after the HomeView is done.
-        <Link to="/people">用户动态(Avatar, Follow Button, Profile Header)</Link>
-        <Link to="/question">问题页</Link>
+        <div>
+          <Link to="/people">用户动态(Avatar, Follow Button, Profile Header)</Link>
+        </div>
+        <div>
+          <Link to="/question">问题页</Link>
+        </div>
+        <div>
+          <Link to={'/login'}>登录页</Link>
+        </div>
+        <div>
+          <Link to={'/register'}>注册页</Link>
+        </div>
         <div>
           <Link to="/dev/editor">Editor</Link>
         </div>
