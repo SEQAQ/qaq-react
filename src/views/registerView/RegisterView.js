@@ -65,7 +65,10 @@ export default function RegisterView() {
               <TextField autoComplete="uname" name="userName" variant="outlined" required fullWidth id="userName" label="用户名" autoFocus />
             </Grid>
             <Grid item xs={12}>
-              <TextField variant="outlined" required fullWidth id="nackName" label="昵称" name="nackName" autoComplete="nname" />
+              <TextField variant="outlined" required fullWidth id="name" label="姓名" name="name" autoComplete="name" />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField variant="outlined" required fullWidth id="gender" label="性别" name="gender" autoComplete="gender" />
             </Grid>
             <Grid item xs={12}>
               <TextField variant="outlined" required fullWidth id="email" label="电子邮箱" name="email" autoComplete="email" />
