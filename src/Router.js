@@ -1,10 +1,10 @@
 import React from 'react';
 import { Link, Redirect, Route, Router, Switch } from 'react-router-dom';
 
-import { Editor } from './component/Editor';
 import PrivateRoute from './PrivateRoute';
 import { history } from './utils/history';
 import Activity from './views/Activity/Activity';
+import AskView from './views/Ask/AskView';
 import HomeView from './views/homeView/HomeView';
 import LoginView from './views/loginView/LoginView';
 import { QuestionView } from './views/Question';
@@ -28,7 +28,7 @@ const BasicRoute = () => (
           <Link to={'/register'}>注册页</Link>
         </div>
         <div>
-          <Link to="/dev/editor">Editor</Link>
+          <Link to="/ask">提问</Link>
         </div>
       </div>
       <Switch>
@@ -39,8 +39,8 @@ const BasicRoute = () => (
         <Route path="/people">
           <Activity />
         </Route>
-        <Route path={'/dev/editor'}>
-          <Editor />
+        <Route path="/ask">
+          <AskView />
         </Route>
         <Route exact path="/login" component={LoginView} />
         <Route exact path="/register" component={RegisterView} />
