@@ -8,7 +8,7 @@ const Card = ({ className, style, children }) => (
 );
 
 Card.propTypes = {
-  className: PropTypes.string.isRequired,
+  className: PropTypes.string,
   style: PropTypes.any.isRequired,
   children: PropTypes.node,
 };
