@@ -1,5 +1,5 @@
 import React from 'react';
-import { Router, Route, Switch, Redirect, Link } from 'react-router-dom';
+import { Router, Route, Switch, Redirect } from 'react-router-dom';
 
 /* import PrivateRoute from './PrivateRoute';*/
 import HomeView from './views/HomeView/HomeView';
@@ -11,10 +11,6 @@ import { history } from './utils/history';
 const BasicRoute = () => (
   <>
     <Router history={history}>
-      <div>
-        This part is for development preview purpose when the homepage is not fully implemented. Remove this section after the HomeView is done.
-        <Link to="/people">用户动态(Avatar, Follow Button, Profile Header)</Link>
-      </div>
       <Switch>
         {/* <PrivateRoute exact path="/" component={HomeView} />*/}
         <Route exact path="/" component={HomeView} />
