@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link, Redirect, Route, Router, Switch } from 'react-router-dom';
 
-import PrivateRoute from './PrivateRoute';
+/* import PrivateRoute from './PrivateRoute';*/
 import { history } from './utils/history';
 import Activity from './views/Activity/Activity';
 import AskView from './views/Ask/AskView';
@@ -32,7 +32,8 @@ const BasicRoute = () => (
         </div>
       </div>
       <Switch>
-        <PrivateRoute exact path="/" component={HomeView} />
+        {/*        <PrivateRoute exact path="/" component={HomeView} />*/}
+        <Route exact path="/" component={HomeView} />
         <Route path="/question">
           <QuestionView />
         </Route>

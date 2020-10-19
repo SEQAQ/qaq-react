@@ -1,0 +1,12 @@
+.appbar-header {
+  background: #fff;
+  box-shadow: 0 1px 3px rgba(18, 18, 18, 0.1);
+  background-clip: content-box;
+  width: 1920px;
+  height: 50px;
+}
+
+.app-text {
+  text-decoration: none;
+  color: black;
+}
