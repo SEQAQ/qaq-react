@@ -34,6 +34,7 @@ module.exports = {
     config: true,
   },
   rules: {
+    'jsx-a11y/alt-text': 0,
     'jsx-a11y/anchor-is-valid': 0,
     'no-console': 1,
     'block-scoped-var': 2,
@@ -48,7 +49,7 @@ module.exports = {
     'func-call-spacing': 2,
     'keyword-spacing': 2,
     'linebreak-style': 2,
-    'lines-around-comment': 2,
+    'lines-around-comment': 0,
     'no-multiple-empty-lines': 2,
     'space-infix-ops': 2,
     'arrow-spacing': 2,
