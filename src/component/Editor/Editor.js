@@ -1,215 +1,39 @@
-/**
- * Copyright (c) Facebook, Inc. and its affiliates.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- */
-
-import './draft.css';
-import './rich-editor.css';
-
-import { Switch } from '@material-ui/core';
-import { ContentState, convertFromRaw, convertToRaw, Editor, EditorState, getDefaultKeyBinding, RichUtils } from 'draft-js';
-import { draftToMarkdown, markdownToDraft } from 'markdown-draft-js';
+import IconButton from '@material-ui/core/IconButton';
+import InputBase from '@material-ui/core/InputBase';
+import { makeStyles } from '@material-ui/core/styles';
+import SendIcon from '@material-ui/icons/Send';
 import React from 'react';
 
-const { useState, useRef, useCallback } = React;
+const useStyles = makeStyles((theme) => ({
+  root: {
+    padding: '2px 4px',
+    display: 'flex',
+    alignItems: 'center',
+  },
+  input: {
+    marginLeft: theme.spacing(1),
+    flex: 1,
+  },
+  iconButton: {
+    padding: 10,
+  },
+}));
 
-function MdEditor(props) {
-  const initState = EditorState.createEmpty();
-  const [editorState, setEditorState] = useState(initState);
-  const [mode, setMode] = useState(0);
-  const editor = useRef(null);
-  const modeString = ['Preview', 'Source'];
-  const focus = () => {
-    if (editor.current) {
-      editor.current.focus();
-    }
-  };
-
-  const handleKeyCommand = useCallback(
-    (command, editorState) => {
-      const newState = RichUtils.handleKeyCommand(editorState, command);
-      if (newState) {
-        setEditorState(newState);
-        return 'handled';
-      }
-      return 'not-handled';
-    },
-    [setEditorState]
-  );
-
-  const mapKeyToEditorCommand = useCallback(
-    (e) => {
-      switch (e.keyCode) {
-        case 9: {
-          // TAB
-          const newEditorState = RichUtils.onTab(e, editorState, 4 /* maxDepth */);
-          if (newEditorState !== editorState) {
-            setEditorState(newEditorState);
-          }
-          return null;
-        }
-        default:
-          break;
-      }
-      return getDefaultKeyBinding(e);
-    },
-    [editorState, setEditorState]
-  );
-
-  // If the user changes block type before entering any text, we can
-  // either style the placeholder or hide it. Let's just hide it now.
-  let className = 'RichEditor-editor';
-  const contentState = editorState.getCurrentContent();
-  if (!contentState.hasText()) {
-    if (contentState.getBlockMap().first().getType() !== 'unstyled') {
-      className += ' RichEditor-hidePlaceholder';
-    }
-  }
-  const getMarkdown = (content) => draftToMarkdown(convertToRaw(content));
-
-  const mdToDraft = (mdContent) => convertFromRaw(markdownToDraft(mdContent));
-
-  const changeView = () => {
-    const mdBuffer = getMarkdown(contentState);
-    if (mode === 1) {
-      // Showing Markdown, turn to Rich Text
-      const mdBuffer = editorState.getCurrentContent().getPlainText();
-      setEditorState(EditorState.createWithContent(mdToDraft(mdBuffer)));
-    } else if (mode === 0) {
-      // Showing Richtext, turn to markdown
-      setEditorState(EditorState.createWithContent(ContentState.createFromText(mdBuffer)));
-    }
-    setMode(1 - mode);
-  };
-
+/**
+ * A basic pure text editor
+ * @param {func} onChange(e, ...) e.target.value is the input value
+ * @param {func} onSubmit handles click on submit button
+ */
+const Editor = ({ onChange, onSubmit }) => {
+  const classes = useStyles();
   return (
-    <div className="RichEditor-root" {...props}>
-      <span>{modeString[mode]}</span>
-      <Switch checked={mode === 0} onChange={changeView} color={'primary'}></Switch>
-      {mode === 0 && (
-        <div>
-          <BlockStyleControls
-            editorState={editorState}
-            onToggle={(blockType) => {
-              const newState = RichUtils.toggleBlockType(editorState, blockType);
-              setEditorState(newState);
-            }}
-          />
-          <InlineStyleControls
-            editorState={editorState}
-            onToggle={(inlineStyle) => {
-              const newState = RichUtils.toggleInlineStyle(editorState, inlineStyle);
-              setEditorState(newState);
-            }}
-          />
-        </div>
-      )}
-      <div className={className} onClick={focus}>
-        <Editor
-          blockStyleFn={getBlockStyle}
-          customStyleMap={styleMap}
-          editorState={editorState}
-          handleKeyCommand={handleKeyCommand}
-          keyBindingFn={mapKeyToEditorCommand}
-          onChange={setEditorState}
-          placeholder="蟹邀~"
-          ref={editor}
-          spellCheck={true}
-        />
-      </div>
+    <div className={classes.root}>
+      <InputBase className={classes.input} placeholder="说说你的看法" inputProps={{ 'aria-label': 'input your comment' }} onChange={onChange} />
+      <IconButton type="submit" className={classes.iconButton} aria-label="send comment">
+        <SendIcon onClick={onSubmit} />
+      </IconButton>
     </div>
   );
-}
-
-// Custom overrides for "code" style.
-const styleMap = {
-  CODE: {
-    backgroundColor: 'rgba(0, 0, 0, 0.05)',
-    fontFamily: '"Inconsolata", "Menlo", "Consolas", monospace',
-    fontSize: 16,
-    padding: 2,
-  },
 };
 
-function getBlockStyle(block) {
-  switch (block.getType()) {
-    case 'blockquote':
-      return 'RichEditor-blockquote';
-    default:
-      return null;
-  }
-}
-
-/* eslint-disable-next-line */
-function StyleButton({ onToggle, active, label, style }) {
-  let className = 'RichEditor-styleButton';
-  if (active) {
-    className += ' RichEditor-activeButton';
-  }
-
-  return (
-    <span
-      className={className}
-      onMouseDown={(e) => {
-        e.preventDefault();
-        onToggle(style);
-      }}
-    >
-      {label}
-    </span>
-  );
-}
-
-const BLOCK_TYPES = [
-  { label: 'H1', style: 'header-one' },
-  { label: 'H2', style: 'header-two' },
-  { label: 'H3', style: 'header-three' },
-  { label: 'H4', style: 'header-four' },
-  { label: 'H5', style: 'header-five' },
-  { label: 'H6', style: 'header-six' },
-  { label: 'Blockquote', style: 'blockquote' },
-  { label: 'UL', style: 'unordered-list-item' },
-  { label: 'OL', style: 'ordered-list-item' },
-  { label: 'Code Block', style: 'code-block' },
-];
-
-// TODO: enforce props validation
-// eslint-disable-next-line
-function BlockStyleControls({ editorState, onToggle }) {
-  // eslint-disable-next-line
-  const selection = editorState.getSelection();
-  // eslint-disable-next-line
-  const blockType = editorState.getCurrentContent().getBlockForKey(selection.getStartKey()).getType();
-
-  return (
-    <div className="RichEditor-controls">
-      {BLOCK_TYPES.map((type) => (
-        <StyleButton key={type.label} active={type.style === blockType} label={type.label} onToggle={onToggle} style={type.style} />
-      ))}
-    </div>
-  );
-}
-
-const INLINE_STYLES = [
-  { label: 'Bold', style: 'BOLD' },
-  { label: 'Italic', style: 'ITALIC' },
-  { label: 'Underline', style: 'UNDERLINE' },
-  { label: 'Monospace', style: 'CODE' },
-];
-
-// eslint-disable-next-line react/prop-types
-function InlineStyleControls({ editorState, onToggle }) {
-  // eslint-disable-next-line react/prop-types
-  const currentStyle = editorState.getCurrentInlineStyle();
-  return (
-    <div className="RichEditor-controls">
-      {INLINE_STYLES.map((type) => (
-        <StyleButton key={type.label} active={currentStyle.has(type.style)} label={type.label} onToggle={onToggle} style={type.style} />
-      ))}
-    </div>
-  );
-}
-
-export default MdEditor;
+export default Editor;

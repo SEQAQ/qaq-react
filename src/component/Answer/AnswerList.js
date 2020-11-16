@@ -3,7 +3,7 @@ import React, { useMemo } from 'react';
 
 import Answer from './AnswerItem';
 
-const AnswerList = ({ dataSource }) => {
+const AnswerList = ({ dataSource, fetchComment }) => {
   const list = useMemo(() => [...dataSource], [dataSource]);
   return (
     <>
@@ -12,7 +12,7 @@ const AnswerList = ({ dataSource }) => {
         list.length > 0 &&
         list.map((ans, idx) => (
           <div style={{ padding: '16px 20px' }} key={idx}>
-            <Answer data={ans} key={idx} />
+            <Answer data={ans} key={idx} fetchComment={fetchComment} />
           </div>
         ))}
     </>
@@ -21,6 +21,7 @@ const AnswerList = ({ dataSource }) => {
 
 AnswerList.propTypes = {
   dataSource: PropTypes.array.isRequired,
+  fetchComment: PropTypes.func.isRequired,
 };
 
 export default AnswerList;
