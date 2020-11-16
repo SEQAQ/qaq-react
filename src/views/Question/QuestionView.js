@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 
 import AnswerList from '../../component/Answer/AnswerList';
 import { Card, QuestionCard } from '../../component/Card';
-import MdEditor from '../../component/Editor/Editor';
+import MdEditor from '../../component/Editor/MdEditor';
 
 const QuestionView = () => {
   const [followed, setFollowed] = useState(false);
@@ -14,8 +14,8 @@ const QuestionView = () => {
 
   useEffect(() => {
     setAnswers([
-      { author: 'Author', dept: 'Computer Science', content: '因为人们问为什么\n' },
-      { author: 'undefined!', dept: 'Software Enginering', content: '啊 这\n' },
+      { aid: 1, author: 'Author', dept: 'Computer Science', content: '因为人们问为什么\n' },
+      { aid: 2, author: 'undefined!', dept: 'Software Enginering', content: '啊 这\n' },
     ]);
     setQuestion({ title: '为什么人们问为什么？' });
     setFollowed(false);
@@ -23,6 +23,21 @@ const QuestionView = () => {
 
   const onAns = () => {
     setShowAnsEditor(!showAnsEditor);
+  };
+
+  const fetchComment = (answerId) => {
+    const oldAnswers = answers;
+    const index = oldAnswers.indexOf(oldAnswers.filter((e) => e.aid === answerId)[0]);
+    if (index < 0) {
+      return;
+    }
+    // TODO: fetch and set comments
+    oldAnswers[index].comments = [
+      { name: 'The Big Brother', content: '!!!' },
+      { name: 'PythonHunter', content: '@@@' },
+    ];
+    const updated = oldAnswers;
+    setAnswers(updated);
   };
 
   return (
@@ -39,7 +54,7 @@ const QuestionView = () => {
       )}
       <div className="profile-main">
         <div className="card profile-act">
-          <AnswerList dataSource={answers} />
+          <AnswerList dataSource={answers} fetchComment={fetchComment} />
         </div>
         <div className="profile-side">
           <div className="card">

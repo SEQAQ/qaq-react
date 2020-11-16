@@ -79,6 +79,7 @@ module.exports = {
     'require-atomic-updates': 0,
     'no-prototype-builtins': 0,
     'react/display-name': 0,
+    'react/prop-types': 0,
     'simple-import-sort/sort': 'warn',
   },
 };
