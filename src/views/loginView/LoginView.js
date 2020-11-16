@@ -12,13 +12,19 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import InputLabel from '@material-ui/core/InputLabel';
 import Link from '@material-ui/core/Link';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
+import Snackbar from '@material-ui/core/Snackbar';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import PersonIcon from '@material-ui/icons/Person';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
+import MuiAlert from '@material-ui/lab/Alert';
+import axios from 'axios';
 import React from 'react';
+import cookie from 'react-cookies';
+
+import config from '../../utils/config';
 
 function Copyright() {
   return (
@@ -31,6 +37,10 @@ function Copyright() {
       {'.'}
     </Typography>
   );
+}
+
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -59,6 +69,53 @@ export default function LoginView() {
     account: '',
     password: '',
   });
+
+  const [open1, setOpen1] = React.useState(false);
+
+  const loginSuccess = () => {
+    setOpen1(true);
+  };
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpen1(false);
+  };
+
+  const login = () => {
+    axios({
+      method: 'post',
+      url: config.apiUrl,
+      header: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      data: {
+        account: values.account,
+        password: values.password,
+      },
+    })
+      .then(function (response) {
+        if (response.status === '200') {
+          const result = response.data;
+          if (result === 'Success') {
+            console.log(result);
+            cookie.remove('userName');
+            cookie.save('userName', values.uname, { path: '/' });
+          } else if (result === "User doesn't exist") {
+            console.log(result);
+          } else if (result === 'Password is wrong') {
+            console.log(result);
+          } else if (result === 'User is banned or deleted') {
+            console.log(result);
+          }
+        }
+      })
+      .catch(function (error) {
+        console.log(error.data);
+      });
+  };
 
   const handleChange = (prop) => (event) => {
     setValues({ ...values, [prop]: event.target.value });
@@ -118,7 +175,7 @@ export default function LoginView() {
             />
           </FormControl>
           <FormControlLabel control={<Checkbox value="remember" color="primary" />} label="记住我" />
-          <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit}>
+          <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit} onClick={login}>
             登录
           </Button>
           <Grid container>
@@ -138,6 +195,14 @@ export default function LoginView() {
       <Box mt={8}>
         <Copyright />
       </Box>
+      <Button variant="outlined" onClick={loginSuccess}>
+        Open success snackbar
+      </Button>
+      <Snackbar open={open1} autoHideDuration={6000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity="success">
+          登陆成功，欢迎您！
+        </Alert>
+      </Snackbar>
     </Container>
   );
 }

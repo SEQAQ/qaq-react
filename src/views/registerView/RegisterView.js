@@ -11,7 +11,12 @@ import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
+// import {post} from '../../lib/request';
+import axios from 'axios';
 import React from 'react';
+import cookie from 'react-cookies';
+
+import config from '../../utils/config';
 
 function Copyright() {
   return (
@@ -59,6 +64,36 @@ export default function RegisterView() {
     uname: '',
     confirmLaws: false,
   });
+
+  const register = () => {
+    const user_info = {
+      rname: values.rname,
+      account: values.account,
+      password: values.password,
+      phone: values.phone,
+      email: values.email,
+      sex: values.sex,
+      uname: values.uname,
+    };
+    const jsonStr = JSON.stringify(user_info);
+    axios({
+      method: 'post',
+      url: config.apiUrl,
+      header: {
+        'Content-Type': 'application/json',
+      },
+      data: jsonStr,
+    })
+      .then(function (response) {
+        if (response.status === '200') {
+          cookie.remove('userName');
+          cookie.save('userName', values.uname, { path: '/' });
+        }
+      })
+      .catch(function (error) {
+        console.log(error.data);
+      });
+  };
 
   const handleChange = (prop) => (event) => {
     setValues({ ...values, [prop]: event.target.value });
@@ -118,7 +153,7 @@ export default function RegisterView() {
               </Link>
             </Grid>
           </Grid>
-          <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit}>
+          <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit} onClick={register}>
             注册
           </Button>
           <Grid container justify="flex-end">
