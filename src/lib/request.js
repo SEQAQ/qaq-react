@@ -1,4 +1,5 @@
 import axios from 'axios';
+
 import config from '../utils/config';
 
 axios.defaults.baseURL = config.apiUrl;
@@ -47,4 +48,3 @@ export const post = (url, data = {}, auth = false) => axiosRequest('post', url, 
  * @param {boolean} auth whether to attach authorization header
  */
 export const put = (url, data = {}, auth = false) => axiosRequest('put', url, { payload: data, auth });
-
