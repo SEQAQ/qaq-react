@@ -1,6 +1,6 @@
 import { message } from 'antd';
 
-import { post } from '../utils/ajax';
+import { post } from '../lib';
 import config from '../utils/config';
 import { history } from '../utils/history';
 
