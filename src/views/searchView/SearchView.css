@@ -1,0 +1,63 @@
+.profile-main {
+  display: flex;
+  width: 1000px;
+  margin-top: 10px;
+  margin-left: auto;
+  margin-right: auto;
+  min-height: 100vh;
+  justify-content: space-between;
+}
+
+.profile-act {
+  width: 694px;
+}
+
+.profile-side {
+  width: 296px;
+  color: #646464;
+}
+
+.card-header {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  height: 50px;
+  padding: 0 20px;
+  border-bottom: 1px solid #f6f6f6;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  color: black;
+}
+
+.card-header-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-weight: 600;
+}
+
+.side-stat-detail {
+  padding: 12px 0;
+}
+
+.side-stat-detail-item {
+  box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
+  padding: 6px 20px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.side-icon {
+  margin-right: 10px;
+  height: 20px;
+}

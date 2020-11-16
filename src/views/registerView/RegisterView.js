@@ -48,6 +48,21 @@ const useStyles = makeStyles((theme) => ({
 
 export default function RegisterView() {
   const classes = useStyles();
+  const [values, setValues] = React.useState({
+    rname: '',
+    account: '',
+    password: '',
+    confirmPassword: '',
+    phone: '',
+    email: '',
+    sex: '',
+    uname: '',
+    confirmLaws: false,
+  });
+
+  const handleChange = (prop) => (event) => {
+    setValues({ ...values, [prop]: event.target.value });
+  };
 
   return (
     <Container component="main" maxWidth="xs">
@@ -59,31 +74,42 @@ export default function RegisterView() {
         <Typography component="h1" variant="h5">
           新用户注册
         </Typography>
-        <form className={classes.form} noValidate>
+        <form className={classes.form}>
           <Grid container spacing={2}>
             <Grid item xs={12}>
-              <TextField autoComplete="uname" name="userName" variant="outlined" required fullWidth id="userName" label="用户名" autoFocus />
+              <TextField autoComplete="uname" name="userName" variant="outlined" required fullWidth id="userName" label="用户名" value={values.uname} onChange={handleChange('uname')} autoFocus />
             </Grid>
             <Grid item xs={12}>
-              <TextField variant="outlined" required fullWidth id="name" label="姓名" name="name" autoComplete="name" />
+              <TextField variant="outlined" required fullWidth id="name" label="姓名" name="name" autoComplete="name" value={values.rname} onChange={handleChange('rname')} />
             </Grid>
             <Grid item xs={12}>
-              <TextField variant="outlined" required fullWidth id="gender" label="性别" name="gender" autoComplete="gender" />
+              <TextField variant="outlined" required fullWidth id="gender" label="性别" name="gender" autoComplete="gender" value={values.sex} onChange={handleChange('sex')} />
             </Grid>
             <Grid item xs={12}>
-              <TextField variant="outlined" required fullWidth id="email" label="电子邮箱" name="email" autoComplete="email" />
+              <TextField variant="outlined" required fullWidth id="email" label="电子邮箱" name="email" autoComplete="email" value={values.email} onChange={handleChange('email')} />
             </Grid>
             <Grid item xs={12}>
-              <TextField variant="outlined" required fullWidth id="phone" label="手机号码" name="phone" autoComplete="phone" />
+              <TextField variant="outlined" required fullWidth id="phone" label="手机号码" name="phone" autoComplete="phone" value={values.phone} onChange={handleChange('phone')} />
             </Grid>
             <Grid item xs={12}>
-              <TextField variant="outlined" required fullWidth name="password" label="密码" type="password" id="password" autoComplete="current-password" />
+              <TextField variant="outlined" required fullWidth name="password" label="密码" type="password" id="password" autoComplete="current-password" value={values.password} onChange={handleChange('password')} />
             </Grid>
             <Grid item xs={12}>
-              <TextField variant="outlined" required fullWidth name="comfirmPw" label="确认密码" type="password" id="confirmPw" autoComplete="confirm-password" />
+              <TextField
+                variant="outlined"
+                required
+                fullWidth
+                name="comfirmPw"
+                label="确认密码"
+                type="password"
+                id="confirmPw"
+                autoComplete="confirm-password"
+                value={values.confirmPassword}
+                onChange={handleChange('confirmPassword')}
+              />
             </Grid>
             <Grid item xs={12}>
-              <FormControlLabel control={<Checkbox value="allowExtraEmails" color="primary" />} label={'已阅读并同意'} />
+              <FormControlLabel control={<Checkbox value={values.confirmLaws} color="primary" />} label={'已阅读并同意'} />
               <Link color="primary" href="https://material-ui.com/">
                 《隐私保护协议》
               </Link>
