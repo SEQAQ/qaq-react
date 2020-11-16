@@ -53,6 +53,7 @@ module.exports = {
     'space-infix-ops': 2,
     'arrow-spacing': 2,
     'no-var': 2,
+    'no-unused-vars': 1,
     'prefer-const': 2,
     'no-unsafe-negation': 2,
     'array-callback-return': 2,
