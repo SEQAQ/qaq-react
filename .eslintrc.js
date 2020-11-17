@@ -35,6 +35,7 @@ module.exports = {
   },
   // 1: warn, 2: error
   rules: {
+    'jsx-a11y/alt-text': 0,
     'jsx-a11y/anchor-is-valid': 0,
     'no-console': 1,
     'block-scoped-var': 2,
