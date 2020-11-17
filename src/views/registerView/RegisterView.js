@@ -7,16 +7,18 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Grid from '@material-ui/core/Grid';
 import Link from '@material-ui/core/Link';
+import Snackbar from '@material-ui/core/Snackbar';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
-// import {post} from '../../lib/request';
+import MuiAlert from '@material-ui/lab/Alert';
 import axios from 'axios';
 import React from 'react';
 import cookie from 'react-cookies';
 
 import config from '../../utils/config';
+import { history } from '../../utils/history';
 
 function Copyright() {
   return (
@@ -51,6 +53,16 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+function* sleep(ms) {
+  yield new Promise(function (resolve, reject) {
+    setTimeout(resolve, ms);
+  });
+}
+
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
+
 export default function RegisterView() {
   const classes = useStyles();
   const [values, setValues] = React.useState({
@@ -64,6 +76,33 @@ export default function RegisterView() {
     uname: '',
     confirmLaws: false,
   });
+
+  const [open1, setOpen1] = React.useState(false);
+  const [open2, setOpen2] = React.useState(false);
+
+  const registerSuccess = () => {
+    setOpen1(true);
+  };
+
+  const handleClose1 = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpen1(false);
+  };
+
+  const registerFail = () => {
+    setOpen2(true);
+  };
+
+  const handleClose2 = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpen2(false);
+  };
 
   const register = () => {
     const user_info = {
@@ -88,10 +127,16 @@ export default function RegisterView() {
         if (response.status === '200') {
           cookie.remove('userName');
           cookie.save('userName', values.uname, { path: '/' });
+          registerSuccess();
+          sleep(1000)
+            .next()
+            .value.then(() => {
+              history.push('/');
+            });
         }
       })
       .catch(function (error) {
-        console.log(error.data);
+        registerFail();
       });
   };
 
@@ -168,6 +213,16 @@ export default function RegisterView() {
       <Box mt={5}>
         <Copyright />
       </Box>
+      <Snackbar open={open1} autoHideDuration={6000} onClose={handleClose1}>
+        <Alert onClose={handleClose1} severity="success">
+          注册成功，欢迎入驻QAQ！
+        </Alert>
+      </Snackbar>
+      <Snackbar open={open2} autoHideDuration={6000} onClose={handleClose2}>
+        <Alert onClose={handleClose2} severity="error">
+          注册失败，请稍后再试
+        </Alert>
+      </Snackbar>
     </Container>
   );
 }

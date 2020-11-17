@@ -25,6 +25,7 @@ import React from 'react';
 import cookie from 'react-cookies';
 
 import config from '../../utils/config';
+import { history } from '../../utils/history';
 
 function Copyright() {
   return (
@@ -41,6 +42,12 @@ function Copyright() {
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
+
+function* sleep(ms) {
+  yield new Promise(function (resolve, reject) {
+    setTimeout(resolve, ms);
+  });
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -71,17 +78,56 @@ export default function LoginView() {
   });
 
   const [open1, setOpen1] = React.useState(false);
+  const [open2, setOpen2] = React.useState(false);
+  const [open3, setOpen3] = React.useState(false);
+  const [open4, setOpen4] = React.useState(false);
 
   const loginSuccess = () => {
     setOpen1(true);
   };
 
-  const handleClose = (event, reason) => {
+  const handleClose1 = (event, reason) => {
     if (reason === 'clickaway') {
       return;
     }
 
     setOpen1(false);
+  };
+
+  const noSuchUser = () => {
+    setOpen2(true);
+  };
+
+  const handleClose2 = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpen2(false);
+  };
+
+  const passwordError = () => {
+    setOpen3(true);
+  };
+
+  const handleClose3 = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpen3(false);
+  };
+
+  const accountAbnormal = () => {
+    setOpen4(true);
+  };
+
+  const handleClose4 = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpen4(false);
   };
 
   const login = () => {
@@ -100,21 +146,24 @@ export default function LoginView() {
         if (response.status === '200') {
           const result = response.data;
           if (result === 'Success') {
-            console.log(result);
             cookie.remove('userName');
             cookie.save('userName', values.uname, { path: '/' });
+            loginSuccess();
+            sleep(1000)
+              .next()
+              .value.then(() => {
+                history.push('/');
+              });
           } else if (result === "User doesn't exist") {
-            console.log(result);
+            noSuchUser();
           } else if (result === 'Password is wrong') {
-            console.log(result);
+            passwordError();
           } else if (result === 'User is banned or deleted') {
-            console.log(result);
+            accountAbnormal();
           }
         }
       })
-      .catch(function (error) {
-        console.log(error.data);
-      });
+      .catch(function (error) {});
   };
 
   const handleChange = (prop) => (event) => {
@@ -195,12 +244,24 @@ export default function LoginView() {
       <Box mt={8}>
         <Copyright />
       </Box>
-      <Button variant="outlined" onClick={loginSuccess}>
-        Open success snackbar
-      </Button>
-      <Snackbar open={open1} autoHideDuration={6000} onClose={handleClose}>
-        <Alert onClose={handleClose} severity="success">
+      <Snackbar open={open1} autoHideDuration={6000} onClose={handleClose1}>
+        <Alert onClose={handleClose1} severity="success">
           登陆成功，欢迎您！
+        </Alert>
+      </Snackbar>
+      <Snackbar open={open2} autoHideDuration={6000} onClose={handleClose2}>
+        <Alert onClose={handleClose2} severity="error">
+          账户不存在，请重新输入
+        </Alert>
+      </Snackbar>
+      <Snackbar open={open3} autoHideDuration={6000} onClose={handleClose3}>
+        <Alert onClose={handleClose3} severity="error">
+          密码错误，请重新输入
+        </Alert>
+      </Snackbar>
+      <Snackbar open={open4} autoHideDuration={6000} onClose={handleClose4}>
+        <Alert onClose={handleClose4} severity="warning">
+          账号已注销或等待解封
         </Alert>
       </Snackbar>
     </Container>
