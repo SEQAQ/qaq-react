@@ -45,7 +45,7 @@ function Alert(props) {
 }
 
 function* sleep(ms) {
-  yield new Promise(function (resolve, reject) {
+  yield new Promise(function (resolve) {
     setTimeout(resolve, ms);
   });
 }
@@ -163,7 +163,7 @@ export default function LoginView() {
           }
         }
       })
-      .catch(function (error) {});
+      .catch(function () {});
   };
 
   const handleChange = (prop) => (event) => {

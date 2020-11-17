@@ -54,7 +54,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function* sleep(ms) {
-  yield new Promise(function (resolve, reject) {
+  yield new Promise(function (resolve) {
     setTimeout(resolve, ms);
   });
 }
@@ -135,7 +135,7 @@ export default function RegisterView() {
             });
         }
       })
-      .catch(function (error) {
+      .catch(function () {
         registerFail();
       });
   };
