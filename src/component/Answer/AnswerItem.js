@@ -23,7 +23,7 @@ const Answer = ({ data, fetchComment }) => {
           <div>{data.dept}</div>
         </div>
       </div>
-      <div style={{ marginTop: '10px' }}>{data.content}</div>
+      <div style={{ marginTop: '10px' }}>{data.detail}</div>
       <ActionBar commentClick={commentClick} />
       {showComment && (
         <>

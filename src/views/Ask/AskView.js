@@ -13,6 +13,7 @@ const AskView = () => {
   const [mdSource, setMdSource] = useState('');
   const [open, setOpen] = useState(false);
   const [msg, setMsg] = useState('');
+  const [severity, setSeverity] = useState('warning')
 
   const postQuestion = () => {
     // TODO: fix uid
@@ -20,7 +21,15 @@ const AskView = () => {
       setOpen(true);
       setMsg('标题为空');
     }
-    post(API_QUES_NEW, { title, detail: mdSource, uid: 1 });
+    post(API_QUES_NEW, { title, detail: mdSource, uid: 1 }).then(() => {
+      setOpen(true);
+      setSeverity('success')
+      setMsg("成功！");
+    }).catch(() => {
+      setOpen(true)
+      setSeverity('warning')
+      setMsg("失败")
+    });
   };
 
   const handleClose = (event, reason) => {
@@ -45,7 +54,7 @@ const AskView = () => {
         <AskButton onClick={postQuestion} />
       </Card>
       <Snackbar open={open} autoHideDuration={2000} onClose={handleClose}>
-        <MuiAlert onClose={handleClose} severity="warning">
+        <MuiAlert onClose={handleClose} severity={severity}>
           {msg}
         </MuiAlert>
       </Snackbar>

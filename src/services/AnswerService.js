@@ -1,6 +1,17 @@
-import { post } from '../lib';
-import { API_ANS_NEW } from '../utils/constants';
+import { get, post } from '../lib';
+import { API_ANS_GET, API_ANS_NEW } from '../utils/constants';
 import { getUser } from './userServices';
+
+/**
+ * convert backend data into frontend-friendly data
+ * @param {object} data data returned by API
+ */
+export const parseAnswerData = (data) => {
+  const detail = data.detail ? data.detail.mdText : undefined;
+  const author = data.users ? data.users.uname : 'kimino namaewa~';
+  const dept = data.users ? data.users.department : undefined;
+  return { ...data, author, dept, detail };
+};
 
 /**
  * answer a question
@@ -10,5 +21,7 @@ import { getUser } from './userServices';
  */
 export const answerQuestion = (qid, ans) => {
   const user = getUser();
-  post(API_ANS_NEW, { qid, text: ans, uid: user.uid });
+  return post(API_ANS_NEW, { qid, text: ans, uid: user.uid });
 };
+
+export const getAnswers = (qid) => get(API_ANS_GET, { qid });

@@ -68,7 +68,7 @@ module.exports = {
     'space-unary-ops': 2,
     'spaced-comment': 2,
     'arrow-body-style': 1,
-    'arrow-parens': 2,
+    'arrow-parens': 1,
     'no-restricted-imports': 2,
     'no-duplicate-imports': 2,
     'no-useless-computed-key': 2,
