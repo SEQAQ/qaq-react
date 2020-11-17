@@ -1,23 +1,36 @@
 import './QuestionView.scss';
 
 import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 
+import { SendButton } from '../../component';
 import AnswerList from '../../component/Answer/AnswerList';
 import { Card, QuestionCard } from '../../component/Card';
 import MdEditor from '../../component/Editor/MdEditor';
+import { answerQuestion, getAnswers, parseAnswerData } from '../../services/AnswerService';
+import { getQuestion, parseQuestionData } from '../../services/QuestionService';
 
 const QuestionView = () => {
+  const { id } = useParams();
   const [followed, setFollowed] = useState(false);
   const [question, setQuestion] = useState({});
   const [answers, setAnswers] = useState([]);
   const [showAnsEditor, setShowAnsEditor] = useState(false);
+  const [ans, setAns] = useState('');
 
   useEffect(() => {
     setAnswers([
       { aid: 1, author: 'Author', dept: 'Computer Science', content: '因为人们问为什么\n' },
       { aid: 2, author: 'undefined!', dept: 'Software Enginering', content: '啊 这\n' },
     ]);
-    setQuestion({ title: '为什么人们问为什么？' });
+    getQuestion(id).then((data) => {
+      const q = parseQuestionData(data);
+      setQuestion(q);
+    });
+    getAnswers(id).then((data) => {
+      const ans = data.map((e) => parseAnswerData(e));
+      setAnswers(ans);
+    });
     setFollowed(false);
   }, []);
 
@@ -40,6 +53,10 @@ const QuestionView = () => {
     setAnswers(updated);
   };
 
+  const submitAnswer = () => {
+    answerQuestion(parseInt(id), ans);
+  };
+
   return (
     <div>
       <Card style={{ width: '100vw' }}>
@@ -49,7 +66,8 @@ const QuestionView = () => {
       </Card>
       {showAnsEditor && (
         <Card id="answer-editor" className="main-editor">
-          <MdEditor style={{ width: '100%', padding: '15px' }} />
+          <MdEditor style={{ width: '100%' }} sourceChangeHandler={setAns} />
+          <SendButton onClick={submitAnswer} />
         </Card>
       )}
       <div className="profile-main">

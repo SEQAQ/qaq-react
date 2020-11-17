@@ -24,7 +24,7 @@ const axiosRequest = (method, url = '', options = {}) => {
     axios(requestConfig)
       .then((res) => {
         if (res.status === 200) {
-          resolve(res);
+          resolve(res.data);
         } else {
           // eslint-disable-next-line
           console.log(res);

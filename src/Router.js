@@ -37,7 +37,7 @@ const BasicRoute = () => (
       </div>
       <Switch>
         <PrivateRoute exact path="/" component={HomeView} />
-        <Route path="/question">
+        <Route path="/question/:id">
           <QuestionView />
         </Route>
         <Route path="/people">

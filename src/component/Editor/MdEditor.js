@@ -15,7 +15,7 @@ import React from 'react';
 
 const { useState, useRef, useCallback } = React;
 
-function MdEditor(props) {
+function MdEditor({ sourceChangeHandler, ...props }) {
   const initState = EditorState.createEmpty();
   const [editorState, setEditorState] = useState(initState);
   const [mode, setMode] = useState(0);
@@ -27,16 +27,24 @@ function MdEditor(props) {
     }
   };
 
+  const setEditorStateWrapper = (state) => {
+    const md = getMarkdown(state.getCurrentContent());
+    if (sourceChangeHandler) {
+      sourceChangeHandler(md);
+    }
+    setEditorState(state);
+  };
+
   const handleKeyCommand = useCallback(
     (command, editorState) => {
       const newState = RichUtils.handleKeyCommand(editorState, command);
       if (newState) {
-        setEditorState(newState);
+        setEditorStateWrapper(newState);
         return 'handled';
       }
       return 'not-handled';
     },
-    [setEditorState]
+    [setEditorStateWrapper]
   );
 
   const mapKeyToEditorCommand = useCallback(
@@ -46,7 +54,7 @@ function MdEditor(props) {
           // TAB
           const newEditorState = RichUtils.onTab(e, editorState, 4 /* maxDepth */);
           if (newEditorState !== editorState) {
-            setEditorState(newEditorState);
+            setEditorStateWrapper(newEditorState);
           }
           return null;
         }
@@ -55,7 +63,7 @@ function MdEditor(props) {
       }
       return getDefaultKeyBinding(e);
     },
-    [editorState, setEditorState]
+    [editorState, setEditorStateWrapper]
   );
 
   // If the user changes block type before entering any text, we can
@@ -76,10 +84,10 @@ function MdEditor(props) {
     if (mode === 1) {
       // Showing Markdown, turn to Rich Text
       const mdBuffer = editorState.getCurrentContent().getPlainText();
-      setEditorState(EditorState.createWithContent(mdToDraft(mdBuffer)));
+      setEditorStateWrapper(EditorState.createWithContent(mdToDraft(mdBuffer)));
     } else if (mode === 0) {
       // Showing Richtext, turn to markdown
-      setEditorState(EditorState.createWithContent(ContentState.createFromText(mdBuffer)));
+      setEditorStateWrapper(EditorState.createWithContent(ContentState.createFromText(mdBuffer)));
     }
     setMode(1 - mode);
   };
@@ -94,14 +102,14 @@ function MdEditor(props) {
             editorState={editorState}
             onToggle={(blockType) => {
               const newState = RichUtils.toggleBlockType(editorState, blockType);
-              setEditorState(newState);
+              setEditorStateWrapper(newState);
             }}
           />
           <InlineStyleControls
             editorState={editorState}
             onToggle={(inlineStyle) => {
               const newState = RichUtils.toggleInlineStyle(editorState, inlineStyle);
-              setEditorState(newState);
+              setEditorStateWrapper(newState);
             }}
           />
         </div>
@@ -113,7 +121,7 @@ function MdEditor(props) {
           editorState={editorState}
           handleKeyCommand={handleKeyCommand}
           keyBindingFn={mapKeyToEditorCommand}
-          onChange={setEditorState}
+          onChange={setEditorStateWrapper}
           placeholder="蟹邀~"
           ref={editor}
           spellCheck={true}
