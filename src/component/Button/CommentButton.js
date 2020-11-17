@@ -4,11 +4,11 @@ import React from 'react';
 
 import { style } from '../../utils/style';
 
-const CommentButton = () => {
+const CommentButton = ({ ...props }) => {
   const textStyle = style().greyText;
   return (
     <div>
-      <Button startIcon={<ChatBubbleOutlineIcon />} variant="text" className={textStyle}>
+      <Button startIcon={<ChatBubbleOutlineIcon />} variant="text" className={textStyle} {...props}>
         评论
       </Button>
     </div>

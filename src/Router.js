@@ -7,6 +7,7 @@ import Activity from './views/Activity/Activity';
 import AskView from './views/Ask/AskView';
 import HomeView from './views/homeView/HomeView';
 import LoginView from './views/loginView/LoginView';
+import ProfileView from './views/personalView/ProfileView';
 import { QuestionView } from './views/Question';
 import RegisterView from './views/registerView/RegisterView';
 
@@ -30,11 +31,13 @@ const BasicRoute = () => (
         <div>
           <Link to="/ask">提问</Link>
         </div>
+        <div>
+          <Link to={'/profile'}>个人信息修改</Link>
+        </div>
       </div>
       <Switch>
-        {/*        <PrivateRoute exact path="/" component={HomeView} />*/}
-        <Route exact path="/" component={HomeView} />
-        <Route path="/question">
+        <PrivateRoute exact path="/" component={HomeView} />
+        <Route path="/question/:id">
           <QuestionView />
         </Route>
         <Route path="/people">
@@ -43,6 +46,7 @@ const BasicRoute = () => (
         <Route path="/ask">
           <AskView />
         </Route>
+        <Route exact path={'/profile'} component={ProfileView}></Route>
         <Route exact path="/login" component={LoginView} />
         <Route exact path="/register" component={RegisterView} />
         <Redirect from="/*" to="/" />

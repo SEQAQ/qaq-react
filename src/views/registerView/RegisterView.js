@@ -7,11 +7,18 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Grid from '@material-ui/core/Grid';
 import Link from '@material-ui/core/Link';
+import Snackbar from '@material-ui/core/Snackbar';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
+import MuiAlert from '@material-ui/lab/Alert';
+import axios from 'axios';
 import React from 'react';
+import cookie from 'react-cookies';
+
+import config from '../../utils/config';
+import { history } from '../../utils/history';
 
 function Copyright() {
   return (
@@ -46,8 +53,96 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+function* sleep(ms) {
+  yield new Promise(function (resolve) {
+    setTimeout(resolve, ms);
+  });
+}
+
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
+
 export default function RegisterView() {
   const classes = useStyles();
+  const [values, setValues] = React.useState({
+    rname: '',
+    account: '',
+    password: '',
+    confirmPassword: '',
+    phone: '',
+    email: '',
+    sex: '',
+    uname: '',
+    confirmLaws: false,
+  });
+
+  const [open1, setOpen1] = React.useState(false);
+  const [open2, setOpen2] = React.useState(false);
+
+  const registerSuccess = () => {
+    setOpen1(true);
+  };
+
+  const handleClose1 = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpen1(false);
+  };
+
+  const registerFail = () => {
+    setOpen2(true);
+  };
+
+  const handleClose2 = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpen2(false);
+  };
+
+  const register = () => {
+    const user_info = {
+      rname: values.rname,
+      account: values.account,
+      password: values.password,
+      phone: values.phone,
+      email: values.email,
+      sex: values.sex,
+      uname: values.uname,
+    };
+    const jsonStr = JSON.stringify(user_info);
+    axios({
+      method: 'post',
+      url: config.apiUrl,
+      header: {
+        'Content-Type': 'application/json',
+      },
+      data: jsonStr,
+    })
+      .then(function (response) {
+        if (response.status === '200') {
+          cookie.remove('userName');
+          cookie.save('userName', values.uname, { path: '/' });
+          registerSuccess();
+          sleep(1000)
+            .next()
+            .value.then(() => {
+              history.push('/');
+            });
+        }
+      })
+      .catch(function () {
+        registerFail();
+      });
+  };
+
+  const handleChange = (prop) => (event) => {
+    setValues({ ...values, [prop]: event.target.value });
+  };
 
   return (
     <Container component="main" maxWidth="xs">
@@ -59,31 +154,42 @@ export default function RegisterView() {
         <Typography component="h1" variant="h5">
           新用户注册
         </Typography>
-        <form className={classes.form} noValidate>
+        <form className={classes.form}>
           <Grid container spacing={2}>
             <Grid item xs={12}>
-              <TextField autoComplete="uname" name="userName" variant="outlined" required fullWidth id="userName" label="用户名" autoFocus />
+              <TextField autoComplete="uname" name="userName" variant="outlined" required fullWidth id="userName" label="用户名" value={values.uname} onChange={handleChange('uname')} autoFocus />
             </Grid>
             <Grid item xs={12}>
-              <TextField variant="outlined" required fullWidth id="name" label="姓名" name="name" autoComplete="name" />
+              <TextField variant="outlined" required fullWidth id="name" label="姓名" name="name" autoComplete="name" value={values.rname} onChange={handleChange('rname')} />
             </Grid>
             <Grid item xs={12}>
-              <TextField variant="outlined" required fullWidth id="gender" label="性别" name="gender" autoComplete="gender" />
+              <TextField variant="outlined" required fullWidth id="gender" label="性别" name="gender" autoComplete="gender" value={values.sex} onChange={handleChange('sex')} />
             </Grid>
             <Grid item xs={12}>
-              <TextField variant="outlined" required fullWidth id="email" label="电子邮箱" name="email" autoComplete="email" />
+              <TextField variant="outlined" required fullWidth id="email" label="电子邮箱" name="email" autoComplete="email" value={values.email} onChange={handleChange('email')} />
             </Grid>
             <Grid item xs={12}>
-              <TextField variant="outlined" required fullWidth id="phone" label="手机号码" name="phone" autoComplete="phone" />
+              <TextField variant="outlined" required fullWidth id="phone" label="手机号码" name="phone" autoComplete="phone" value={values.phone} onChange={handleChange('phone')} />
             </Grid>
             <Grid item xs={12}>
-              <TextField variant="outlined" required fullWidth name="password" label="密码" type="password" id="password" autoComplete="current-password" />
+              <TextField variant="outlined" required fullWidth name="password" label="密码" type="password" id="password" autoComplete="current-password" value={values.password} onChange={handleChange('password')} />
             </Grid>
             <Grid item xs={12}>
-              <TextField variant="outlined" required fullWidth name="comfirmPw" label="确认密码" type="password" id="confirmPw" autoComplete="confirm-password" />
+              <TextField
+                variant="outlined"
+                required
+                fullWidth
+                name="comfirmPw"
+                label="确认密码"
+                type="password"
+                id="confirmPw"
+                autoComplete="confirm-password"
+                value={values.confirmPassword}
+                onChange={handleChange('confirmPassword')}
+              />
             </Grid>
             <Grid item xs={12}>
-              <FormControlLabel control={<Checkbox value="allowExtraEmails" color="primary" />} label={'已阅读并同意'} />
+              <FormControlLabel control={<Checkbox value={values.confirmLaws} color="primary" />} label={'已阅读并同意'} />
               <Link color="primary" href="https://material-ui.com/">
                 《隐私保护协议》
               </Link>
@@ -92,7 +198,7 @@ export default function RegisterView() {
               </Link>
             </Grid>
           </Grid>
-          <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit}>
+          <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit} onClick={register}>
             注册
           </Button>
           <Grid container justify="flex-end">
@@ -107,6 +213,16 @@ export default function RegisterView() {
       <Box mt={5}>
         <Copyright />
       </Box>
+      <Snackbar open={open1} autoHideDuration={6000} onClose={handleClose1}>
+        <Alert onClose={handleClose1} severity="success">
+          注册成功，欢迎入驻QAQ！
+        </Alert>
+      </Snackbar>
+      <Snackbar open={open2} autoHideDuration={6000} onClose={handleClose2}>
+        <Alert onClose={handleClose2} severity="error">
+          注册失败，请稍后再试
+        </Alert>
+      </Snackbar>
     </Container>
   );
 }

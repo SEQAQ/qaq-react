@@ -1,6 +1,6 @@
 import { message } from 'antd';
 
-import { post } from '../utils/ajax';
+import { post } from '../lib';
 import config from '../utils/config';
 import { history } from '../utils/history';
 
@@ -37,3 +37,6 @@ export const checkSession = (callback) => {
   const url = `${config.apiUrl}/checkSession`;
   post(url, {}).then((res) => callback(res));
 };
+
+// TODO: fix this up after user login is properly implemented
+export const getUser = () => ({ uid: 1 });
