@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link, Redirect, Route, Router, Switch } from 'react-router-dom';
 
-/* import PrivateRoute from './PrivateRoute';*/
+import PrivateRoute from './PrivateRoute';
 import { history } from './utils/history';
 import Activity from './views/Activity/Activity';
 import AskView from './views/Ask/AskView';
