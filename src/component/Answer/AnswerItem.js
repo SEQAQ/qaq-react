@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
+import ReactMarkdown from 'react-markdown';
 
 import { Comments, Editor } from '..';
 import { sendAnsReply } from '../../services/ReplyService';
@@ -25,7 +26,10 @@ const Answer = ({ data, fetchComment }) => {
           <div>{data.dept}</div>
         </div>
       </div>
-      <div style={{ marginTop: '10px' }}>{data.detail}</div>
+      <div style={{ marginTop: '10px' }}>
+        <ReactMarkdown>{data.detail}</ReactMarkdown>
+      </div>
+      {/* COMMENT SECTION */}
       <ActionBar commentClick={commentClick} />
       {showComment && (
         <>
