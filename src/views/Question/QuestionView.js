@@ -9,6 +9,7 @@ import { Card, QuestionCard } from '../../component/Card';
 import MdEditor from '../../component/Editor/MdEditor';
 import { answerQuestion, getAnswers, parseAnswerData } from '../../services/AnswerService';
 import { getQuestion, parseQuestionData } from '../../services/QuestionService';
+import { fetchAnsReplies } from '../../services/ReplyService';
 
 const QuestionView = () => {
   const { id } = useParams();
@@ -44,13 +45,11 @@ const QuestionView = () => {
     if (index < 0) {
       return;
     }
-    // TODO: fetch and set comments
-    oldAnswers[index].comments = [
-      { name: 'The Big Brother', content: '!!!' },
-      { name: 'PythonHunter', content: '@@@' },
-    ];
-    const updated = oldAnswers;
-    setAnswers(updated);
+    fetchAnsReplies(answerId).then((data) => {
+      oldAnswers[index].comments = data;
+      const updated = oldAnswers;
+      setAnswers(updated);
+    });
   };
 
   const submitAnswer = () => {
