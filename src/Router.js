@@ -14,7 +14,7 @@ import RegisterView from './views/registerView/RegisterView';
 const BasicRoute = () => (
   <>
     <Router history={history}>
-      <div>
+      {/*  <div>
         This part is for development preview purpose when the homepage is not fully implemented. Remove this section after the HomeView is done.
         <div>
           <Link to="/people">用户动态(Avatar, Follow Button, Profile Header)</Link>
@@ -35,8 +35,9 @@ const BasicRoute = () => (
           <Link to={'/profile'}>个人信息修改</Link>
         </div>
       </div>
+      </div>*/}
       <Switch>
-        <PrivateRoute exact path="/" component={HomeView} />
+        <Route exact path="/" component={HomeView} />
         <Route path="/question/:id">
           <QuestionView />
         </Route>
