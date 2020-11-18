@@ -9,7 +9,7 @@ import { Card, QuestionCard } from '../../component/Card';
 import MdEditor from '../../component/Editor/MdEditor';
 import { answerQuestion, getAnswers, parseAnswerData } from '../../services/AnswerService';
 import { getQuestion, parseQuestionData } from '../../services/QuestionService';
-import { fetchAnsReplies } from '../../services/ReplyService';
+import { fetchAnsReplies, parseReply } from '../../services/ReplyService';
 
 const QuestionView = () => {
   const { id } = useParams();
@@ -20,10 +20,6 @@ const QuestionView = () => {
   const [ans, setAns] = useState('');
 
   useEffect(() => {
-    setAnswers([
-      { aid: 1, author: 'Author', dept: 'Computer Science', content: '因为人们问为什么\n' },
-      { aid: 2, author: 'undefined!', dept: 'Software Enginering', content: '啊 这\n' },
-    ]);
     getQuestion(id).then((data) => {
       const q = parseQuestionData(data);
       setQuestion(q);
@@ -46,9 +42,11 @@ const QuestionView = () => {
       return;
     }
     fetchAnsReplies(answerId).then((data) => {
-      oldAnswers[index].comments = data;
+      const comment = data.map((e) => parseReply(e));
+      oldAnswers[index].comments = comment;
       const updated = oldAnswers;
-      setAnswers(updated);
+      // make a copy of the array to trigger state transition
+      setAnswers([...updated]);
     });
   };
 
