@@ -13,8 +13,10 @@ const Answer = ({ data, fetchComment }) => {
   const comments = data.comments;
 
   const commentClick = () => {
+    if (!showComment) {
+      fetchComment(data.aid);
+    }
     setShowComment(!showComment);
-    fetchComment(data.aid);
   };
 
   return (
