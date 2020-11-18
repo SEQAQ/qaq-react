@@ -53,7 +53,7 @@ module.exports = {
     'lines-around-comment': 0,
     'no-multiple-empty-lines': 2,
     'space-infix-ops': 2,
-    'arrow-spacing': 2,
+    'arrow-spacing': 1,
     'no-var': 2,
     'no-unused-vars': 1,
     'prefer-const': 2,

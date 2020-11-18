@@ -2,11 +2,13 @@ import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 
 import { Comments, Editor } from '..';
+import { sendAnsReply } from '../../services/ReplyService';
 import Avatar from '../Avatar/Avatar';
 import { ActionBar } from '../Bar';
 
 const Answer = ({ data, fetchComment }) => {
   const [showComment, setShowComment] = useState(false);
+  const [comment, setComment] = useState('');
   const comments = data.comments;
 
   const commentClick = () => {
@@ -27,7 +29,13 @@ const Answer = ({ data, fetchComment }) => {
       <ActionBar commentClick={commentClick} />
       {showComment && (
         <>
-          <Editor />
+          <Editor
+            onChange={(e) => setComment(e.target.value)}
+            onSubmit={() => {
+              // TODO: popup error msg on failure
+              sendAnsReply(data.aid, comment).then(() => fetchComment(data.aid));
+            }}
+          />
           <Comments dataSource={comments} />
         </>
       )}
