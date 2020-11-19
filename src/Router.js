@@ -27,7 +27,7 @@ const BasicRoute = () => (
             <Route path="/question/:id">
               <QuestionView />
             </Route>
-            <Route path="/people">
+            <Route path="/people/:id">
               <Activity />
             </Route>
             <Route path="/ask">
