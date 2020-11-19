@@ -137,33 +137,33 @@ export default function LoginView() {
       header: {
         'Content-Type': 'application/x-www-form-urlencoded',
       },
-      data: {
+      params: {
         account: values.account,
         password: values.password,
       },
     })
-      .then(function (response) {
-        if (response.status === '200') {
-          const result = response.data;
-          if (result === 'Success') {
+      .then((response) => {
+        if (response.status === 200) {
+          console.log(response);
+          if (response.data === 'Success') {
             cookie.remove('userName');
             cookie.save('userName', values.uname, { path: '/' });
             loginSuccess();
             sleep(1000)
               .next()
               .value.then(() => {
-                history.push('/');
+                history.push('/people');
               });
-          } else if (result === "User doesn't exist") {
+          } else if (response.data === "User doesn't exist") {
             noSuchUser();
-          } else if (result === 'Password is wrong') {
+          } else if (response.data === 'Password is wrong') {
             passwordError();
-          } else if (result === 'User is banned or deleted') {
+          } else if (response.data === 'User is banned or deleted') {
             accountAbnormal();
           }
         }
       })
-      .catch(function () {});
+      .catch();
   };
 
   const handleChange = (prop) => (event) => {
@@ -224,7 +224,7 @@ export default function LoginView() {
             />
           </FormControl>
           <FormControlLabel control={<Checkbox value="remember" color="primary" />} label="记住我" />
-          <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit} onClick={login}>
+          <Button fullWidth variant="contained" color="primary" className={classes.submit} onClick={login}>
             登录
           </Button>
           <Grid container>
