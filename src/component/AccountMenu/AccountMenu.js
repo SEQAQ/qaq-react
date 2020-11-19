@@ -25,6 +25,11 @@ export default function SimpleMenu() {
       </IconButton>
       <Menu id="simple-menu" anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={handleClose}>
         <MenuItem onClick={handleClose}>
+          <Link to="/users/login" className="text-link">
+            登录
+          </Link>
+        </MenuItem>
+        <MenuItem onClick={handleClose}>
           <Link to="/people" className="text-link">
             我的主页
           </Link>
