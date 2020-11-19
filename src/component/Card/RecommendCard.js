@@ -44,7 +44,7 @@ export default function RecipeReviewCard(data) {
   const respondent = data.data.respondent;
   const content = data.data.content;
   const imgsrc = data.data.imgsrc;
-  const agree = data.data.agree;
+  /* const agree = data.data.agree; */
 
   let intro = '';
 

@@ -1,13 +1,8 @@
-import ButtonBase from '@material-ui/core/ButtonBase';
-import CardContent from '@material-ui/core/CardContent';
 import Collapse from '@material-ui/core/Collapse';
 import Grid from '@material-ui/core/Grid';
 import IconButton from '@material-ui/core/IconButton';
-import Paper from '@material-ui/core/Paper';
-import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import clsx from 'clsx';
 import React from 'react';
 
 export class HotCard extends React.Component {
@@ -21,12 +16,12 @@ export class HotCard extends React.Component {
   }
 
   handleExpandClick() {
-    console.log(this.state.expanded);
+    /*    console.log(this.state.expanded);*/
     const tmp = !this.state.expanded;
     this.setState({
       expanded: tmp,
     });
-    console.log(this.state.expanded);
+    /*    console.log(this.state.expanded);*/
   }
 
   /* 负责截取简介，字数上限为90字 */

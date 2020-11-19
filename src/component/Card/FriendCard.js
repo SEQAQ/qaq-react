@@ -46,10 +46,10 @@ export default function RecipeReviewCard(data) {
 
   const title = data.data.title;
   const content = data.data.content;
-  const imgsrc = data.data.imgsrc;
+  /*  const imgsrc = data.data.imgsrc;
   const agree = data.data.agree;
 
-  const introduction = '';
+  const introduction = '';*/
 
   const [expanded, setExpanded] = React.useState(false);
 
