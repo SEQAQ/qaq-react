@@ -8,7 +8,7 @@ import AnswerList from '../../component/Answer/AnswerList';
 import { Card, QuestionCard } from '../../component/Card';
 import MdEditor from '../../component/Editor/MdEditor';
 import { answerQuestion, getAnswers, parseAnswerData } from '../../services/AnswerService';
-import { getQuestion, parseQuestionData } from '../../services/QuestionService';
+import { followQuestion, getQuestion, getQuestionFollowed, parseQuestionData, unfollowQuestion } from '../../services/QuestionService';
 import { fetchAnsReplies, parseReply } from '../../services/ReplyService';
 
 const QuestionView = () => {
@@ -28,8 +28,21 @@ const QuestionView = () => {
       const ans = data.map((e) => parseAnswerData(e));
       setAnswers(ans);
     });
-    setFollowed(false);
+    getQuestionFollowed(id).then((data) => {
+      if (data === 'Yes') {
+        setFollowed(true);
+      }
+    });
   }, []);
+
+  const toggleFollow = () => {
+    if (followed) {
+      unfollowQuestion(id);
+    } else {
+      followQuestion(id);
+    }
+    setFollowed(!followed);
+  };
 
   const onAns = () => {
     setShowAnsEditor(!showAnsEditor);
@@ -58,7 +71,7 @@ const QuestionView = () => {
     <div>
       <Card style={{ width: '100vw' }}>
         <div style={{ display: 'flex', width: '1000px', margin: '0 auto' }}>
-          <QuestionCard data={question} followed={followed} followHandler={(old) => setFollowed(!old)} answerHandler={onAns} />
+          <QuestionCard data={question} followed={followed} followHandler={toggleFollow} answerHandler={onAns} />
         </div>
       </Card>
       {showAnsEditor && (
