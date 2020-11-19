@@ -9,10 +9,10 @@ import Activity from './views/Activity/Activity';
 import AskView from './views/Ask/AskView';
 import HomeView from './views/HomeView/HomeView';
 import LoginView from './views/LoginView/LoginView';
-import ProfileView from './views/personalView/ProfileView';
+import ProfileView from './views/PersonalView/ProfileView';
 import { QuestionView } from './views/Question';
 import RegisterView from './views/RegisterView/RegisterView';
-import SearchView from './views/searchView/SearchView';
+import SearchView from './views/SearchView/SearchView';
 
 const BasicRoute = () => (
   <>
