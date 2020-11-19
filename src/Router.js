@@ -17,31 +17,6 @@ import SearchView from './views/SearchView/SearchView';
 const BasicRoute = () => (
   <>
     <Router history={history}>
-      {/*  <div>
-        This part is for development preview purpose when the homepage is not fully implemented. Remove this section after the HomeView is done.
-        <div>
-          <Link to="/people">用户动态(Avatar, Follow Button, Profile Header)</Link>
-        </div>
-        <div>
-          <Link to="/question">问题页</Link>
-        </div>
-        <div>
-          <Link to={'/users/login'}>登录页</Link>
-        </div>
-        <div>
-          <Link to={'/users/register'}>注册页</Link>
-        </div>
-        <div>
-          <Link to="/ask">提问</Link>
-        </div>
-        <div>
-          <Link to={'/profile'}>个人信息修改</Link>
-        </div>
-        <div>
-          <Link to={'/search'}>搜索结果</Link>
-        </div>
-      </div>
-      </div>*/}
       <Grid container direction="column" justify="flex-start" alignItems="center">
         <Grid item>
           <AppBar />

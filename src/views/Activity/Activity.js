@@ -6,12 +6,13 @@ import PersonIcon from '@material-ui/icons/Person';
 import ThumbUpIcon from '@material-ui/icons/ThumbUp';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 
 import { FeedList } from '../../component/Feed';
 import ProfileHeader from '../../component/Profile/ProfileHeader';
 import { getUserAnswer } from '../../services/AnswerService';
 import { getUserQuestions } from '../../services/QuestionService';
-
+import { fetchUser } from '../../services/userServices';
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -23,20 +24,23 @@ function TabPanel(props) {
 }
 
 const Activity = () => {
+  const { id } = useParams();
   const [value, setValue] = useState(0);
-  // const [user, setUser] = useState({});
+  const [user, setUser] = useState({ gender: 0 });
   // const [feedList, setFeedList] = useState([]);
   const [answers, setAnswers] = useState([]);
   const [questions, setQuestions] = useState([]);
   const handleChange = (ev, newVal) => setValue(newVal);
 
   useEffect(() => {
-    // TODO: fix uid
-    getUserAnswer(1).then((data) => {
+    fetchUser(id).then((data) => {
+      setUser({ ...data, username: data.uname, gender: data.sex });
+    });
+    getUserAnswer(id).then((data) => {
       const answerList = data.map((e) => ({ ...e, action: 0, title: e.questions.title, content: e.detail.mdText, link: `/question/${e.questions.qid}` }));
       setAnswers(answerList);
     });
-    getUserQuestions(1).then((data) => {
+    getUserQuestions(id).then((data) => {
       const questionsList = data.map((e) => ({ ...e, action: 1, content: e.detail ? e.detail.detail : '没有详情', link: `/question/${e.qid}` }));
       setQuestions(questionsList);
     });
@@ -44,14 +48,7 @@ const Activity = () => {
 
   return (
     <div>
-      <ProfileHeader
-        data={{
-          username: 'QAQ 小编',
-          gender: 1,
-          img: 'https://avatars1.githubusercontent.com/u/71007591',
-          intro: '哦！我向上帝发誓，我什么也不知道。我打赌，我会把QAQ问到倒闭！看在玛丽亚的份上，请回答我的问题吧！',
-        }}
-      />
+      <ProfileHeader data={user} />
       <div className="profile-main">
         <div className="card profile-act">
           <Tabs value={value} indicatorColor="primary" textColor="primary" onChange={handleChange} aria-label="disabled tabs example">

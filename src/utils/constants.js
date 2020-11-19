@@ -2,6 +2,7 @@ const API_ANS = '/answers';
 const API_QUES = '/ques';
 const API_REPLY = '/replies';
 const API_UFQ = '/UFQ';
+const API_USER = '/users';
 
 export const API_ANS_GET = API_ANS + '/findByQid';
 export const API_ANS_GET_USER = API_ANS + '/findByUid';
@@ -14,3 +15,4 @@ export const API_QUES_UNFOLLOW = API_UFQ + '/unfollowSomeQues';
 export const API_QUES_NEW = API_QUES + '/new';
 export const API_REPLY_GET_ANS = API_REPLY + '/findRepliesForAnswer';
 export const API_REPLY_SEND_ANS = API_REPLY + '/replyForAnswer';
+export const API_USER_GET_ID = API_USER + '/findbyid';
