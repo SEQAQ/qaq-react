@@ -14,10 +14,10 @@ import StarOutlinedIcon from '@material-ui/icons/StarOutlined';
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import AppBar from '../../component/AppBar/AppBar';
 import CardList from '../../component/QuestionList/CardList';
+import { getQuestion } from '../../services/QuestionService';
 
-const Questions1 = [
+/* const Questions1 = [
   {
     respondent: 'hhy',
     title: '为什么你会看到这个问题呢？',
@@ -76,19 +76,64 @@ const Questions3 = [
     imgsrc: './QAQlogo.png',
     agree: 1,
   },
-];
+]; */
 
 export class HomeView extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       listTag: 1,
+      recommendQues: [],
+      friendQues: [],
+      hotQues: [],
     };
 
     this.listChange1 = this.listChange1.bind(this);
     this.listChange2 = this.listChange2.bind(this);
     this.listChange3 = this.listChange3.bind(this);
     this.showList = this.showList.bind(this);
+  }
+
+  componentDidMount() {
+    getQuestion(1).then((data) => {
+      const tmp = this.state.recommendQues;
+      tmp.push(data);
+      this.setState({
+        recommendQues: tmp,
+      });
+    });
+
+    getQuestion(2).then((data) => {
+      const tmp = this.state.recommendQues;
+      tmp.push(data);
+      this.setState({
+        recommendQues: tmp,
+      });
+    });
+
+    getQuestion(3).then((data) => {
+      const tmp = this.state.recommendQues;
+      tmp.push(data);
+      this.setState({
+        recommendQues: tmp,
+      });
+    });
+
+    getQuestion(4).then((data) => {
+      const tmp = this.state.recommendQues;
+      tmp.push(data);
+      this.setState({
+        recommendQues: tmp,
+      });
+    });
+
+    getQuestion(5).then((data) => {
+      const tmp = this.state.recommendQues;
+      tmp.push(data);
+      this.setState({
+        recommendQues: tmp,
+      });
+    });
   }
 
   listChange1() {
@@ -113,13 +158,13 @@ export class HomeView extends React.Component {
     switch (i) {
       // 如果是推荐页
       case 1:
-        return <CardList dataSource={Questions1} type={1} />;
+        return <CardList dataSource={this.state.recommendQues} type={1} />;
       // 如果是动态页
       case 2:
-        return <CardList dataSource={Questions2} type={2} />;
+        return <CardList dataSource={this.state.recommendQues} type={2} />;
       // 如果是热搜页
       case 3:
-        return <CardList dataSource={Questions3} type={3} />;
+        return <CardList dataSource={this.state.recommendQues} type={3} />;
       default:
         break;
     }
@@ -129,10 +174,6 @@ export class HomeView extends React.Component {
     return (
       <div>
         <Grid container direction="column" justify="flex-start" alignItems="center">
-          {/* 导航栏*/}
-          <Grid item>
-            <AppBar />
-          </Grid>
           {/* 导航下面的所有内容*/}
           <Grid item container direction="row" justify="center" alignItems="flex-start" style={{ marginTop: '20px' }}>
             {/* 内容左侧的所有内容*/}
@@ -153,7 +194,7 @@ export class HomeView extends React.Component {
               {/* 右侧带图标的导航ButtonList */}
               <Grid item container direction="row" justify="center" alignItems="center" spacing={2} style={{ backgroundColor: 'white' }}>
                 <Grid item>
-                  <Link to="/" className="homeView-link-text">
+                  <Link to="/ask" className="homeView-link-text">
                     <ContactSupportOutlinedIcon style={{ marginLeft: '3px', color: 'rgb(0,132,225)' }} />
                     <div style={{ color: 'rgb(118,131,167)' }}>提问</div>
                   </Link>

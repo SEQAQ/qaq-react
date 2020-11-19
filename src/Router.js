@@ -1,6 +1,8 @@
+import Grid from '@material-ui/core/Grid';
 import React from 'react';
 import { Redirect, Route, Router, Switch } from 'react-router-dom';
 
+import AppBar from '../src/component/AppBar/AppBar';
 /* import PrivateRoute from './PrivateRoute'; */
 import { history } from './utils/history';
 import Activity from './views/Activity/Activity';
@@ -36,22 +38,29 @@ const BasicRoute = () => (
         </div>
       </div>
       </div>*/}
-      <Switch>
-        <Route exact path="/" component={HomeView} />
-        <Route path="/question/:id">
-          <QuestionView />
-        </Route>
-        <Route path="/people">
-          <Activity />
-        </Route>
-        <Route path="/ask">
-          <AskView />
-        </Route>
-        <Route exact path={'/profile'} component={ProfileView}></Route>
-        <Route exact path="/login" component={LoginView} />
-        <Route exact path="/register" component={RegisterView} />
-        <Redirect from="/*" to="/" />
-      </Switch>
+      <Grid container direction="column" justify="flex-start" alignItems="center">
+        <Grid item>
+          <AppBar />
+        </Grid>
+        <Grid item>
+          <Switch>
+            <Route exact path="/" component={HomeView} />
+            <Route path="/question/:id">
+              <QuestionView />
+            </Route>
+            <Route path="/people">
+              <Activity />
+            </Route>
+            <Route path="/ask">
+              <AskView />
+            </Route>
+            <Route exact path={'/profile'} component={ProfileView}></Route>
+            <Route exact path="/login" component={LoginView} />
+            <Route exact path="/register" component={RegisterView} />
+            <Redirect from="/*" to="/" />
+          </Switch>
+        </Grid>
+      </Grid>
     </Router>
   </>
 );

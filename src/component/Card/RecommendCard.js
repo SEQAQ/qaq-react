@@ -15,6 +15,7 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 import ShareIcon from '@material-ui/icons/Share';
 import clsx from 'clsx';
 import React from 'react';
+import ReactMarkdown from 'react-markdown';
 import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
@@ -40,13 +41,14 @@ const useStyles = makeStyles((theme) => ({
 export default function RecipeReviewCard(data) {
   const classes = useStyles();
 
+  const qid = data.data.qid;
   const title = data.data.title;
-  const respondent = data.data.respondent;
-  const content = data.data.content;
-  const imgsrc = data.data.imgsrc;
-  /* const agree = data.data.agree; */
+  const respondent = 'cat';
+  const imgsrc = './QAQlogo.png';
+  const content = data.data.detail === null ? '' : data.data.detail.detail;
 
   let intro = '';
+  const target = '/question/' + qid.toString();
 
   const [expanded, setExpanded] = React.useState(false);
 
@@ -62,7 +64,7 @@ export default function RecipeReviewCard(data) {
     } else {
       intro = content;
     }
-    return <>{intro}</>;
+    return <ReactMarkdown>{intro}</ReactMarkdown>;
   };
 
   return (
@@ -70,7 +72,7 @@ export default function RecipeReviewCard(data) {
       <Grid container direction="column" justify="flex-start" alignItems="flex-start">
         {/* 标题*/}
         <Grid item>
-          <Link to="/" style={{ textDecoration: 'none', color: 'black' }}>
+          <Link to={target} target="_blank" style={{ textDecoration: 'none', color: 'black' }}>
             <CardHeader title={title} />
           </Link>
         </Grid>
@@ -86,7 +88,7 @@ export default function RecipeReviewCard(data) {
           <Grid item style={{ width: '450px' }}>
             <CardContent>
               <span variant="body2" component="p">
-                {content.length > 90 ? (
+                {content && content.length > 90 ? (
                   <span>
                     {respondent} : {contentToIntro()}...{' '}
                   </span>
@@ -96,7 +98,7 @@ export default function RecipeReviewCard(data) {
                   </span>
                 )}
               </span>
-              <Button color={'blue'} onClick={handleExpandClick}>
+              <Button style={{ color: 'rgb(0,132,225)' }} onClick={handleExpandClick}>
                 阅读全文
                 <ExpandMoreIcon className={clsx(classes.expand, { [classes.expandOpen]: expanded })} onClick={handleExpandClick} aria-expanded={expanded} aria-label="show more" />
               </Button>
@@ -116,7 +118,9 @@ export default function RecipeReviewCard(data) {
           </CardActions>
           <Collapse in={expanded} timeout="auto" unmountOnExit>
             <CardContent>
-              <Typography paragraph>{content}</Typography>
+              <Typography paragraph>
+                <ReactMarkdown>{content}</ReactMarkdown>
+              </Typography>
             </CardContent>
           </Collapse>
         </Grid>
