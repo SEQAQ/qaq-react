@@ -1,3 +1,5 @@
+import '../../services/userServices';
+
 import Avatar from '@material-ui/core/Avatar';
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
@@ -145,7 +147,7 @@ export default function LoginView() {
       .then((response) => {
         if (response.status === 200) {
           if (response.data === 'Success') {
-            cookie.remove('account');
+            cookie.remove('account', { path: '/' });
             cookie.save('account', values.account, { path: '/' });
             loginSuccess();
             sleep(1000)

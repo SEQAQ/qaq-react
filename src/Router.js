@@ -4,6 +4,7 @@ import { Redirect, Route, Router, Switch } from 'react-router-dom';
 
 import AppBar from '../src/component/AppBar/AppBar';
 /* import PrivateRoute from './PrivateRoute'; */
+/* import PrivateRoute from './PrivateRoute'; */
 import { history } from './utils/history';
 import Activity from './views/Activity/Activity';
 import AskView from './views/Ask/AskView';
@@ -52,6 +53,7 @@ const BasicRoute = () => (
             <Route path="/question/:id">
               <QuestionView />
             </Route>
+            {/* <PrivateRoute component={<Activity />} path="/people"/> */}
             <Route path="/people">
               <Activity />
             </Route>

@@ -5,10 +5,12 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import React from 'react';
+import cookie from 'react-cookies';
 import { Link } from 'react-router-dom';
 
 export default function SimpleMenu() {
   const [anchorEl, setAnchorEl] = React.useState(null);
+  /*  const [ifLogin, setIfLogin] = React.useState(false);*/
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -16,6 +18,15 @@ export default function SimpleMenu() {
 
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  const logout = () => {
+    setAnchorEl(null);
+    const tmp = cookie.load('account');
+    if (tmp !== undefined) {
+      cookie.remove('account', { path: '/' });
+      /*      console.log('已登出'); */
+    }
   };
 
   return (
@@ -39,7 +50,7 @@ export default function SimpleMenu() {
             设置
           </Link>
         </MenuItem>
-        <MenuItem onClick={handleClose}>
+        <MenuItem onClick={logout}>
           <Link to="/" className="text-link">
             退出
           </Link>
