@@ -1,7 +1,7 @@
 import './ProfileHeader.css';
 
 import PropTypes from 'prop-types';
-import React, { useState } from 'react';
+import React from 'react';
 
 import Avatar from '../../component/Avatar/Avatar';
 import { FollowButton } from '../Button';
@@ -17,7 +17,7 @@ const ProfileHeader = (props) => {
   const gender = Math.min(props.data.gender, 1); // clamp gender to 0 or 1, the lower bound is not considerred
   const department = props.data.department;
   const img = props.data.img;
-  const [followed, setFollowed] = useState(false);
+  const followed = props.followed;
 
   return (
     <div className={'profile-card card'}>
@@ -35,7 +35,14 @@ const ProfileHeader = (props) => {
           {(gender === 0 || gender === 1) && <div className="divider" />}
           <span className={'profile-detail'}>{department}</span>
           <div className="profile-footer">
-            <FollowButton followed={followed} onClick={() => setFollowed(!followed)} />
+            <FollowButton
+              followed={followed}
+              onClick={() => {
+                if (props.onFollow) {
+                  props.onFollow(followed);
+                }
+              }}
+            />
           </div>
         </div>
       </div>
