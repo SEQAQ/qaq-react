@@ -6,18 +6,18 @@ import React, { useState } from 'react';
 import Avatar from '../../component/Avatar/Avatar';
 import { FollowButton } from '../Button';
 
+const genderText = [
+  { label: 'male', emoji: '👨' },
+  { label: 'female', emoji: '👩' },
+  { label: '', emoji: '' },
+];
+
 const ProfileHeader = (props) => {
   const username = props.data.username;
   const gender = Math.min(props.data.gender, 1); // clamp gender to 0 or 1, the lower bound is not considerred
-  const intro = props.data.intro;
+  const department = props.data.department;
   const img = props.data.img;
   const [followed, setFollowed] = useState(false);
-
-  const genderText = [
-    { label: 'male', emoji: '👨' },
-    { label: 'female', emoji: '👩' },
-    { label: '', emoji: '' },
-  ];
 
   return (
     <div className={'profile-card card'}>
@@ -33,7 +33,7 @@ const ProfileHeader = (props) => {
             {genderText[gender].emoji}
           </span>
           {(gender === 0 || gender === 1) && <div className="divider" />}
-          <span className={'profile-detail'}>{intro}</span>
+          <span className={'profile-detail'}>{department}</span>
           <div className="profile-footer">
             <FollowButton followed={followed} onClick={() => setFollowed(!followed)} />
           </div>
