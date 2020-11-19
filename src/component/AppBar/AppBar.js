@@ -11,7 +11,7 @@ import SearchIcon from '@material-ui/icons/Search';
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import AccountMenu from './AccountMenu/AccountMenu';
+import AccountMenu from '../AccountMenu/AccountMenu';
 
 export class QAQAppBar extends React.Component {
   constructor(props) {
@@ -21,7 +21,7 @@ export class QAQAppBar extends React.Component {
 
   render() {
     return (
-      <div className="appbar-header">
+      <div className="appbar-header" color={'white'}>
         <Grid container direction="row" justify="center" alignItems="center" xs={12}>
           <Grid item style={{ marginLeft: '150px' }}>
             <Link to="/">

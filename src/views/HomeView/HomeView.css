@@ -1,0 +1,20 @@
+.homeView-link-text {
+  text-decoration: none;
+  color: black;
+}
+
+.homeView-button-text {
+  font-size: small;
+  color: rgb(118, 131, 167);
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.homeView-button {
+  width: 312px;
+}
+
+.homeView-text {
+  font-size: 13px;
+  color: rgb(133, 144, 166);
+}
