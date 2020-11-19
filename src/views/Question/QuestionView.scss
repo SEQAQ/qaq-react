@@ -1,8 +1,8 @@
 .main-editor {
   display: flex;
   width: 1000px;
-  margin-top: 10px;
-  margin-left: auto;
-  margin-right: auto;
+  margin: 10px auto 10px auto;
+  padding: 10px 15px 10px 15px;
   justify-content: space-between;
+  flex-direction: column;
 }

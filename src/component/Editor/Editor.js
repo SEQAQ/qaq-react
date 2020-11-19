@@ -29,8 +29,8 @@ const Editor = ({ onChange, onSubmit }) => {
   return (
     <div className={classes.root}>
       <InputBase className={classes.input} placeholder="说说你的看法" inputProps={{ 'aria-label': 'input your comment' }} onChange={onChange} />
-      <IconButton type="submit" className={classes.iconButton} aria-label="send comment">
-        <SendIcon onClick={onSubmit} />
+      <IconButton type="submit" onClick={onSubmit} className={classes.iconButton} aria-label="send comment">
+        <SendIcon />
       </IconButton>
     </div>
   );

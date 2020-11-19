@@ -1,7 +1,7 @@
 import React from 'react';
-import { Link, Redirect, Route, Router, Switch } from 'react-router-dom';
+import { Redirect, Route, Router, Switch } from 'react-router-dom';
 
-import PrivateRoute from './PrivateRoute';
+/* import PrivateRoute from './PrivateRoute'; */
 import { history } from './utils/history';
 import Activity from './views/Activity/Activity';
 import AskView from './views/Ask/AskView';
@@ -15,7 +15,7 @@ import SearchView from './views/searchView/SearchView';
 const BasicRoute = () => (
   <>
     <Router history={history}>
-      <div>
+      {/*  <div>
         This part is for development preview purpose when the homepage is not fully implemented. Remove this section after the HomeView is done.
         <div>
           <Link to="/people">用户动态(Avatar, Follow Button, Profile Header)</Link>
@@ -39,9 +39,10 @@ const BasicRoute = () => (
           <Link to={'/search'}>搜索结果</Link>
         </div>
       </div>
+      </div>*/}
       <Switch>
-        <PrivateRoute exact path="/" component={HomeView} />
-        <Route path="/question">
+        <Route exact path="/" component={HomeView} />
+        <Route path="/question/:id">
           <QuestionView />
         </Route>
         <Route path="/people">

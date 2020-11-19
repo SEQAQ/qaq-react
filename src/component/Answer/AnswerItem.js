@@ -1,17 +1,22 @@
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
+import ReactMarkdown from 'react-markdown';
 
 import { Comments, Editor } from '..';
+import { sendAnsReply } from '../../services/ReplyService';
 import Avatar from '../Avatar/Avatar';
 import { ActionBar } from '../Bar';
 
 const Answer = ({ data, fetchComment }) => {
   const [showComment, setShowComment] = useState(false);
+  const [comment, setComment] = useState('');
   const comments = data.comments;
 
   const commentClick = () => {
+    if (!showComment) {
+      fetchComment(data.aid);
+    }
     setShowComment(!showComment);
-    fetchComment(data.aid);
   };
 
   return (
@@ -23,11 +28,20 @@ const Answer = ({ data, fetchComment }) => {
           <div>{data.dept}</div>
         </div>
       </div>
-      <div style={{ marginTop: '10px' }}>{data.content}</div>
+      <div style={{ marginTop: '10px' }}>
+        <ReactMarkdown>{data.detail}</ReactMarkdown>
+      </div>
+      {/* COMMENT SECTION */}
       <ActionBar commentClick={commentClick} />
       {showComment && (
         <>
-          <Editor />
+          <Editor
+            onChange={(e) => setComment(e.target.value)}
+            onSubmit={() => {
+              // TODO: popup error msg on failure
+              sendAnsReply(data.aid, comment).then(() => fetchComment(data.aid));
+            }}
+          />
           <Comments dataSource={comments} />
         </>
       )}

@@ -26,6 +26,7 @@ const VoteButtonGroup = ({ vote = 0, onUp, onDown, onCancel }) => {
    * 1 -> up vote
    * 2 -> down vote
    */
+
   const muiBtnProps = {
     variant: vote === 0 ? 'outlined' : 'contained',
     color: 'primary',
