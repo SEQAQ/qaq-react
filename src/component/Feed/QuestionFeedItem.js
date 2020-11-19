@@ -5,7 +5,7 @@ import React from 'react';
 
 import { ActionBar } from '../Bar';
 
-const QAItem = ({ data }) => {
+const QuestionItem = ({ data }) => {
   const author = data.author;
   const title = data.title;
   const content = data.content;
@@ -27,8 +27,8 @@ const QAItem = ({ data }) => {
   );
 };
 
-QAItem.propTypes = {
+QuestionItem.propTypes = {
   data: PropTypes.any.isRequired,
 };
 
-export default QAItem;
+export default QuestionItem;
