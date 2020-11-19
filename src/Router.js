@@ -10,39 +10,14 @@ import Activity from './views/Activity/Activity';
 import AskView from './views/Ask/AskView';
 import HomeView from './views/HomeView/HomeView';
 import LoginView from './views/LoginView/LoginView';
-import ProfileView from './views/personalView/ProfileView';
+import ProfileView from './views/PersonalView/ProfileView';
 import { QuestionView } from './views/Question';
 import RegisterView from './views/RegisterView/RegisterView';
-import SearchView from './views/searchView/SearchView';
+import SearchView from './views/SearchView/SearchView';
 
 const BasicRoute = () => (
   <>
     <Router history={history}>
-      {/*  <div>
-        This part is for development preview purpose when the homepage is not fully implemented. Remove this section after the HomeView is done.
-        <div>
-          <Link to="/people">用户动态(Avatar, Follow Button, Profile Header)</Link>
-        </div>
-        <div>
-          <Link to="/question">问题页</Link>
-        </div>
-        <div>
-          <Link to={'/users/login'}>登录页</Link>
-        </div>
-        <div>
-          <Link to={'/users/register'}>注册页</Link>
-        </div>
-        <div>
-          <Link to="/ask">提问</Link>
-        </div>
-        <div>
-          <Link to={'/profile'}>个人信息修改</Link>
-        </div>
-        <div>
-          <Link to={'/search'}>搜索结果</Link>
-        </div>
-      </div>
-      </div>*/}
       <Grid container direction="column" justify="flex-start" alignItems="center">
         <Grid item>
           <AppBar />
@@ -53,8 +28,7 @@ const BasicRoute = () => (
             <Route path="/question/:id">
               <QuestionView />
             </Route>
-            {/* <PrivateRoute component={<Activity />} path="/people"/> */}
-            <Route path="/people">
+            <Route path="/people/:id">
               <Activity />
             </Route>
             <Route path="/ask">
