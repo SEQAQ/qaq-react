@@ -2,14 +2,17 @@ import './FeedItem.sass';
 
 import PropTypes from 'prop-types';
 import React from 'react';
+import ReactMarkdown from 'react-markdown';
+import { Link } from 'react-router-dom';
 
-import { ActionBar } from '../Bar';
+// import { ActionBar } from '../Bar';
 
 const StoryItem = ({ data }) => {
   const author = data.author;
   const action = data.action;
   const title = data.title;
   const content = data.content;
+  const link = data.link;
 
   const actions = ['赞同了回答', '提出了问题', '关注了问题'];
 
@@ -20,10 +23,13 @@ const StoryItem = ({ data }) => {
           {author} {actions[action]}
         </div>
         <div>
-          <h2 className="feed-item-title">{title}</h2>
-          <p className="feed-item-content">{content}</p>
+          <Link to={link}>
+            <h2 className="feed-item-title">{title}</h2>
+          </Link>
+          <ReactMarkdown className="feed-item-content">{content}</ReactMarkdown>
           <div>
-            <ActionBar />
+            {/* {actions === 1 && <ActionBar variant='question' />} */}
+            {/* {actions !== 1 && <ActionBar  />} */}
           </div>
         </div>
       </div>

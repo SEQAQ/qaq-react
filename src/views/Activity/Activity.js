@@ -9,17 +9,37 @@ import React, { useEffect, useState } from 'react';
 
 import { FeedList } from '../../component/Feed';
 import ProfileHeader from '../../component/Profile/ProfileHeader';
+import { getUserAnswer } from '../../services/AnswerService';
+import { getUserQuestions } from '../../services/QuestionService';
+
+function TabPanel(props) {
+  const { children, value, index, ...other } = props;
+
+  return (
+    <div role="tabpanel" hidden={value !== index} id={`simple-tabpanel-${index}`} aria-labelledby={`simple-tab-${index}`} {...other}>
+      {value === index && <> {children}</>}
+    </div>
+  );
+}
 
 const Activity = () => {
   const [value, setValue] = useState(0);
-  const [feedList, setFeedList] = useState([]);
+  // const [user, setUser] = useState({});
+  // const [feedList, setFeedList] = useState([]);
+  const [answers, setAnswers] = useState([]);
+  const [questions, setQuestions] = useState([]);
   const handleChange = (ev, newVal) => setValue(newVal);
 
   useEffect(() => {
-    setFeedList([
-      { author: 'Author', action: 0, title: '什么是 QAQ?', content: '知乎，不行！\nQAQ 彳亍！\n' },
-      { author: 'undefined!', action: 1, title: '宇宙的终极答案是什么？', content: '4 2\n' },
-    ]);
+    // TODO: fix uid
+    getUserAnswer(1).then((data) => {
+      const answerList = data.map((e) => ({ ...e, action: 0, title: e.questions.title, content: e.detail.mdText, link: `/question/${e.questions.qid}` }));
+      setAnswers(answerList);
+    });
+    getUserQuestions(1).then((data) => {
+      const questionsList = data.map((e) => ({ ...e, action: 1, content: e.detail ? e.detail.detail : '没有详情', link: `/question/${e.qid}` }));
+      setQuestions(questionsList);
+    });
   }, []);
 
   return (
@@ -35,12 +55,18 @@ const Activity = () => {
       <div className="profile-main">
         <div className="card profile-act">
           <Tabs value={value} indicatorColor="primary" textColor="primary" onChange={handleChange} aria-label="disabled tabs example">
-            <Tab label="动态" style={{ width: '10px' }} />
+            {/* <Tab label="动态" style={{ width: '10px' }} /> */}
             <Tab label="回答" />
             <Tab label="问题" />
-            <Tab label="关注" />
+            {/* TODO: uncomment this and implement it */}
+            {/* <Tab label="关注" /> */}
           </Tabs>
-          <FeedList dataSource={feedList} />
+          <TabPanel value={value} index={0}>
+            <FeedList dataSource={answers} />
+          </TabPanel>
+          <TabPanel value={value} index={1}>
+            <FeedList dataSource={questions} />
+          </TabPanel>
         </div>
         <div className="profile-side">
           <div className="card">
