@@ -42,4 +42,4 @@ export const checkSession = (callback) => {
 export const fetchUser = (uid) => get(API_USER_GET_ID, { uid });
 
 // TODO: fix this up after user login is properly implemented
-export const getUser = () => ({ uid: 1 });
+export const getUser = () => ({ uid: 6 });

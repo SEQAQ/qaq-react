@@ -7,6 +7,7 @@ import AppBar from '../src/component/AppBar/AppBar';
 /* import PrivateRoute from './PrivateRoute'; */
 import { history } from './utils/history';
 import Activity from './views/Activity/Activity';
+import AdminView from './views/AdminView/AdminView';
 import AskView from './views/Ask/AskView';
 import HomeView from './views/HomeView/HomeView';
 import LoginView from './views/LoginView/LoginView';
@@ -34,6 +35,7 @@ const BasicRoute = () => (
             <Route path="/ask">
               <AskView />
             </Route>
+            <Route exact path={'/admin'} component={AdminView} />
             <Route exact path={'/profile'} component={ProfileView} />
             <Route exact path="/users/login" component={LoginView} />
             <Route exact path="/users/register" component={RegisterView} />

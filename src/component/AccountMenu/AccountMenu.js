@@ -12,6 +12,8 @@ export default function SimpleMenu() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   /*  const [ifLogin, setIfLogin] = React.useState(false);*/
 
+  const target = '/people/6';
+
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -41,7 +43,7 @@ export default function SimpleMenu() {
           </Link>
         </MenuItem>
         <MenuItem onClick={handleClose}>
-          <Link to="/people" className="text-link">
+          <Link to={target} className="text-link">
             我的主页
           </Link>
         </MenuItem>

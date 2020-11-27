@@ -11,6 +11,7 @@ import EmojiEmotionsOutlinedIcon from '@material-ui/icons/EmojiEmotionsOutlined'
 import EventAvailableOutlinedIcon from '@material-ui/icons/EventAvailableOutlined';
 import HeadsetIcon from '@material-ui/icons/Headset';
 import StarOutlinedIcon from '@material-ui/icons/StarOutlined';
+import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
 import React from 'react';
 import { Link } from 'react-router-dom';
 
@@ -262,6 +263,14 @@ export class HomeView extends React.Component {
                     <HeadsetIcon className="homeView-button-text" />
                     <span style={{ color: 'rgb(118,131,167)' }}>帮助中心</span>
                   </Button>
+                </Grid>
+                <Grid item>
+                  <Link to="/admin">
+                    <Button className="homeView-button">
+                      <SupervisorAccountIcon className="homeView-button-text" />
+                      <span style={{ color: 'rgb(118,131,167)' }}>管理员页面</span>
+                    </Button>
+                  </Link>
                 </Grid>
               </Grid>
 
