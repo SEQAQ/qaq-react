@@ -51,6 +51,7 @@ const BasicRoute = () => (
         <Route path="/ask">
           <AskView />
         </Route>
+        <Route exact path={'/search/:str'} component={SearchView} />
         <Route exact path={'/profile'} component={ProfileView} />
         <Route exact path="/users/login" component={LoginView} />
         <Route exact path="/users/register" component={RegisterView} />

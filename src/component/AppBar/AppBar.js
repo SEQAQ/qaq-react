@@ -11,13 +11,25 @@ import SearchIcon from '@material-ui/icons/Search';
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+import { history } from '../../utils/history';
 import AccountMenu from '../AccountMenu/AccountMenu';
 
 export class QAQAppBar extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      searchString: '',
+    };
   }
+
+  handleSearchStringChange = (event) => {
+    this.setState({ searchString: event.target.value });
+    // console.log(this.state.searchString);
+  };
+
+  onSearch = () => {
+    history.push('/search' + this.state.searchString);
+  };
 
   render() {
     return (
@@ -40,8 +52,8 @@ export class QAQAppBar extends React.Component {
             </Link>
           </Grid>
           <Grid item xs={3} style={{ marginRight: '40px' }}>
-            <InputBase placeholder="搜索问题" style={{ background: '#f6f6f6', width: '300px' }} />
-            <IconButton type="submit" aria-label="search">
+            <InputBase placeholder="搜索问题" style={{ background: '#f6f6f6', width: '300px' }} value={this.state.searchString} onChange={this.handleSearchStringChange} />
+            <IconButton aria-label="search" onClick={this.onSearch}>
               <SearchIcon />
             </IconButton>
           </Grid>

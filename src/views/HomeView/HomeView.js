@@ -16,6 +16,7 @@ import { Link } from 'react-router-dom';
 
 import AppBar from '../../component/AppBar/AppBar';
 import CardList from '../../component/QuestionList/CardList';
+import SearchBar from '../../component/SearchBar/SearchBar';
 
 const Questions1 = [
   {
@@ -128,6 +129,9 @@ export class HomeView extends React.Component {
   render() {
     return (
       <div>
+        <div>
+          <SearchBar />
+        </div>
         <Grid container direction="column" justify="flex-start" alignItems="center">
           {/* 导航栏*/}
           <Grid item>
