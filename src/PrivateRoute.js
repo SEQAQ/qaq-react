@@ -1,3 +1,4 @@
+/*
 import { message } from 'antd';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
@@ -24,11 +25,6 @@ const PrivateRoute = (props) => {
   useEffect(() => userService.checkSession(checkAuth));
   const { component: Component, path = '/', exact = false, strict = false } = props;
 
-  // 如果曾经没有登陆过，那么直接返回NULL
-  if (!hasAuthed) {
-    return null;
-  }
-
   return (
     <Route
       path={path}
@@ -40,12 +36,60 @@ const PrivateRoute = (props) => {
         ) : (
           <Redirect
             to={{
-              pathname: '/login',
+              pathname: '/users/login',
               state: { from: props.location },
             }}
           />
         )
       }
+    />
+  );
+};
+
+PrivateRoute.propTypes = {
+  location: PropTypes.any.isRequired,
+  component: PropTypes.any,
+  path: PropTypes.any,
+  exact: PropTypes.any,
+  strict: PropTypes.any,
+};
+
+export default PrivateRoute;
+*/
+
+import PropTypes from 'prop-types';
+import React from 'react';
+import cookie from 'react-cookies';
+import { Redirect, Route } from 'react-router-dom';
+
+const PrivateRoute = (props) => {
+  const tmp = cookie.load('account');
+
+  let isAuthed = false;
+
+  if (tmp !== undefined) {
+    isAuthed = true;
+  }
+
+  const { component: Component, path = '/', exact = false, strict = false } = props;
+
+  return (
+    <Route
+      path={path}
+      exact={exact}
+      strict={strict}
+      render={(props) => {
+        isAuthed ? (
+          <Component {...props} />
+        ) : (
+          <Redirect
+            to={{
+              pathname: '/users/login',
+              state: { from: props.location },
+            }}
+          />
+        );
+      }}
     />
   );
 };

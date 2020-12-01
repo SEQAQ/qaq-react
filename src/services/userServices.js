@@ -1,7 +1,8 @@
 import { message } from 'antd';
 
-import { post } from '../lib';
+import { get, post } from '../lib';
 import config from '../utils/config';
+import { API_USER_GET_ID } from '../utils/constants';
 import { history } from '../utils/history';
 
 export const login = (data) => {
@@ -38,5 +39,7 @@ export const checkSession = (callback) => {
   post(url, {}).then((res) => callback(res));
 };
 
+export const fetchUser = (uid) => get(API_USER_GET_ID, { uid });
+
 // TODO: fix this up after user login is properly implemented
-export const getUser = () => ({ uid: 1 });
+export const getUser = () => ({ uid: 6 });

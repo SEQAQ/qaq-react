@@ -110,18 +110,14 @@ export default function RegisterView() {
       uname: values.uname,
       password: values.password,
     };
-    const jsonStr = JSON.stringify(user_info);
     axios({
       method: 'post',
-      url: config.apiUrl,
-      header: {
-        'Content-Type': 'application/json',
-      },
-      data: jsonStr,
+      url: config.apiUrl + '/users/register',
+      data: user_info,
     })
       .then((response) => {
         if (response.status === '200') {
-          cookie.remove('account');
+          cookie.remove('account', { path: '/' });
           cookie.save('account', values.account, { path: '/' });
           registerSuccess();
           sleep(1000)
