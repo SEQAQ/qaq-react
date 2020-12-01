@@ -210,7 +210,7 @@ const SearchBar = () => {
             />
           </div>
           <div>
-            <Button className={classes.searchButton} onClick={onBarSearch}>
+            <Button className={classes.searchButton} onClick={onBarSearch} type={'submit'}>
               <SearchIcon />
             </Button>
           </div>
