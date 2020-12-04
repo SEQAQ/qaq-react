@@ -1,24 +1,57 @@
 import './SearchView.css';
 
+import Box from '@material-ui/core/Box';
 import Tab from '@material-ui/core/Tab';
 import Tabs from '@material-ui/core/Tabs';
+import Typography from '@material-ui/core/Typography';
 import PersonIcon from '@material-ui/icons/Person';
 import ThumbUpIcon from '@material-ui/icons/ThumbUp';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import axios from 'axios';
+import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 
-import { QAFeedList } from '../../component/Feed';
+import { FeedList, QAFeedList } from '../../component/Feed';
 import SearchBar from '../../component/SearchBar/SearchBar';
 import SearchList from '../../component/SearchList/SearchList';
 import config from '../../utils/config';
+
+function TabPanel(props) {
+  const { children, value, index, ...other } = props;
+
+  return (
+    <div role="tabpanel" hidden={value !== index} id={`simple-tabpanel-${index}`} aria-labelledby={`simple-tab-${index}`} {...other}>
+      {value === index && (
+        <Box p={3}>
+          <Typography>{children}</Typography>
+        </Box>
+      )}
+    </div>
+  );
+}
+
+TabPanel.propTypes = {
+  children: PropTypes.node,
+  index: PropTypes.any.isRequired,
+  value: PropTypes.any.isRequired,
+};
+
+function a11yProps(index) {
+  return {
+    id: `simple-tab-${index}`,
+    'aria-controls': `simple-tabpanel-${index}`,
+  };
+}
 
 const SearchView = ({ match }) => {
   const [value, setValue] = useState(0);
   const { str } = match.params;
   const [feedList, setFeedList] = useState([]);
   const [resultList, setResultList] = useState([]);
-  const handleChange = (ev, newVal) => setValue(newVal);
+  const handleChange = (ev, newVal) => {
+    setValue(newVal);
+    onSearch(newVal);
+  };
 
   useEffect(() => {
     setFeedList([
@@ -27,9 +60,9 @@ const SearchView = ({ match }) => {
     ]);
   }, []);
 
-  const onSearch = (i) => {
+  function onSearch(i) {
     // const that = this;
-    const searchString = searchString;
+    const searchString = str;
     let itemList = [];
     switch (i) {
       // 如果是搜索问题
@@ -56,6 +89,7 @@ const SearchView = ({ match }) => {
               itemList = [...itemList, item];
             }
             console.log('no2');
+            setResultList(itemList);
             console.log(itemList);
             // this.setState({
             //   resultList: itemList,
@@ -91,8 +125,8 @@ const SearchView = ({ match }) => {
     }
     console.log('no22');
     console.log(itemList);
-    return <SearchList dataSource={itemList} type={i} />;
-  };
+    // return <SearchList dataSource={itemList} type={i} />;
+  }
 
   return (
     <div>
@@ -102,12 +136,23 @@ const SearchView = ({ match }) => {
       <div className="profile-main">
         <div className="card profile-act">
           <Tabs value={value} indicatorColor="primary" textColor="primary" onChange={handleChange} aria-label="disabled tabs example">
-            <Tab label="问题" style={{ width: '10px' }} />
-            <Tab label="用户" />
-            <Tab label="回答" />
-            <Tab label="关注" />
+            <Tab label="问题" style={{ width: '10px' }} {...a11yProps(0)} />
+            <Tab label="用户" {...a11yProps(1)} />
+            <Tab label="回答" {...a11yProps(2)} />
+            <Tab label="关注" {...a11yProps(3)} />
           </Tabs>
-          <QAFeedList dataSource={feedList} />
+          <TabPanel value={value} index={0}>
+            <QAFeedList dataSource={feedList} />
+          </TabPanel>
+          <TabPanel value={value} index={1}>
+            <QAFeedList dataSource={resultList} />
+          </TabPanel>
+          <TabPanel value={value} index={2}>
+            <FeedList dataSource={feedList} />
+          </TabPanel>
+          <TabPanel value={value} index={3}>
+            <FeedList dataSource={feedList} />
+          </TabPanel>
         </div>
         <div className="profile-side">
           <div className="card">

@@ -1,4 +1,4 @@
-import './FeedItem.sass';
+import './UserFeedItem.sass';
 
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 
 import { ActionBar } from '../Bar';
 
-const StoryItem = ({ data }) => {
+const UserFeedItem = ({ data }) => {
   const author = data.author;
   const action = data.action;
   const title = data.title;
@@ -28,8 +28,7 @@ const StoryItem = ({ data }) => {
           </Link>
           <ReactMarkdown className="feed-item-content">{content}</ReactMarkdown>
           <div>
-            {action === 1 && <ActionBar variant="question" />}
-            {action !== 1 && <ActionBar />}
+            <ActionBar variant="question" />
           </div>
         </div>
       </div>
@@ -37,8 +36,8 @@ const StoryItem = ({ data }) => {
   );
 };
 
-StoryItem.propTypes = {
+UserFeedItem.propTypes = {
   data: PropTypes.any.isRequired,
 };
 
-export default StoryItem;
+export default UserFeedItem;

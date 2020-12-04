@@ -1,3 +1,5 @@
+import Button from '@material-ui/core/Button';
+import AddIcon from '@material-ui/icons/Add';
 import React, { useState } from 'react';
 
 import { CommentButton, VoteButtonGroup } from '../Button';
@@ -9,6 +11,9 @@ const ActionBar = ({ commentClick, ...props }) => {
     return (
       <>
         <div className="feed-item-action">
+          <Button variant="contained" color="primary" endIcon={<AddIcon />}>
+            关注
+          </Button>
           <div style={{ marginLeft: 'auto' }}>
             <CommentButton onClick={commentClick} />
           </div>

@@ -19,7 +19,7 @@ const QuestionItem = ({ data }) => {
             {author} : {content}
           </p>
           <div>
-            <ActionBar />
+            <ActionBar variant="question" />
           </div>
         </div>
       </div>
