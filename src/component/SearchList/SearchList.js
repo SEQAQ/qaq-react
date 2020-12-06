@@ -11,10 +11,10 @@ export class SearchList extends React.Component {
 
   render() {
     const list = this.props.dataSource;
-    console.log('no4: ');
-    console.log(list);
+    // console.log('no4: ');
+    // console.log(list);
     const listType = this.props.type;
-    console.log('no5: ' + listType);
+    // console.log('no5: ' + listType);
     // if (!list) {
     return (
       <div>
