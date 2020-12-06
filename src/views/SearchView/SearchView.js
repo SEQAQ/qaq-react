@@ -11,9 +11,7 @@ import axios from 'axios';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 
-import { FeedList, QAFeedList } from '../../component/Feed';
-import SearchBar from '../../component/SearchBar/SearchBar';
-import SearchList from '../../component/SearchList/SearchList';
+import { AnswerFeedList, FeedList, QAFeedList, UserFeedList } from '../../component/Feed';
 import config from '../../utils/config';
 
 function TabPanel(props) {
@@ -66,7 +64,7 @@ const SearchView = ({ match }) => {
     let itemList = [];
     switch (i) {
       // 如果是搜索问题
-      case 1:
+      case 0:
         axios({
           method: 'get',
           url: config.apiUrl + '/query/ques/title',
@@ -98,7 +96,7 @@ const SearchView = ({ match }) => {
           .catch();
         break;
       // 如果是搜索用户
-      case 2:
+      case 1:
         axios({
           method: 'get',
           url: config.apiUrl + '/query/users',
@@ -115,24 +113,19 @@ const SearchView = ({ match }) => {
                 follower: itemData[i].follower,
               };
               itemList = [...itemList, item];
-              // that.setState({
-              //   resultList: itemList,
-              // });
             }
+            console.log('no22');
+            setResultList(itemList);
+            console.log(itemList);
           })
           .catch();
         break;
     }
-    console.log('no22');
-    console.log(itemList);
     // return <SearchList dataSource={itemList} type={i} />;
   }
 
   return (
     <div>
-      <div>
-        <SearchBar />
-      </div>
       <div className="profile-main">
         <div className="card profile-act">
           <Tabs value={value} indicatorColor="primary" textColor="primary" onChange={handleChange} aria-label="disabled tabs example">
@@ -142,13 +135,13 @@ const SearchView = ({ match }) => {
             <Tab label="关注" {...a11yProps(3)} />
           </Tabs>
           <TabPanel value={value} index={0}>
-            <QAFeedList dataSource={feedList} />
-          </TabPanel>
-          <TabPanel value={value} index={1}>
             <QAFeedList dataSource={resultList} />
           </TabPanel>
+          <TabPanel value={value} index={1}>
+            <UserFeedList dataSource={resultList} />
+          </TabPanel>
           <TabPanel value={value} index={2}>
-            <FeedList dataSource={feedList} />
+            <AnswerFeedList dataSource={feedList} />
           </TabPanel>
           <TabPanel value={value} index={3}>
             <FeedList dataSource={feedList} />

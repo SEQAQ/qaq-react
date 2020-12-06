@@ -7,6 +7,8 @@ import { CommentButton, VoteButtonGroup } from '../Button';
 const ActionBar = ({ commentClick, ...props }) => {
   const [vote, setVote] = useState(0);
   const variant = props.variant;
+  const follower = props.follower;
+  const followed = props.followed;
   if (variant === 'question') {
     return (
       <>
@@ -16,6 +18,23 @@ const ActionBar = ({ commentClick, ...props }) => {
           </Button>
           <div style={{ marginLeft: 'auto' }}>
             <CommentButton onClick={commentClick} />
+          </div>
+        </div>
+      </>
+    );
+  }
+  if (variant === 'user') {
+    return (
+      <>
+        <div className="feed-item-action">
+          <div className="feed-source">{follower}关注者</div>
+          <div className="feed-source" style={{ marginLeft: '20px' }}>
+            {followed}关注
+          </div>
+          <div style={{ marginLeft: 'auto' }}>
+            <Button variant="contained" color="primary" endIcon={<AddIcon />}>
+              关注
+            </Button>
           </div>
         </div>
       </>

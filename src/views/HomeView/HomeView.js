@@ -16,7 +16,6 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 import CardList from '../../component/QuestionList/CardList';
-import SearchBar from '../../component/SearchBar/SearchBar';
 import { getQuestion } from '../../services/QuestionService';
 
 /* const Questions1 = [
@@ -175,9 +174,9 @@ export class HomeView extends React.Component {
   render() {
     return (
       <div>
-        <div>
-          <SearchBar />
-        </div>
+        {/* <div>*/}
+        {/*  <SearchBar />*/}
+        {/* </div>*/}
         <Grid container direction="column" justify="flex-start" alignItems="center">
           {/* 导航下面的所有内容*/}
           <Grid item container direction="row" justify="center" alignItems="flex-start" style={{ marginTop: '20px' }}>

@@ -6,9 +6,9 @@ import React from 'react';
 import { ActionBar } from '../Bar';
 
 const QuestionItem = ({ data }) => {
-  const author = data.author;
+  const author = data.user;
   const title = data.title;
-  const content = data.content;
+  const content = !data.detail ? '' : data.detail.detail;
 
   return (
     <div className="story-item-container">

@@ -16,8 +16,10 @@ import MoreIcon from '@material-ui/icons/MoreVert';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import SearchIcon from '@material-ui/icons/Search';
 import React from 'react';
+import cookie from 'react-cookies';
 
 import { history } from '../../utils/history';
+import AccountMenu from '../AccountMenu/AccountMenu';
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -93,6 +95,10 @@ const useStyles = makeStyles((theme) => ({
       display: 'none',
     },
   },
+  textLink: {
+    textDecoration: 'none',
+    color: 'black',
+  },
 }));
 
 const SearchBar = () => {
@@ -127,13 +133,41 @@ const SearchBar = () => {
     setValues({ ...values, [prop]: event.target.value });
   };
 
+  const logout = () => {
+    setAnchorEl(null);
+    const tmp = cookie.load('account');
+    if (tmp !== undefined) {
+      cookie.remove('account', { path: '/' });
+      /*      console.log('已登出'); */
+    }
+  };
+
   const menuId = 'primary-search-account-menu';
   const mobileMenuId = 'primary-search-account-menu-mobile';
+  const target = '/people/6';
 
   const renderMenu = (
     <Menu anchorEl={anchorEl} anchorOrigin={{ vertical: 'top', horizontal: 'right' }} id={menuId} keepMounted transformOrigin={{ vertical: 'top', horizontal: 'right' }} open={isMenuOpen} onClose={handleMenuClose}>
-      <MenuItem onClick={handleMenuClose}>个人信息</MenuItem>
-      <MenuItem onClick={handleMenuClose}>账号登出</MenuItem>
+      <MenuItem onClick={handleMenuClose}>
+        <Link to="/users/login" className={classes.textLink} underline={'none'}>
+          登录
+        </Link>
+      </MenuItem>
+      <MenuItem onClick={handleMenuClose}>
+        <Link to={target} className={classes.textLink} underline={'none'}>
+          我的主页
+        </Link>
+      </MenuItem>
+      <MenuItem onClick={handleMenuClose}>
+        <Link to="/" className={classes.textLink} underline={'none'}>
+          设置
+        </Link>
+      </MenuItem>
+      <MenuItem onClick={logout}>
+        <Link to="/" className={classes.textLink} underline={'none'}>
+          退出
+        </Link>
+      </MenuItem>
     </Menu>
   );
 
@@ -153,7 +187,7 @@ const SearchBar = () => {
             <MailIcon />
           </Badge>
         </IconButton>
-        <p>Messages</p>
+        <p>我的通知</p>
       </MenuItem>
       <MenuItem>
         <IconButton aria-label="show 11 new notifications" color="inherit">
@@ -161,19 +195,19 @@ const SearchBar = () => {
             <NotificationsIcon />
           </Badge>
         </IconButton>
-        <p>Notifications</p>
+        <p>我的消息</p>
       </MenuItem>
       <MenuItem onClick={handleProfileMenuOpen}>
         <IconButton aria-label="account of current user" aria-controls="primary-search-account-menu" aria-haspopup="true" color="inherit">
           <AccountCircle />
         </IconButton>
-        <p>Profile</p>
+        <p>个人中心</p>
       </MenuItem>
     </Menu>
   );
 
   const onBarSearch = () => {
-    history.push('/search/' + values.searchString);
+    history.replace('/search/' + values.searchString);
   };
 
   return (
@@ -189,15 +223,11 @@ const SearchBar = () => {
             </Link>
           </Typography>
           <div className={classes.itemButtons}>
-            {/* <Grid item style={{ marginLeft: '10px', marginRight: '10px' }}>*/}
+            <Button href={'/'}>首页</Button>
             <Button href={'/'}>发现</Button>
             <Button href={'/'}>回答</Button>
-            {/* </Grid>*/}
           </div>
           <div className={classes.search}>
-            {/* <div className={classes.searchIcon}>*/}
-            {/*  <SearchIcon />*/}
-            {/* </div>*/}
             <InputBase
               placeholder="搜索"
               classes={{
@@ -210,7 +240,7 @@ const SearchBar = () => {
             />
           </div>
           <div>
-            <Button className={classes.searchButton} onClick={onBarSearch} type={'submit'}>
+            <Button className={classes.searchButton} onClick={onBarSearch} type="submit">
               <SearchIcon />
             </Button>
           </div>
@@ -226,9 +256,10 @@ const SearchBar = () => {
                 <NotificationsIcon />
               </Badge>
             </IconButton>
-            <IconButton edge="end" aria-label="account of current user" aria-controls={menuId} aria-haspopup="true" onClick={handleProfileMenuOpen} color="inherit">
-              <AccountCircle />
-            </IconButton>
+            {/* <IconButton edge="end" aria-label="account of current user" aria-controls={menuId} aria-haspopup="true" onClick={handleProfileMenuOpen} color="inherit">*/}
+            {/*  <AccountCircle />*/}
+            {/* </IconButton>*/}
+            <AccountMenu />
           </div>
           <div className={classes.sectionMobile}>
             <IconButton aria-label="show more" aria-controls={mobileMenuId} aria-haspopup="true" onClick={handleMobileMenuOpen} color="inherit">
