@@ -2,6 +2,10 @@ import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import React from 'react';
 
+import ContentAdmin from '../../component/AdminContent/ContentAdmin';
+import QAAdmin from '../../component/AdminContent/QAAdmin';
+import UserAdmin from '../../component/AdminContent/UserAdmin';
+
 export class AdminView extends React.Component {
   constructor(props) {
     super(props);
@@ -35,15 +39,15 @@ export class AdminView extends React.Component {
 
   showList(i) {
     switch (i) {
-      // 如果是推荐页
+      // 如果是问答管理
       case 1:
-        return <div>这是问答管理</div>;
-      // 如果是动态页
+        return <QAAdmin />;
+      // 如果是内容审查
       case 2:
-        return <div>这是内容审查</div>;
-      // 如果是热搜页
+        return <ContentAdmin />;
+      // 如果是用户管理
       case 3:
-        return <div>这是用户管理</div>;
+        return <UserAdmin />;
       default:
         break;
     }
@@ -68,7 +72,7 @@ export class AdminView extends React.Component {
           </Grid>
 
           {/* 右侧的内容展示 */}
-          <Grid item style={{ backgroundColor: 'white', marginTop: '20px', width: '800px' }}>
+          <Grid item style={{ backgroundColor: 'white', marginTop: '20px', width: '1600px' }}>
             {this.showList(this.state.listTag)}
           </Grid>
         </Grid>
