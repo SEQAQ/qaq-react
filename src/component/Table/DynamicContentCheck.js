@@ -39,7 +39,19 @@ const tableIcons = {
 const DynamicUserTable = () => {
   const { useState } = React;
 
-  const [columns, setColumns] = useState([
+  // const [columns, setColumns] = useState([
+  //   { title: '内容类型', field: 'contentType', lookup: { 1: '问题', 2: '女', 3: '其他' } },
+  //   { title: '发布人', field: 'userName', initialEditValue: 'QAQ' },
+  //   { title: '姓名', field: 'name', initialEditValue: '法外狂徒张三' },
+  //   { title: '性别', field: 'sex', lookup: { 1: '男', 2: '女', 3: '其他' } },
+  //   { title: '邮箱', field: 'email', initialEditValue: 'xxxx@xxx.com' },
+  //   { title: '学校', field: 'school', initialEditValue: '上海交通大学' },
+  //   { title: '学历', field: 'education', lookup: { 1: '本科在读', 2: '硕士在读', 3: '博士在读', 4: '教职人员', 5: '其他' } },
+  //   { title: '电话号码', field: 'phone' },
+  //   { title: '用户类型', field: 'userType', lookup: { 1: '管理员', 2: '普通用户' } },
+  // ]);
+
+  const columns = [
     { title: '内容类型', field: 'contentType', lookup: { 1: '问题', 2: '女', 3: '其他' } },
     { title: '发布人', field: 'userName', initialEditValue: 'QAQ' },
     { title: '姓名', field: 'name', initialEditValue: '法外狂徒张三' },
@@ -49,7 +61,7 @@ const DynamicUserTable = () => {
     { title: '学历', field: 'education', lookup: { 1: '本科在读', 2: '硕士在读', 3: '博士在读', 4: '教职人员', 5: '其他' } },
     { title: '电话号码', field: 'phone' },
     { title: '用户类型', field: 'userType', lookup: { 1: '管理员', 2: '普通用户' } },
-  ]);
+  ];
 
   const [data, setData] = useState([
     {

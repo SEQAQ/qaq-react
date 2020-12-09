@@ -66,7 +66,18 @@ const tableIcons = {
 const DynamicQATable = () => {
   const { useState } = React;
 
-  const [qColumns, setQColumns] = useState([
+  // const [qColumns, setQColumns] = useState([
+  //   { title: 'Qid', field: 'qId', editable: 'never' },
+  //   { title: '标题', field: 'qTitle', editable: 'never' },
+  //   { title: '问题内容', field: 'qContent', editable: 'never' },
+  //   { title: '提问者', field: 'qQuestioner', editable: 'never' },
+  //   { title: '标签', field: 'qLabel', editable: 'never' },
+  //   { title: '提问时间', field: 'qCreateTime', type: 'Date', editable: 'never' },
+  //   { title: '修改时间', field: 'qModifyTime', type: 'Date', editable: 'never' },
+  //   { title: '问题状态', field: 'qStatus', lookup: { 1: '正常可见', 2: '封禁中' }, editable: 'always' },
+  // ]);
+
+  const qColumns = [
     { title: 'Qid', field: 'qId', editable: 'never' },
     { title: '标题', field: 'qTitle', editable: 'never' },
     { title: '问题内容', field: 'qContent', editable: 'never' },
@@ -75,15 +86,15 @@ const DynamicQATable = () => {
     { title: '提问时间', field: 'qCreateTime', type: 'Date', editable: 'never' },
     { title: '修改时间', field: 'qModifyTime', type: 'Date', editable: 'never' },
     { title: '问题状态', field: 'qStatus', lookup: { 1: '正常可见', 2: '封禁中' }, editable: 'always' },
-  ]);
+  ];
 
-  const [aColumns, setAColumns] = useState([
-    { title: 'Aid', field: 'aId', editable: 'never' },
-    { title: '回答内容', field: 'aContent', editable: 'never' },
-    { title: '回答者', field: 'aAnswerer', editable: 'never' },
-    { title: '回答时间', field: 'aCreateTime', type: 'Date', editable: 'never' },
-    { title: '回答状态', field: 'aStatus', lookup: { 1: '正常可见', 2: '封禁中' }, editable: 'always' },
-  ]);
+  // const [aColumns, setAColumns] = useState([
+  //   { title: 'Aid', field: 'aId', editable: 'never' },
+  //   { title: '回答内容', field: 'aContent', editable: 'never' },
+  //   { title: '回答者', field: 'aAnswerer', editable: 'never' },
+  //   { title: '回答时间', field: 'aCreateTime', type: 'Date', editable: 'never' },
+  //   { title: '回答状态', field: 'aStatus', lookup: { 1: '正常可见', 2: '封禁中' }, editable: 'always' },
+  // ]);
 
   const [data, setData] = useState([
     {
