@@ -178,7 +178,7 @@ const DynamicQATable = () => {
       }}
       editable={{
         onRowUpdate: (newData, oldData) =>
-          new Promise((resolve, reject) => {
+          new Promise((resolve) => {
             setTimeout(() => {
               const dataUpdate = [...data];
               const index = oldData.tableData.id;
