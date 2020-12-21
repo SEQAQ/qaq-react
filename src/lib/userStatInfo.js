@@ -11,5 +11,5 @@ export const userInfo = () => {
   if (account === null) {
     return null;
   }
-  get(config.apiUrl + '/users/findbyaccount', account, true);
+  get(config.apiUrl + '/users/findbyaccount', account);
 };
