@@ -1,4 +1,4 @@
-import './FeedItem.sass';
+import './AnswerFeedItem.sass';
 
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -14,14 +14,10 @@ const StoryItem = ({ data }) => {
   const content = data.content;
   const link = data.link;
 
-  const actions = ['赞同了回答', '提出了问题', '关注了问题'];
-
   return (
     <div className="story-item-container">
       <div className="story-item-content">
-        <div className="feed-source">
-          {author} {actions[action]}
-        </div>
+        <div className="feed-source">{author} 回答了问题</div>
         <div>
           <Link to={link}>
             <h2 className="feed-item-title">{title}</h2>

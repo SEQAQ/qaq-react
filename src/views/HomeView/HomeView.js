@@ -174,6 +174,9 @@ export class HomeView extends React.Component {
   render() {
     return (
       <div>
+        {/* <div>*/}
+        {/*  <SearchBar />*/}
+        {/* </div>*/}
         <Grid container direction="column" justify="flex-start" alignItems="center">
           {/* 导航下面的所有内容*/}
           <Grid item container direction="row" justify="center" alignItems="flex-start" style={{ marginTop: '20px' }}>

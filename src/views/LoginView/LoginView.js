@@ -83,6 +83,8 @@ export default function LoginView() {
   const [open2, setOpen2] = React.useState(false);
   const [open3, setOpen3] = React.useState(false);
   const [open4, setOpen4] = React.useState(false);
+  const [open5, setOpen5] = React.useState(false);
+  const [open6, setOpen6] = React.useState(false);
 
   const loginSuccess = () => {
     setOpen1(true);
@@ -132,6 +134,30 @@ export default function LoginView() {
     setOpen4(false);
   };
 
+  const loginFailed = () => {
+    setOpen1(true);
+  };
+
+  const handleClose5 = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpen5(false);
+  };
+
+  const serverError = () => {
+    setOpen1(true);
+  };
+
+  const handleClose6 = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpen6(false);
+  };
+
   const login = () => {
     axios({
       method: 'post',
@@ -149,6 +175,8 @@ export default function LoginView() {
           if (response.data === 'Success') {
             cookie.remove('account', { path: '/' });
             cookie.save('account', values.account, { path: '/' });
+            // const token = response.headers['x-auth-token'];
+            // setAuthToken(token);
             loginSuccess();
             sleep(1000)
               .next()
@@ -161,6 +189,12 @@ export default function LoginView() {
             passwordError();
           } else if (response.data === 'User is banned or deleted') {
             accountAbnormal();
+          } else if (response.status === 401) {
+            loginFailed();
+          }
+          // if (response.status === 500)
+          else {
+            serverError();
           }
         }
       })
@@ -263,6 +297,16 @@ export default function LoginView() {
       <Snackbar open={open4} autoHideDuration={6000} onClose={handleClose4}>
         <Alert onClose={handleClose4} severity="warning">
           账号已注销或等待解封
+        </Alert>
+      </Snackbar>
+      <Snackbar open={open5} autoHideDuration={6000} onClose={handleClose5}>
+        <Alert onClose={handleClose5} severity="error">
+          认证失败，请重新输入
+        </Alert>
+      </Snackbar>
+      <Snackbar open={open6} autoHideDuration={6000} onClose={handleClose6}>
+        <Alert onClose={handleClose6} severity="warning">
+          服务器异常，请稍后再试
         </Alert>
       </Snackbar>
     </Container>
