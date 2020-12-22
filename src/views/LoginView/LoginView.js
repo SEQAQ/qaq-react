@@ -166,28 +166,33 @@ export default function LoginView() {
         'Content-Type': 'application/x-www-form-urlencoded',
       },
       params: {
-        account: values.account,
+        username: values.account,
         password: values.password,
       },
     })
       .then((response) => {
         if (response.status === 200) {
-          if (response.data === 'Success') {
+          if (response.data.msg === 'Login success') {
+            if (!window.localStorage) {
+              alert('浏览器不支持localstorage');
+              cookie.remove('auth_token', { path: '/' });
+              cookie.save('auth_token', response.data.data, { path: '/' });
+            } else {
+              localStorage.setItem('auth_token', response.data.data);
+            }
             cookie.remove('account', { path: '/' });
             cookie.save('account', values.account, { path: '/' });
-            // const token = response.headers['x-auth-token'];
-            // setAuthToken(token);
             loginSuccess();
             sleep(1000)
               .next()
               .value.then(() => {
                 history.push('/');
               });
-          } else if (response.data === "User doesn't exist") {
+          } else if (response.data.data === "User didn't existed!") {
             noSuchUser();
-          } else if (response.data === 'Password is wrong') {
+          } else if (response.data.data === 'Username or password error') {
             passwordError();
-          } else if (response.data === 'User is banned or deleted') {
+          } else if (response.data.data === 'User is banned or deleted') {
             accountAbnormal();
           } else if (response.status === 401) {
             loginFailed();

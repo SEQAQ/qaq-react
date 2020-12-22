@@ -1,4 +1,5 @@
 import axios from 'axios';
+import cookie from 'react-cookies';
 
 import config from '../utils/config';
 
@@ -16,9 +17,15 @@ const axiosRequest = (method, url = '', options = {}) => {
     data: payload,
   };
   if (auth) {
-    requestConfig.headers = {
-      Authorization: localStorage.getItem('auth'),
-    };
+    if (!window.localStorage) {
+      requestConfig.headers = {
+        Authorization: cookie.load('auth_token'),
+      };
+    } else {
+      requestConfig.headers = {
+        Authorization: localStorage.getItem('auth_token'),
+      };
+    }
   }
   return new Promise((resolve, reject) =>
     axios(requestConfig)

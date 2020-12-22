@@ -41,11 +41,11 @@ const useStyles = makeStyles((theme) => ({
 export default function RecipeReviewCard(data) {
   const classes = useStyles();
 
-  const qid = data.data.qid;
-  const title = data.data.title;
+  const qid = !data.data.qid ? '' : data.data.qid;
+  const title = !data.data.title ? '' : data.data.qid;
   const respondent = 'cat';
   const imgsrc = './QAQlogo.png';
-  const content = data.data.detail === null ? '' : data.data.detail.detail;
+  const content = !data.data.detail ? '' : data.data.detail.detail;
 
   let intro = '';
   const target = '/question/' + qid.toString();
