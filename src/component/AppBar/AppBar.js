@@ -6,13 +6,13 @@ import Grid from '@material-ui/core/Grid';
 import IconButton from '@material-ui/core/IconButton';
 import InputBase from '@material-ui/core/InputBase';
 import MailIcon from '@material-ui/icons/Mail';
-import NotificationsIcon from '@material-ui/icons/Notifications';
 import SearchIcon from '@material-ui/icons/Search';
 import React from 'react';
 import { Link } from 'react-router-dom';
 
 import { history } from '../../utils/history';
 import AccountMenu from '../AccountMenu/AccountMenu';
+import NotificationMenu from '../NotificationMenu/NotificationMenu';
 
 export class QAQAppBar extends React.Component {
   constructor(props) {
@@ -58,13 +58,9 @@ export class QAQAppBar extends React.Component {
             </IconButton>
           </Grid>
           <Grid item xs={2} spacing={1}>
+            <NotificationMenu />
             <IconButton color="inherit">
               <Badge badgeContent={17} color="secondary">
-                <NotificationsIcon />
-              </Badge>
-            </IconButton>
-            <IconButton color="inherit">
-              <Badge badgeContent={4} color="secondary">
                 <MailIcon />
               </Badge>
             </IconButton>
