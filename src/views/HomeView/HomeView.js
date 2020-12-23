@@ -159,13 +159,13 @@ export class HomeView extends React.Component {
     switch (i) {
       // 如果是推荐页
       case 1:
-        return <CardList dataSource={this.state.recommendQues} type={1} />;
+        return !this.state.recommendQues || this.state.recommendQues.length <= 0 ? <>{'首页施工中 Q∀Q~'}</> : <CardList dataSource={this.state.recommendQues} type={1} />;
       // 如果是动态页
       case 2:
-        return <CardList dataSource={this.state.recommendQues} type={2} />;
+        return !this.state.recommendQues || this.state.recommendQues.length <= 0 ? <>{'首页施工中 Q∀Q~'}</> : <CardList dataSource={this.state.recommendQues} type={2} />;
       // 如果是热搜页
       case 3:
-        return <CardList dataSource={this.state.recommendQues} type={3} />;
+        return !this.state.recommendQues || this.state.recommendQues.length <= 0 ? <>{'首页施工中 Q∀Q~'}</> : <CardList dataSource={this.state.recommendQues} type={3} />;
       default:
         break;
     }

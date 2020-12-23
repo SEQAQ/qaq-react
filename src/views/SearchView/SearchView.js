@@ -7,11 +7,11 @@ import Typography from '@material-ui/core/Typography';
 import PersonIcon from '@material-ui/icons/Person';
 import ThumbUpIcon from '@material-ui/icons/ThumbUp';
 import VisibilityIcon from '@material-ui/icons/Visibility';
-import axios from 'axios';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 
 import { AnswerFeedList, FeedList, QAFeedList, UserFeedList } from '../../component/Feed';
+import { get } from '../../lib';
 import config from '../../utils/config';
 
 function TabPanel(props) {
@@ -65,14 +65,15 @@ const SearchView = ({ match }) => {
     switch (i) {
       // 如果是搜索问题
       case 0:
-        axios({
-          method: 'get',
-          url: config.apiUrl + '/query/ques/title',
-          header: { 'Content-Type': 'application/x-www-form-urlencoded' },
-          params: { title: searchString },
-        })
-          .then((response) => {
-            const itemData = response.data;
+        // axios({
+        //   method: 'get',
+        //   url: config.apiUrl + '/query/ques/title',
+        //   header: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        //   params: { title: searchString },
+        // })
+        get(config.apiUrl + '/query/ques/title', { title: searchString }, true)
+          .then((data) => {
+            const itemData = data;
             // console.log('no1');
             // console.log(itemData);
             for (let i = 0; i < itemData.length; ++i) {
@@ -94,14 +95,15 @@ const SearchView = ({ match }) => {
         break;
       // 如果是搜索用户
       case 1:
-        axios({
-          method: 'get',
-          url: config.apiUrl + '/query/users',
-          header: { 'Content-Type': 'application/x-www-form-urlencoded' },
-          params: { nickname: searchString },
-        })
-          .then((response) => {
-            const itemData = response.data;
+        // axios({
+        //   method: 'get',
+        //   url: config.apiUrl + '/query/users',
+        //   header: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        //   params: { nickname: searchString },
+        // })
+        get(config.apiUrl + '/query/users', { nickname: searchString }, true)
+          .then((data) => {
+            const itemData = data;
             for (let i = 0; i < itemData.length; ++i) {
               const item = {
                 account: itemData[i].account,
@@ -132,10 +134,10 @@ const SearchView = ({ match }) => {
             <Tab label="关注" {...a11yProps(3)} />
           </Tabs>
           <TabPanel value={value} index={0}>
-            <QAFeedList dataSource={resultList} />
+            {!resultList || resultList.length <= 0 ? <>{'未搜索到相关结果，请换一个关键词吧Q∀Q~'}</> : <QAFeedList dataSource={resultList} />}
           </TabPanel>
           <TabPanel value={value} index={1}>
-            <UserFeedList dataSource={resultList} />
+            {!resultList || resultList.length <= 0 ? <>{'未搜索到相关结果，请换一个关键词吧Q∀Q~'}</> : <UserFeedList dataSource={resultList} />}
           </TabPanel>
           <TabPanel value={value} index={2}>
             <AnswerFeedList dataSource={feedList} />
