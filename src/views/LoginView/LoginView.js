@@ -193,7 +193,7 @@ export default function LoginView() {
             cookie.remove('account', { path: '/' });
             cookie.save('account', values.account, { path: '/' });
             loginSuccess();
-            sleep(5000)
+            sleep(1000)
               .next()
               .value.then(() => {
                 history.push('/');
