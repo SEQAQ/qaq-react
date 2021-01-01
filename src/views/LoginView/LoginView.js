@@ -26,6 +26,7 @@ import axios from 'axios';
 import React from 'react';
 import cookie from 'react-cookies';
 
+import { get } from '../../lib';
 import config from '../../utils/config';
 import { history } from '../../utils/history';
 
@@ -180,6 +181,15 @@ export default function LoginView() {
             } else {
               localStorage.setItem('auth_token', response.data.data);
             }
+            get(config.apiUrl + '/users/findbyaccount', { account: values.account }).then((data) => {
+              if (!window.localStorage) {
+                alert('浏览器不支持localstorage');
+                cookie.remove('userInfo', { path: '/' });
+                cookie.save('userInfo', JSON.stringify(data), { path: '/' });
+              } else {
+                localStorage.setItem('userInfo', JSON.stringify(data));
+              }
+            });
             cookie.remove('account', { path: '/' });
             cookie.save('account', values.account, { path: '/' });
             loginSuccess();
