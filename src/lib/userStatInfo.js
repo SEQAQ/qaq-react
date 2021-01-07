@@ -5,6 +5,9 @@ import config from '../utils/config';
 
 axios.defaults.baseURL = config.apiUrl;
 
+/**
+ * Get current user info. Returns null if user is not logged in.
+ */
 export const userInfo = () => {
   const account = cookie.load('account');
   let userInfo = null;

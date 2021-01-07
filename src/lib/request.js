@@ -27,6 +27,7 @@ const axiosRequest = (method, url = '', options = {}) => {
       };
     }
   }
+
   return new Promise((resolve, reject) =>
     axios(requestConfig)
       .then((res) => {

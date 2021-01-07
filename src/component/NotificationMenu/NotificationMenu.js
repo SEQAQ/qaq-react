@@ -11,44 +11,11 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 import FormatListBulletedIcon from '@material-ui/icons/FormatListBulleted';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import PeopleIcon from '@material-ui/icons/People';
-import React from 'react';
+import React, { useState } from 'react';
 
 // 1 表示 answer
 // 2 表示 question
 // 3 表示 comment
-const data = [
-  {
-    type: 1,
-    data: {
-      uId: 1,
-      uName: 'Cat',
-      qId: 1,
-      qTitle: '为什么年轻人不讲武德',
-      qcontent: '我也不知道',
-    },
-  },
-  {
-    type: 2,
-    data: {
-      uId: 2,
-      uName: 'Catty',
-      qId: 1,
-      qTitle: '这是一个问题！',
-      qcontent: '这是问题的内容',
-    },
-  },
-  {
-    type: 3,
-    data: {
-      uId: 3,
-      uName: 'Dog',
-      qId: 1,
-      qTitle: '为什么年轻人不讲武德',
-      qcontent: '这是个啥子问题嘛',
-    },
-  },
-];
-
 const friend = [
   {
     uId: 1,
@@ -125,9 +92,10 @@ function TabPanel(props) {
   );
 }
 
-export default function NotificationMenu() {
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const [value, setValue] = React.useState(0);
+export default function NotificationMenu({ notificationList }) {
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [value, setValue] = useState(0);
+  const msgList = notificationList;
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -171,10 +139,10 @@ export default function NotificationMenu() {
           <AntTab icon={<FavoriteIcon />} style={{ width: '120px' }} />
         </AntTabs>
         <TabPanel value={value} index={0}>
-          {data &&
-            data.length &&
-            data.length > 0 &&
-            data.map((item, idx) => {
+          {msgList &&
+            msgList.length &&
+            msgList.length > 0 &&
+            msgList.map((item, idx) => {
               switch (item.type) {
                 case 1:
                   return (
@@ -186,7 +154,7 @@ export default function NotificationMenu() {
                       <a href={'/question/' + item.data.qId} className="Notification-link-text">
                         {item.data.qTitle}
                       </a>
-                      {'\xa0' + ':' + '\xa0' + item.data.qcontent}
+                      {'\xa0' + ':' + '\xa0' + item.data.qContent}
                       <Divider style={{ marginTop: '10px' }} />
                     </div>
                   );
@@ -200,7 +168,7 @@ export default function NotificationMenu() {
                       <a href={'/question/' + item.data.qId} className="Notification-link-text">
                         {item.data.qTitle}
                       </a>
-                      {'\xa0' + ':' + '\xa0' + item.data.qcontent}
+                      {'\xa0' + ':' + '\xa0' + item.data.qContent}
                       <Divider style={{ marginTop: '10px' }} />
                     </div>
                   );
@@ -214,7 +182,7 @@ export default function NotificationMenu() {
                       <a href={'/question/' + item.data.qId} className="Notification-link-text">
                         {item.data.qTitle}
                       </a>
-                      {'\xa0' + ':' + '\xa0' + item.data.qcontent}
+                      {'\xa0' + ':' + '\xa0' + item.data.qContent}
                       <Divider style={{ marginTop: '10px' }} />
                     </div>
                   );
