@@ -13,15 +13,16 @@ import ProfileView from './views/PersonalView/ProfileView';
 import { QuestionView } from './views/Question';
 import RegisterView from './views/RegisterView/RegisterView';
 import SearchView from './views/SearchView/SearchView';
+import AppBar from "../src/component/AppBar/AppBar";
 
 const BasicRoute = () => (
   <>
     <Router history={history}>
-      <SearchBar />
+      {/* <SearchBar />*/}
       <Grid container direction="column" justify="flex-start" alignItems="center">
-        {/* <Grid item>*/}
-        {/*  <AppBar />*/}
-        {/* </Grid>*/}
+         <Grid item>
+          <AppBar />
+         </Grid>
         <Grid item>
           <Switch>
             <Route exact path="/" component={HomeView} />

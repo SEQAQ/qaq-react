@@ -12,6 +12,7 @@ import FormatListBulletedIcon from '@material-ui/icons/FormatListBulleted';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import PeopleIcon from '@material-ui/icons/People';
 import React from 'react';
+import WsClient from "../../WsWrapper";
 
 // 1 表示 answer
 // 2 表示 question
@@ -126,6 +127,8 @@ function TabPanel(props) {
 }
 
 export default function NotificationMenu() {
+  // const [data, setData] = React.useState('');
+  // const [notify, setNotify] = React.useState([]);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [value, setValue] = React.useState(0);
 
@@ -143,6 +146,11 @@ export default function NotificationMenu() {
 
   const open = Boolean(anchorEl);
   const id = open ? 'simple-popover' : undefined;
+
+  // const onNew = (data) => setData(data);
+  // const client = WsClient(onNew);
+  // client.activate();
+  // console.log(data);
 
   return (
     <>
