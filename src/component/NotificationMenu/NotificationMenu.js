@@ -126,6 +126,10 @@ function TabPanel(props) {
 }
 
 export default function NotificationMenu() {
+  // 1 表示 answer
+  // 2 表示 question
+  // 3 表示 comment
+  // const [notify, setNotify] = React.useState([]);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [value, setValue] = React.useState(0);
 
@@ -140,6 +144,16 @@ export default function NotificationMenu() {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+
+  // const getNotify = (data) => {
+  //   if (notify.length < 10) {
+  //     notify.push(data);
+  //   }
+  //   else {
+  //     notify.shift();
+  //     notify.push(data);
+  //   }
+  // };
 
   const open = Boolean(anchorEl);
   const id = open ? 'simple-popover' : undefined;
