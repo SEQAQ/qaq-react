@@ -74,7 +74,6 @@ const Activity = () => {
             {/* <Tab label="动态" style={{ width: '10px' }} /> */}
             <Tab label="回答" />
             <Tab label="问题" />
-            {/* TODO: uncomment this and implement it */}
             <Tab label="关注" />
           </Tabs>
           <TabPanel value={value} index={0}>

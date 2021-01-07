@@ -2,9 +2,7 @@ import Grid from '@material-ui/core/Grid';
 import React from 'react';
 import { Redirect, Route, Router, Switch } from 'react-router-dom';
 
-import SearchBar from './component/SearchBar/SearchBar';
-/* import PrivateRoute from './PrivateRoute'; */
-/* import PrivateRoute from './PrivateRoute'; */
+import AppBar from '../src/component/AppBar/AppBar';
 import { history } from './utils/history';
 import Activity from './views/Activity/Activity';
 import AdminView from './views/AdminView/AdminView';
@@ -19,11 +17,11 @@ import SearchView from './views/SearchView/SearchView';
 const BasicRoute = () => (
   <>
     <Router history={history}>
-      <SearchBar />
+      {/* <SearchBar />*/}
       <Grid container direction="column" justify="flex-start" alignItems="center">
-        {/* <Grid item>*/}
-        {/*  <AppBar />*/}
-        {/* </Grid>*/}
+        <Grid item>
+          <AppBar />
+        </Grid>
         <Grid item>
           <Switch>
             <Route exact path="/" component={HomeView} />
