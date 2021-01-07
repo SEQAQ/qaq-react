@@ -123,7 +123,7 @@ export default function LoginView() {
     setOpen3(false);
   };
 
-  const accountAbnormal = () => {
+  const notActive = () => {
     setOpen4(true);
   };
 
@@ -135,8 +135,8 @@ export default function LoginView() {
     setOpen4(false);
   };
 
-  const loginFailed = () => {
-    setOpen1(true);
+  const accountBanned = () => {
+    setOpen5(true);
   };
 
   const handleClose5 = (event, reason) => {
@@ -148,7 +148,7 @@ export default function LoginView() {
   };
 
   const serverError = () => {
-    setOpen1(true);
+    setOpen6(true);
   };
 
   const handleClose6 = (event, reason) => {
@@ -198,17 +198,22 @@ export default function LoginView() {
               .value.then(() => {
                 history.push('/');
               });
-          } else if (response.data.data === "User didn't existed!") {
-            noSuchUser();
-          } else if (response.data.data === 'Username or password error') {
-            passwordError();
-          } else if (response.data.data === 'User is banned or deleted') {
-            accountAbnormal();
-          } else if (response.status === 401) {
-            loginFailed();
           }
-          // if (response.status === 500)
-          else {
+          if (response.data.msg === '用户被禁用') {
+            accountBanned();
+          } else if (response.data.msg === '用户未激活') {
+            notActive();
+            loginSuccess();
+            sleep(1000)
+              .next()
+              .value.then(() => {
+                history.push('/users/activate');
+              });
+          } else if (response.data.msg === '无效的用户名') {
+            noSuchUser();
+          } else if (response.data.msg === '密码错误') {
+            passwordError();
+          } else {
             serverError();
           }
         }
@@ -311,16 +316,16 @@ export default function LoginView() {
       </Snackbar>
       <Snackbar open={open4} autoHideDuration={6000} onClose={handleClose4}>
         <Alert onClose={handleClose4} severity="warning">
-          账号已注销或等待解封
+          账号等待激活，即将进行跳转
         </Alert>
       </Snackbar>
       <Snackbar open={open5} autoHideDuration={6000} onClose={handleClose5}>
-        <Alert onClose={handleClose5} severity="error">
-          认证失败，请重新输入
+        <Alert onClose={handleClose5} severity="warning">
+          您的账户已被封禁，请联系管理员处理
         </Alert>
       </Snackbar>
       <Snackbar open={open6} autoHideDuration={6000} onClose={handleClose6}>
-        <Alert onClose={handleClose6} severity="warning">
+        <Alert onClose={handleClose6} severity="error">
           服务器异常，请稍后再试
         </Alert>
       </Snackbar>

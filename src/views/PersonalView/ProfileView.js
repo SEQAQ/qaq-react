@@ -1,10 +1,28 @@
 import './ProfileView.css';
 
 import Button from '@material-ui/core/Button';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import IconButton from '@material-ui/core/IconButton';
+import Input from '@material-ui/core/Input';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import MenuItem from '@material-ui/core/MenuItem';
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import Select from '@material-ui/core/Select';
+import Snackbar from '@material-ui/core/Snackbar';
 import { makeStyles } from '@material-ui/core/styles';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import CreateIcon from '@material-ui/icons/Create';
-import React from 'react';
+import DeleteIcon from '@material-ui/icons/Delete';
+import SaveIcon from '@material-ui/icons/Save';
+import Visibility from '@material-ui/icons/Visibility';
+import VisibilityOff from '@material-ui/icons/VisibilityOff';
+import MuiAlert from '@material-ui/lab/Alert';
+import React, { useEffect } from 'react';
+
+import { get, post, userInfo } from '../../lib';
+import config from '../../utils/config';
+import { history } from '../../utils/history';
 
 // const useStyles = makeStyles((theme) => ({
 //     root: {
@@ -17,6 +35,11 @@ import React from 'react';
 //     },
 //     cover: {}
 // }));
+
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
+
 const useStyles = makeStyles((theme) => ({
   root: {
     '& > *': {
@@ -69,6 +92,134 @@ const ProfileView = () => {
   // const avatar = 'https://pic1.zhimg.com/v2-7e6d805ad8b081301ee5440e49b994e9_xl.jpg';
   // const user_cover = 'https://pbs.twimg.com/media/Ci73i2cUgAEw0GG?format=jpg&name=900x900';
   const avatar = 'https://pic3.zhimg.com/80/v2-92c7b36ae98d5a5b5daef60fb3696b6f_r.jpg';
+  const [values, setValues] = React.useState({
+    account: '',
+    uname: '',
+    password: '',
+    email: '',
+    phone: '',
+    sex: '',
+    department: '',
+    rname: '',
+    education: '',
+    cid: '',
+  });
+
+  const [edit1, setEdit1] = React.useState(false);
+  const doEdit1 = () => {
+    setEdit1(true);
+  };
+  const closeEdit1 = () => {
+    setEdit1(false);
+  };
+  const [edit2, setEdit2] = React.useState(false);
+  const doEdit2 = () => {
+    setEdit2(true);
+  };
+  const closeEdit2 = () => {
+    setEdit2(false);
+  };
+  const [edit3, setEdit3] = React.useState(false);
+  const doEdit3 = () => {
+    setEdit3(true);
+  };
+  const closeEdit3 = () => {
+    setEdit3(false);
+  };
+  const [edit4, setEdit4] = React.useState(false);
+  const doEdit4 = () => {
+    setEdit4(true);
+  };
+  const closeEdit4 = () => {
+    setEdit4(false);
+  };
+  const [edit5, setEdit5] = React.useState(false);
+  const doEdit5 = () => {
+    setEdit5(true);
+  };
+  const closeEdit5 = () => {
+    setEdit5(false);
+  };
+  const [edit6, setEdit6] = React.useState(false);
+  const doEdit6 = () => {
+    setEdit6(true);
+  };
+  const closeEdit6 = () => {
+    setEdit6(false);
+  };
+  const [edit7, setEdit7] = React.useState(false);
+  const doEdit7 = () => {
+    setEdit7(true);
+  };
+  const closeEdit7 = () => {
+    setEdit7(false);
+  };
+
+  const handleChange = (prop) => (event) => {
+    setValues({ ...values, [prop]: event.target.value });
+  };
+
+  const backToMyPage = () => {
+    history.push('/');
+  };
+
+  const handleClickShowPassword = () => {
+    setValues({ ...values, showPassword: !values.showPassword });
+  };
+
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
+
+  const [open1, setOpen1] = React.useState(false);
+  const editSuccess = () => {
+    setOpen1(true);
+  };
+
+  const handleClose1 = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpen1(false);
+  };
+
+  useEffect(() => {
+    get(config.apiUrl + '/users/findbyaccount', { account: userInfo().account }, true).then((data) => {
+      setValues({
+        account: data.account,
+        uname: data.uname,
+        password: data.password,
+        email: data.email,
+        phone: data.phone,
+        sex: data.sex,
+        department: data.department,
+        rname: data.rname,
+      });
+    });
+  }, []);
+
+  const setProfile = () => {
+    const newProfile = userInfo();
+    newProfile.uname = values.uname;
+    newProfile.password = values.password;
+    newProfile.phone = values.phone;
+    newProfile.sex = values.sex;
+    newProfile.department = values.department;
+    newProfile.rname = values.rname;
+    // const data = {
+    //   uname: values.uname,
+    //   password: values.password,
+    //   email: values.email,
+    //   phone: values.phone,
+    //   sex: values.sex,
+    //   department: values.department,
+    //   rname: values.rname
+    // };
+    post(config.apiUrl + '/users/edit', newProfile, true).then(() => {
+      editSuccess();
+    });
+  };
 
   return (
     <div className={'profile-edit'}>
@@ -119,7 +270,7 @@ const ProfileView = () => {
             <div className={'profile-content-header'}>
               <h2 className={'profile-content-title'}>
                 <div className={'full-name-field-editable'}>
-                  <span className={'full-name-field-name'}>Tadokoro Kouji</span>
+                  <span className={'full-name-field-name'}>{userInfo().account === null ? <>Tadokoro Kouji</> : userInfo().account}</span>
                   <div className={''}>
                     <Button
                       classes={{
@@ -127,6 +278,7 @@ const ProfileView = () => {
                       }}
                       color={'disable'}
                       endIcon={<ChevronRightIcon />}
+                      onClick={backToMyPage}
                     >
                       返回我的主页
                     </Button>
@@ -138,8 +290,8 @@ const ProfileView = () => {
               <form className={'field'}>
                 <h3 className={'field-label'}>性别</h3>
                 <div className={'field-content'}>
-                  <div>
-                    <span className={'field-text'}>男</span>
+                  <div hidden={edit1}>
+                    <span className={'field-text'}>{values.sex}</span>
                     <Button
                       classes={{
                         root: buttonModify.root,
@@ -147,17 +299,49 @@ const ProfileView = () => {
                       className={'button-field-modify'}
                       color={'primary'}
                       startIcon={<CreateIcon />}
+                      onClick={doEdit1}
                     >
                       修改
+                    </Button>
+                  </div>
+
+                  <div hidden={!edit1}>
+                    <RadioGroup aria-label="gender" name="gender1" value={values.sex} onChange={handleChange('sex')}>
+                      <FormControlLabel value="男" control={<Radio />} label="男" />
+                      <FormControlLabel value="女" control={<Radio />} label="女" />
+                    </RadioGroup>
+                    <Button
+                      classes={{
+                        root: buttonModify.root,
+                      }}
+                      variant="outlined"
+                      className={'button-field-modify'}
+                      color={'primary'}
+                      endIcon={<SaveIcon />}
+                      onClick={setProfile}
+                    >
+                      保存
+                    </Button>
+                    <Button
+                      classes={{
+                        root: buttonModify.root,
+                      }}
+                      variant="outlined"
+                      className={'button-field-modify'}
+                      color={'secondary'}
+                      endIcon={<DeleteIcon />}
+                      onClick={closeEdit1}
+                    >
+                      取消
                     </Button>
                   </div>
                 </div>
               </form>
               <form className={'field'}>
-                <h3 className={'field-label'}>年龄</h3>
+                <h3 className={'field-label'}>昵称</h3>
                 <div className={'field-content'}>
-                  <div>
-                    24岁
+                  <div hidden={edit2}>
+                    {values.uname}
                     <Button
                       classes={{
                         root: buttonModify.root,
@@ -165,17 +349,46 @@ const ProfileView = () => {
                       className={'button-field-modify'}
                       color={'primary'}
                       startIcon={<CreateIcon />}
+                      onClick={doEdit2}
                     >
                       修改
+                    </Button>
+                  </div>
+                  {/* 修改 */}
+                  <div hidden={!edit2}>
+                    <Input defaultValue={values.uname} inputProps={{ 'aria-label': 'description' }} onChange={handleChange('uname')} />
+                    <Button
+                      classes={{
+                        root: buttonModify.root,
+                      }}
+                      variant="outlined"
+                      className={'button-field-modify'}
+                      color={'primary'}
+                      endIcon={<SaveIcon />}
+                      onClick={setProfile}
+                    >
+                      保存
+                    </Button>
+                    <Button
+                      classes={{
+                        root: buttonModify.root,
+                      }}
+                      variant="outlined"
+                      className={'button-field-modify'}
+                      color={'secondary'}
+                      endIcon={<DeleteIcon />}
+                      onClick={closeEdit2}
+                    >
+                      取消
                     </Button>
                   </div>
                 </div>
               </form>
               <form className={'field'}>
-                <h3 className={'field-label'}>所在行业</h3>
+                <h3 className={'field-label'}>密码</h3>
                 <div className={'field-content'}>
-                  <div>
-                    学生
+                  <div hidden={edit3}>
+                    {/* {values.password}*/}
                     <Button
                       classes={{
                         root: buttonModify.root,
@@ -183,17 +396,56 @@ const ProfileView = () => {
                       className={'button-field-modify'}
                       color={'primary'}
                       startIcon={<CreateIcon />}
+                      onClick={doEdit3}
                     >
                       修改
+                    </Button>
+                  </div>
+                  <div hidden={!edit3}>
+                    <Input
+                      defaultValue={values.password}
+                      inputProps={{ 'aria-label': 'description' }}
+                      type={values.showPassword ? 'text' : 'password'}
+                      endAdornment={
+                        <InputAdornment position="end">
+                          <IconButton aria-label="toggle password visibility" onClick={handleClickShowPassword} onMouseDown={handleMouseDownPassword} edge="end" onChange={handleChange('password')}>
+                            {values.showPassword ? <Visibility /> : <VisibilityOff />}
+                          </IconButton>
+                        </InputAdornment>
+                      }
+                    />
+                    <Button
+                      classes={{
+                        root: buttonModify.root,
+                      }}
+                      variant="outlined"
+                      className={'button-field-modify'}
+                      color={'primary'}
+                      endIcon={<SaveIcon />}
+                      onClick={setProfile}
+                    >
+                      保存
+                    </Button>
+                    <Button
+                      classes={{
+                        root: buttonModify.root,
+                      }}
+                      variant="outlined"
+                      className={'button-field-modify'}
+                      color={'secondary'}
+                      endIcon={<DeleteIcon />}
+                      onClick={closeEdit3}
+                    >
+                      取消
                     </Button>
                   </div>
                 </div>
               </form>
               <form className={'field'}>
-                <h3 className={'field-label'}>居住地</h3>
+                <h3 className={'field-label'}>邮箱</h3>
                 <div className={'field-content'}>
-                  <div>
-                    下北泽
+                  <div hidden={edit4}>
+                    {values.email}
                     <Button
                       classes={{
                         root: buttonModify.root,
@@ -201,8 +453,36 @@ const ProfileView = () => {
                       className={'button-field-modify'}
                       color={'primary'}
                       startIcon={<CreateIcon />}
+                      onClick={doEdit4}
                     >
                       修改
+                    </Button>
+                  </div>
+                  <div hidden={!edit4}>
+                    <Input defaultValue={values.email} inputProps={{ 'aria-label': 'description' }} onChange={handleChange('email')} />
+                    <Button
+                      classes={{
+                        root: buttonModify.root,
+                      }}
+                      variant="outlined"
+                      className={'button-field-modify'}
+                      color={'primary'}
+                      endIcon={<SaveIcon />}
+                      onClick={setProfile}
+                    >
+                      保存
+                    </Button>
+                    <Button
+                      classes={{
+                        root: buttonModify.root,
+                      }}
+                      variant="outlined"
+                      className={'button-field-modify'}
+                      color={'secondary'}
+                      endIcon={<DeleteIcon />}
+                      onClick={closeEdit4}
+                    >
+                      取消
                     </Button>
                   </div>
                 </div>
@@ -210,8 +490,8 @@ const ProfileView = () => {
               <form className={'field'}>
                 <h3 className={'field-label'}>联系方式</h3>
                 <div className={'field-content'}>
-                  <div>
-                    114-5141919810
+                  <div hidden={edit5}>
+                    {values.phone}
                     <Button
                       classes={{
                         root: buttonModify.root,
@@ -219,8 +499,141 @@ const ProfileView = () => {
                       className={'button-field-modify'}
                       color={'primary'}
                       startIcon={<CreateIcon />}
+                      onClick={doEdit5}
                     >
                       修改
+                    </Button>
+                  </div>
+                  <div hidden={!edit5}>
+                    <Input defaultValue={values.phone} inputProps={{ 'aria-label': 'description' }} onChange={handleChange('phone')} />
+                    <Button
+                      classes={{
+                        root: buttonModify.root,
+                      }}
+                      variant="outlined"
+                      className={'button-field-modify'}
+                      color={'primary'}
+                      endIcon={<SaveIcon />}
+                      onClick={setProfile}
+                    >
+                      保存
+                    </Button>
+                    <Button
+                      classes={{
+                        root: buttonModify.root,
+                      }}
+                      variant="outlined"
+                      className={'button-field-modify'}
+                      color={'secondary'}
+                      endIcon={<DeleteIcon />}
+                      onClick={closeEdit5}
+                    >
+                      取消
+                    </Button>
+                  </div>
+                </div>
+              </form>
+              <form className={'field'}>
+                <h3 className={'field-label'}>学校</h3>
+                <div className={'field-content'}>
+                  <div hidden={edit6}>
+                    <Select value={values.cid} onChange={handleChange('cid')} displayEmpty className={classes.selectEmpty} inputProps={{ readOnly: true, 'aria-label': 'Without label' }}>
+                      <MenuItem value="">
+                        <em>None</em>
+                      </MenuItem>
+                      <MenuItem value={1}>下北泽大学</MenuItem>
+                      <MenuItem value={2}>下北泽大学（分校）</MenuItem>
+                      <MenuItem value={3}>下北泽大学（继续教育学院）</MenuItem>
+                    </Select>
+                    <Button
+                      classes={{
+                        root: buttonModify.root,
+                      }}
+                      className={'button-field-modify'}
+                      color={'primary'}
+                      startIcon={<CreateIcon />}
+                      onClick={doEdit6}
+                    >
+                      修改
+                    </Button>
+                  </div>
+                  <div hidden={!edit6}>
+                    <Select value={values.cid} onChange={handleChange('cid')} displayEmpty className={classes.selectEmpty} inputProps={{ 'aria-label': 'Without label' }}>
+                      <MenuItem value="">
+                        <em>None</em>
+                      </MenuItem>
+                      <MenuItem value={1}>下北泽大学</MenuItem>
+                      <MenuItem value={2}>下北泽大学（分校）</MenuItem>
+                      <MenuItem value={3}>下北泽大学（继续教育学院）</MenuItem>
+                    </Select>
+                    <Button
+                      classes={{
+                        root: buttonModify.root,
+                      }}
+                      variant="outlined"
+                      className={'button-field-modify'}
+                      color={'primary'}
+                      endIcon={<SaveIcon />}
+                      onClick={setProfile}
+                    >
+                      保存
+                    </Button>
+                    <Button
+                      classes={{
+                        root: buttonModify.root,
+                      }}
+                      variant="outlined"
+                      className={'button-field-modify'}
+                      color={'secondary'}
+                      endIcon={<DeleteIcon />}
+                      onClick={closeEdit6}
+                    >
+                      取消
+                    </Button>
+                  </div>
+                </div>
+              </form>
+              <form className={'field'}>
+                <h3 className={'field-label'}>学历</h3>
+                <div className={'field-content'}>
+                  <div hidden={edit7}>
+                    {values.education}
+                    <Button
+                      classes={{
+                        root: buttonModify.root,
+                      }}
+                      className={'button-field-modify'}
+                      color={'primary'}
+                      startIcon={<CreateIcon />}
+                      onClick={doEdit7}
+                    >
+                      修改
+                    </Button>
+                  </div>
+                  <div hidden={!edit7}>
+                    <Input defaultValue={values.education} inputProps={{ 'aria-label': 'description' }} />
+                    <Button
+                      classes={{
+                        root: buttonModify.root,
+                      }}
+                      variant="outlined"
+                      className={'button-field-modify'}
+                      color={'primary'}
+                      endIcon={<SaveIcon />}
+                    >
+                      保存
+                    </Button>
+                    <Button
+                      classes={{
+                        root: buttonModify.root,
+                      }}
+                      variant="outlined"
+                      className={'button-field-modify'}
+                      color={'secondary'}
+                      endIcon={<DeleteIcon />}
+                      onClick={closeEdit7}
+                    >
+                      取消
                     </Button>
                   </div>
                 </div>
@@ -229,6 +642,11 @@ const ProfileView = () => {
           </div>
         </div>
       </div>
+      <Snackbar open={open1} autoHideDuration={6000} onClose={handleClose1}>
+        <Alert onClose={handleClose1} severity="success">
+          登陆成功，欢迎您！
+        </Alert>
+      </Snackbar>
     </div>
   );
 };
