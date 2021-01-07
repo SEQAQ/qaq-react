@@ -37,26 +37,18 @@ export default function SimpleMenu() {
         <AccountCircle />
       </IconButton>
       <Menu id="simple-menu" anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={handleClose}>
-        <MenuItem onClick={handleClose}>
-          <Link to="/users/login" className="text-link">
-            登录
-          </Link>
-        </MenuItem>
-        <MenuItem onClick={handleClose}>
-          <Link to={target} className="text-link">
-            我的主页
-          </Link>
-        </MenuItem>
-        <MenuItem onClick={handleClose}>
-          <Link to="/" className="text-link">
-            设置
-          </Link>
-        </MenuItem>
-        <MenuItem onClick={logout}>
-          <Link to="/" className="text-link">
-            退出
-          </Link>
-        </MenuItem>
+        <Link to="/users/login" className="text-link">
+          <MenuItem onClick={handleClose}>登录</MenuItem>
+        </Link>
+        <Link to={target} className="text-link">
+          <MenuItem onClick={handleClose}>我的主页</MenuItem>
+        </Link>
+        <Link to="/" className="text-link">
+          <MenuItem onClick={handleClose}>设置</MenuItem>
+        </Link>
+        <Link to="/" className="text-link">
+          <MenuItem onClick={logout}>退出</MenuItem>
+        </Link>
       </Menu>
     </>
   );
