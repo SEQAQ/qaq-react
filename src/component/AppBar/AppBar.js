@@ -37,7 +37,7 @@ export class QAQAppBar extends React.Component {
         <Grid container direction="row" justify="center" alignItems="center" xs={12}>
           <Grid item style={{ marginLeft: '150px' }}>
             <Link to="/">
-              <img src={'./QAQlogo.png'} style={{ width: '80px' }} />
+              <img src={'/QAQlogo.png'} style={{ width: '80px' }} />
             </Link>
           </Grid>
           <Grid item style={{ marginLeft: '10px', marginRight: '40px' }}>
