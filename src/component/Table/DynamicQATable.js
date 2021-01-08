@@ -23,7 +23,92 @@ import SaveAlt from '@material-ui/icons/SaveAlt';
 import Search from '@material-ui/icons/Search';
 import ViewColumn from '@material-ui/icons/ViewColumn';
 import MaterialTable from 'material-table';
-import React, { forwardRef } from 'react';
+import React, { forwardRef, useEffect } from 'react';
+import ReactMarkdown from 'react-markdown';
+
+import { banAnswer, getAnswers, unbanAnswer } from '../../services/AnswerService';
+import { getAllQuestions } from '../../services/QuestionService';
+
+// const [data, setData] = useState([
+//   {
+//     qId: 1,
+//     qContent: '~~~~~~',
+//     qLabel: '日常',
+//     qCreateTime: '2020-12-1 17:00:02',
+//     qQuestioner: 'cat',
+//     qModifyTime: '2020-12-1 17:30:13',
+//     qTitle: '为什么没有人提问？',
+//     qStatus: 1,
+//     qAnswers: [
+//       {
+//         aId: 1,
+//         aAnswerer: 'hhy',
+//         aCreateTime: '2020-12-1 17:20:02',
+//         aContent: '因为月活用户只有我们俩叭',
+//         aStatus: 1,
+//       },
+//       {
+//         aId: 2,
+//         aAnswerer: 'hhy',
+//         aCreateTime: '2020-12-1 17:25:02',
+//         aContent: '当我没说',
+//         aStatus: 2,
+//       },
+//     ],
+//   },
+//   {
+//     qId: 2,
+//     qContent: '~~~~~~',
+//     qLabel: '日常',
+//     qCreateTime: '2020-12-1 17:00:02',
+//     qQuestioner: 'cat',
+//     qModifyTime: '2020-12-1 17:30:13',
+//     qTitle: '为什么没有人提问？',
+//     qStatus: 1,
+//     qAnswers: [
+//       {
+//         aId: 3,
+//         aAnswerer: 'hhy',
+//         aCreateTime: '2020-12-1 17:20:02',
+//         aContent: '因为月活用户只有我们俩叭',
+//         aStatus: 1,
+//       },
+//       {
+//         aId: 4,
+//         aAnswerer: 'hhy',
+//         aCreateTime: '2020-12-1 17:25:02',
+//         aContent: '当我没说',
+//         aStatus: 1,
+//       },
+//     ],
+//   },
+//   {
+//     qId: 3,
+//     qContent: '~~~~~~',
+//     qLabel: '日常',
+//     qCreateTime: '2020-12-1 17:00:02',
+//     qQuestioner: 'cat',
+//     qModifyTime: '2020-12-1 17:30:13',
+//     qTitle: '为什么没有人提问？',
+//     qStatus: 1,
+//     qAnswers: [
+//       {
+//         aId: 5,
+//         aAnswerer: 'hhy',
+//         aCreateTime: '2020-12-1 17:20:02',
+//         aContent: '因为月活用户只有我们俩叭',
+//         aStatus: 1,
+//       },
+//       {
+//         aId: 6,
+//         aAnswerer: 'hhy',
+//         aCreateTime: '2020-12-1 17:25:02',
+//         aContent: '当我没说',
+//         aStatus: 1,
+//       },
+//     ],
+//   },
+// ]);
 
 const tableIcons = {
   Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} />),
@@ -46,136 +131,132 @@ const tableIcons = {
   AccountCircleIcon: forwardRef((props, ref) => <AccountCircleIcon {...props} ref={ref} />),
 };
 
-// id
-// 问题内容
-// 标签
-// 提问时间
-// 提问者
-// 修改时间
-// 标题
-// 问题状态
-// 【图片视频 放Mongo中】
-//
-// id
-// 回答者
-// 回答时间
-// 回答的问题
-// 回答内容
-// 回答状态（删除or被禁or可用）
+function SubTable(props) {
+  const { useState } = React;
+
+  const [answers, setAnswers] = useState([]);
+
+  // console.log(props.rowData);
+
+  useEffect(() => {
+    getAnswers(props.rowData.qid).then((result) => {
+      setAnswers(result);
+      // console.log(answers);
+    });
+  }, props.rowData);
+
+  const blockAnswer = (aid) => {
+    banAnswer(aid).then(() => {
+      // console.log('success ban');
+    });
+  };
+
+  const unblockAnswer = (aid) => {
+    unbanAnswer(aid).then(() => {
+      // console.log('success unban');
+    });
+  };
+
+  return (
+    // <MaterialTable columns={aColumns} data={{...rowData.qAnswers}}/>
+    <Box margin={1}>
+      <Typography variant="h6" gutterBottom component="div">
+        对应回答
+      </Typography>
+      <Table size="small" aria-label="purchases">
+        <TableHead>
+          <TableRow>
+            <TableCell>Aid</TableCell>
+            <TableCell>回答者</TableCell>
+            <TableCell>回答时间</TableCell>
+            <TableCell>回答内容</TableCell>
+            <TableCell>回答状态</TableCell>
+            <TableCell>操作</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {/* {console.log(answers)}*/}
+          {answers.map((answerRow) => (
+            <TableRow key={answerRow.aid}>
+              <TableCell component="th" scope="row">
+                {answerRow.aid}
+              </TableCell>
+              <TableCell>{answerRow.users.uname}</TableCell>
+              <TableCell>{answerRow.ctime}</TableCell>
+              <TableCell>
+                <ReactMarkdown>{answerRow.detail.mdText}</ReactMarkdown>
+              </TableCell>
+              {answerRow.status === 1 ? (
+                <>
+                  <TableCell>正常</TableCell>
+                  <TableCell>
+                    <Button onClick={blockAnswer}>封禁回答</Button>
+                  </TableCell>
+                </>
+              ) : null}
+              {answerRow.status === 0 ? (
+                <>
+                  <TableCell>封禁中</TableCell>
+                  <TableCell>
+                    <Button onClick={unblockAnswer}>解封回答</Button>
+                  </TableCell>
+                </>
+              ) : null}
+              {answerRow.status === -1 ? (
+                <>
+                  <TableCell>已被删除</TableCell>
+                  <TableCell>
+                    <span style={{ color: 'rgb(193,193,193)' }}>无法操作</span>
+                  </TableCell>
+                </>
+              ) : null}
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </Box>
+  );
+}
 
 const DynamicQATable = () => {
   const { useState } = React;
 
-  // const [qColumns, setQColumns] = useState([
-  //   { title: 'Qid', field: 'qId', editable: 'never' },
-  //   { title: '标题', field: 'qTitle', editable: 'never' },
-  //   { title: '问题内容', field: 'qContent', editable: 'never' },
-  //   { title: '提问者', field: 'qQuestioner', editable: 'never' },
-  //   { title: '标签', field: 'qLabel', editable: 'never' },
-  //   { title: '提问时间', field: 'qCreateTime', type: 'Date', editable: 'never' },
-  //   { title: '修改时间', field: 'qModifyTime', type: 'Date', editable: 'never' },
-  //   { title: '问题状态', field: 'qStatus', lookup: { 1: '正常可见', 2: '封禁中' }, editable: 'always' },
-  // ]);
-
   const qColumns = [
-    { title: 'Qid', field: 'qId', editable: 'never' },
-    { title: '标题', field: 'qTitle', editable: 'never' },
-    { title: '问题内容', field: 'qContent', editable: 'never' },
-    { title: '提问者', field: 'qQuestioner', editable: 'never' },
-    { title: '标签', field: 'qLabel', editable: 'never' },
-    { title: '提问时间', field: 'qCreateTime', type: 'Date', editable: 'never' },
-    { title: '修改时间', field: 'qModifyTime', type: 'Date', editable: 'never' },
-    { title: '问题状态', field: 'qStatus', lookup: { 1: '正常可见', 2: '封禁中' }, editable: 'always' },
+    { title: 'Qid', field: 'qid', editable: 'never' },
+    { title: '标题', field: 'title', editable: 'never' },
+    {
+      title: '问题内容',
+      field: 'detail.detail',
+      editable: 'never',
+      render: (rowData) => <>{rowData.detail && rowData.detail.detail ? <ReactMarkdown>{rowData.detail.detail}</ReactMarkdown> : <span style={{ color: 'rgb(193,193,193)' }}>用户什么都没写...</span>}</>,
+    },
+    { title: '提问者', field: 'users.uname', editable: 'never' },
+    { title: '标签', field: 'tag', editable: 'never' },
+    { title: '提问时间', field: 'ctime', type: 'Date', editable: 'never' },
+    { title: '修改时间', field: 'mtime', type: 'Date', editable: 'never' },
+    {
+      title: '问题状态',
+      field: 'status',
+      editable: 'always',
+      lookup: { 0: '封禁中', 1: '正常可见', 2: '用户已关闭' },
+      render: (rowData) => (
+        <>
+          {rowData && rowData.status === -1 ? <span>已删除</span> : null}
+          {rowData && rowData.status === 0 ? <span>封禁中</span> : null}
+          {rowData && rowData.status === 1 ? <span>正常可见</span> : null}
+          {rowData && rowData.status === 2 ? <span>用户已关闭</span> : null}
+        </>
+      ),
+    },
   ];
 
-  // const [aColumns, setAColumns] = useState([
-  //   { title: 'Aid', field: 'aId', editable: 'never' },
-  //   { title: '回答内容', field: 'aContent', editable: 'never' },
-  //   { title: '回答者', field: 'aAnswerer', editable: 'never' },
-  //   { title: '回答时间', field: 'aCreateTime', type: 'Date', editable: 'never' },
-  //   { title: '回答状态', field: 'aStatus', lookup: { 1: '正常可见', 2: '封禁中' }, editable: 'always' },
-  // ]);
+  const [data, setData] = useState([]);
 
-  const [data, setData] = useState([
-    {
-      qId: 1,
-      qContent: '~~~~~~',
-      qLabel: '日常',
-      qCreateTime: '2020-12-1 17:00:02',
-      qQuestioner: 'cat',
-      qModifyTime: '2020-12-1 17:30:13',
-      qTitle: '为什么没有人提问？',
-      qStatus: 1,
-      qAnswers: [
-        {
-          aId: 1,
-          aAnswerer: 'hhy',
-          aCreateTime: '2020-12-1 17:20:02',
-          aContent: '因为月活用户只有我们俩叭',
-          aStatus: 1,
-        },
-        {
-          aId: 2,
-          aAnswerer: 'hhy',
-          aCreateTime: '2020-12-1 17:25:02',
-          aContent: '当我没说',
-          aStatus: 2,
-        },
-      ],
-    },
-    {
-      qId: 2,
-      qContent: '~~~~~~',
-      qLabel: '日常',
-      qCreateTime: '2020-12-1 17:00:02',
-      qQuestioner: 'cat',
-      qModifyTime: '2020-12-1 17:30:13',
-      qTitle: '为什么没有人提问？',
-      qStatus: 1,
-      qAnswers: [
-        {
-          aId: 3,
-          aAnswerer: 'hhy',
-          aCreateTime: '2020-12-1 17:20:02',
-          aContent: '因为月活用户只有我们俩叭',
-          aStatus: 1,
-        },
-        {
-          aId: 4,
-          aAnswerer: 'hhy',
-          aCreateTime: '2020-12-1 17:25:02',
-          aContent: '当我没说',
-          aStatus: 1,
-        },
-      ],
-    },
-    {
-      qId: 3,
-      qContent: '~~~~~~',
-      qLabel: '日常',
-      qCreateTime: '2020-12-1 17:00:02',
-      qQuestioner: 'cat',
-      qModifyTime: '2020-12-1 17:30:13',
-      qTitle: '为什么没有人提问？',
-      qStatus: 1,
-      qAnswers: [
-        {
-          aId: 5,
-          aAnswerer: 'hhy',
-          aCreateTime: '2020-12-1 17:20:02',
-          aContent: '因为月活用户只有我们俩叭',
-          aStatus: 1,
-        },
-        {
-          aId: 6,
-          aAnswerer: 'hhy',
-          aCreateTime: '2020-12-1 17:25:02',
-          aContent: '当我没说',
-          aStatus: 1,
-        },
-      ],
-    },
-  ]);
+  useEffect(() => {
+    getAllQuestions().then((result) => {
+      setData(result);
+    });
+  }, []);
 
   return (
     <MaterialTable
@@ -202,54 +283,7 @@ const DynamicQATable = () => {
       detailPanel={[
         {
           tooltip: 'Show Name',
-          render: (rowData) => (
-            // <MaterialTable columns={aColumns} data={{...rowData.qAnswers}}/>
-            <Box margin={1}>
-              <Typography variant="h6" gutterBottom component="div">
-                对应回答
-              </Typography>
-              <Table size="small" aria-label="purchases">
-                <TableHead>
-                  <TableRow>
-                    <TableCell>Aid</TableCell>
-                    <TableCell>回答者</TableCell>
-                    <TableCell>回答时间</TableCell>
-                    <TableCell>回答内容</TableCell>
-                    <TableCell>回答状态</TableCell>
-                    <TableCell>操作</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {rowData.qAnswers.map((answerRow) => (
-                    <TableRow key={answerRow.aId}>
-                      <TableCell component="th" scope="row">
-                        {answerRow.aId}
-                      </TableCell>
-                      <TableCell>{answerRow.aAnswerer}</TableCell>
-                      <TableCell>{answerRow.aCreateTime}</TableCell>
-                      <TableCell>{answerRow.aContent}</TableCell>
-                      {answerRow.aStatus === 1 ? (
-                        <>
-                          <TableCell>正常</TableCell>
-                          <TableCell>
-                            <Button>封禁回答</Button>
-                          </TableCell>
-                        </>
-                      ) : null}
-                      {answerRow.aStatus === 2 ? (
-                        <>
-                          <TableCell>封禁中</TableCell>
-                          <TableCell>
-                            <Button>解封回答</Button>
-                          </TableCell>
-                        </>
-                      ) : null}
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </Box>
-          ),
+          render: (rowData) => <SubTable rowData={rowData} />,
         },
       ]}
     />
