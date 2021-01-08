@@ -11,7 +11,7 @@ import { Link } from 'react-router-dom';
 import { userInfo } from '../../lib';
 
 export default function SimpleMenu() {
-  const [user, setUser] = React.useState(userInfo());
+  const user = userInfo();
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   const target = user === null ? null : '/people/' + user.uid;

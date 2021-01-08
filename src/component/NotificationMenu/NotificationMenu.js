@@ -99,7 +99,7 @@ function TabPanel(props) {
 // 2 表示 question
 // 3 表示 comment
 export default function NotificationMenu({ notificationList }) {
-  const [user, serUser] = useState(userInfo());
+  const user = userInfo();
   const [anchorEl, setAnchorEl] = useState(null);
   const [value, setValue] = useState(0);
   const msgList = notificationList;

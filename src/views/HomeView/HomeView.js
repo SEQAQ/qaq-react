@@ -50,7 +50,6 @@ export class HomeView extends React.Component {
     this.setState({
       user: u,
     });
-    console.log(u);
 
     // 获取热榜信息
     // 日推

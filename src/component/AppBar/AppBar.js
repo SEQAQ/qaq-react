@@ -50,7 +50,6 @@ const QAQAppBar = () => {
 
   const handleSearchStringChange = (event) => {
     setSearchString(event.target.value);
-    console.log(searchString);
   };
 
   const onSearch = () => {
