@@ -55,7 +55,7 @@ export default function SimpleMenu() {
           </Link>
         )}
         {user === null ? null : (
-          <Link to="/" className="text-link">
+          <Link to="/profile" className="text-link">
             <MenuItem onClick={handleClose}>设置</MenuItem>
           </Link>
         )}

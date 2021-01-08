@@ -7,11 +7,11 @@ import Avatar from '../../component/Avatar/Avatar';
 import { FollowButton } from '../Button';
 import Level from '../Level/Level';
 
-const genderText = [
-  { label: 'male', emoji: '👨' },
-  { label: 'female', emoji: '👩' },
-  { label: '', emoji: '' },
-];
+// const genderText = [
+//   { label: 'male', emoji: '👨' },
+//   { label: 'female', emoji: '👩' },
+//   { label: '', emoji: '' },
+// ];
 
 const ProfileHeader = (props) => {
   const username = props.data.username;
@@ -35,9 +35,9 @@ const ProfileHeader = (props) => {
           <h1 className="user-name">{username}</h1>
           {level && <Level levelNum={level}></Level>}
           <div style={{ marginTop: '10px' }}></div>
-          <span role="img" aria-label={genderText[gender].label}>
-            {genderText[gender].emoji}
-          </span>
+          {/* <span role="img" aria-label={(!genderText[gender]) && (!genderText[gender].label) ? genderText[gender].label : ''}>*/}
+          {/* {genderText[gender].emoji}*/}
+          {/* </span>*/}
           {(gender === 0 || gender === 1) && <div className="divider" />}
           <span className={'profile-detail'}>{department}</span>
           <div className="profile-footer">
