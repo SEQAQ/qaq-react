@@ -15,8 +15,9 @@ import React from 'react';
 
 const { useState, useRef, useCallback } = React;
 
-function MdEditor({ sourceChangeHandler, ...props }) {
-  const initState = EditorState.createEmpty();
+function MdEditor({ sourceChangeHandler, defaultValue, ...props }) {
+  const initState = defaultValue ? EditorState.createWithContent(ContentState.createFromText(defaultValue)) : EditorState.createEmpty();
+
   const [editorState, setEditorState] = useState(initState);
   const [mode, setMode] = useState(0);
   const editor = useRef(null);

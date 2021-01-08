@@ -5,7 +5,6 @@ import { Redirect, Route, Router, Switch } from 'react-router-dom';
 import AppBar from '../src/component/AppBar/AppBar';
 // import SearchBar from './component/SearchBar/SearchBar';
 /* import PrivateRoute from './PrivateRoute'; */
-/* import PrivateRoute from './PrivateRoute'; */
 import { history } from './utils/history';
 import Activity from './views/Activity/Activity';
 import AdminView from './views/AdminView/AdminView';
@@ -35,6 +34,9 @@ const BasicRoute = () => (
               <Activity />
             </Route>
             <Route path="/ask">
+              <AskView />
+            </Route>
+            <Route path="/editQuestion/:id">
               <AskView />
             </Route>
             <Route exact path={'/admin'} component={AdminView} />

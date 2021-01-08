@@ -2,7 +2,7 @@ import { message } from 'antd';
 
 import { get, post } from '../lib';
 import config from '../utils/config';
-import { API_USER_GET_ID } from '../utils/constants';
+import { API_USER_FINDALL, API_USER_GET_ID } from '../utils/constants';
 import { history } from '../utils/history';
 
 export const login = (data) => {
@@ -43,3 +43,5 @@ export const fetchUser = (uid) => get(API_USER_GET_ID, { uid });
 
 // TODO: fix this up after user login is properly implemented
 export const getUser = () => ({ uid: 6 });
+
+export const getAllUsers = () => get(API_USER_FINDALL);

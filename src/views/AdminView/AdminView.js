@@ -63,9 +63,9 @@ export class AdminView extends React.Component {
             <Grid item>
               <Button onClick={this.listChange1}>{this.state.listTag === 1 ? <span style={{ fontSize: '16px', color: 'rgb(0,132,225)' }}>问答管理</span> : <span style={{ fontSize: '16px' }}>问答管理</span>}</Button>
             </Grid>
-            <Grid item>
-              <Button onClick={this.listChange2}>{this.state.listTag === 2 ? <span style={{ fontSize: '16px', color: 'rgb(0,132,225)' }}>内容审查</span> : <span style={{ fontSize: '16px' }}>内容审查</span>}</Button>
-            </Grid>
+            {/* <Grid item>*/}
+            {/*  <Button onClick={this.listChange2}>{this.state.listTag === 2 ? <span style={{ fontSize: '16px', color: 'rgb(0,132,225)' }}>内容审查</span> : <span style={{ fontSize: '16px' }}>内容审查</span>}</Button>*/}
+            {/* </Grid>*/}
             <Grid item>
               <Button onClick={this.listChange3}>{this.state.listTag === 3 ? <span style={{ fontSize: '16px', color: 'rgb(0,132,225)' }}>用户管理</span> : <span style={{ fontSize: '16px' }}>用户管理</span>}</Button>
             </Grid>

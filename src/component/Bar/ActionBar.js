@@ -3,8 +3,9 @@ import AddIcon from '@material-ui/icons/Add';
 import React, { useState } from 'react';
 
 import { CommentButton, VoteButtonGroup } from '../Button';
+import DelButton from '../Button/DeleteButton';
 
-const ActionBar = ({ commentClick, ...props }) => {
+const ActionBar = ({ showDelete, deleteClick, commentClick, ...props }) => {
   const [vote, setVote] = useState(0);
   const variant = props.variant;
   const follower = props.follower;
@@ -46,6 +47,11 @@ const ActionBar = ({ commentClick, ...props }) => {
       <div style={{ marginLeft: 'auto' }}>
         <CommentButton onClick={commentClick} />
       </div>
+      {showDelete && (
+        <div style={{ marginLeft: '16px' }}>
+          <DelButton onClick={deleteClick} />
+        </div>
+      )}
     </div>
   );
 };
