@@ -234,6 +234,8 @@ const ProfileView = () => {
     newProfile.department = values.department;
     newProfile.rname = values.rname;
     newProfile.detail.avator = values.avatar;
+    newProfile.email = values.email;
+    newProfile.cid = values.cid;
     // const data = {
     //   uname: values.uname,
     //   password: values.password,
