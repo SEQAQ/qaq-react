@@ -1,4 +1,6 @@
 import { Snackbar, TextField } from '@material-ui/core';
+import MenuItem from '@material-ui/core/MenuItem';
+import Select from '@material-ui/core/Select';
 import MuiAlert from '@material-ui/lab/Alert';
 import React, { useState } from 'react';
 
@@ -14,6 +16,7 @@ const AskView = ({ initialTitle, initialMdSource, editMode, qid }) => {
   const [open, setOpen] = useState(false);
   const [msg, setMsg] = useState('');
   const [severity, setSeverity] = useState('warning');
+  const [tag, setTag] = useState('');
   const user = userInfo();
   const url = editMode ? API_QUES_EDIT : API_QUES_NEW;
 
@@ -30,6 +33,7 @@ const AskView = ({ initialTitle, initialMdSource, editMode, qid }) => {
         detail: mdSource,
         uid: user.uid,
         qid: editMode ? qid : undefined,
+        tag: tag,
       },
       true
     )
@@ -45,7 +49,7 @@ const AskView = ({ initialTitle, initialMdSource, editMode, qid }) => {
         }
         setOpen(true);
         setSeverity('success');
-        setMsg('成功！');
+        setMsg('🎉🎉🎉 成功！EXP +10');
       })
       .catch(() => {
         setOpen(true);
@@ -61,6 +65,10 @@ const AskView = ({ initialTitle, initialMdSource, editMode, qid }) => {
     setOpen(false);
   };
 
+  const changeTag = (ev) => setTag(ev.target.value);
+
+  const tagList = ['校园', '娱乐', '情感', '科学', '数码', '社会', '音乐', '影视', '文史哲', '人生经验'];
+
   return (
     <>
       <Card
@@ -72,6 +80,14 @@ const AskView = ({ initialTitle, initialMdSource, editMode, qid }) => {
         }}
       >
         <TextField label="标题" style={{ width: '100%' }} onChange={(ev) => setTitle(ev.target.value)} defaultValue={initialTitle ? initialTitle : ''} />
+        <span style={{ marginRight: '10px' }}>标签</span>
+        <Select labelId="demo-simple-select-label" id="demo-simple-select" value={tag} onChange={changeTag}>
+          {tagList.map((e) => (
+            <MenuItem key={e} value={e}>
+              {e}
+            </MenuItem>
+          ))}
+        </Select>
         <MdEditor sourceChangeHandler={(src) => setMdSource(src)} defaultValue={initialMdSource ? initialMdSource : null} />
         <AskButton onClick={postQuestion} />
       </Card>
@@ -85,3 +101,16 @@ const AskView = ({ initialTitle, initialMdSource, editMode, qid }) => {
 };
 
 export default AskView;
+
+/*
+ <MenuItem value={"校园"}>Ten</MenuItem>
+ <MenuItem value={"娱乐"}>Twenty</MenuItem>
+ <MenuItem value={"情感"}>Twenty</MenuItem>
+ <MenuItem value={"科学"}>Twenty</MenuItem>
+ <MenuItem value={"数码"}>Twenty</MenuItem>
+ <MenuItem value={"社会"}>Thirty</MenuItem>
+ <MenuItem value={"音乐"}>Thirty</MenuItem>
+ <MenuItem value={"影视"}>Thirty</MenuItem>
+ <MenuItem value={"文史哲"}>Thirty</MenuItem>
+ <MenuItem value={"人生经验"}>Thirty</MenuItem>
+*/

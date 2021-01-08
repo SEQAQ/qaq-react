@@ -25,7 +25,6 @@ const QuestionView = () => {
   const [showAnsEditor, setShowAnsEditor] = useState(false);
   const [ans, setAns] = useState('');
   const [editing, setEditing] = useState(false);
-  // const [status, setStatus] = useState(true);
   const user = userInfo();
   const isAsker = user && question && user.uid === question.uid;
 
@@ -37,7 +36,6 @@ const QuestionView = () => {
     getQuestion(id).then((data) => {
       const q = parseQuestionData(data);
       setQuestion(q);
-      // setStatus(q.status);
     });
     getAnswers(id).then((data) => {
       const ans = data.map((e) => parseAnswerData(e)).filter((e) => e.status !== -1);
