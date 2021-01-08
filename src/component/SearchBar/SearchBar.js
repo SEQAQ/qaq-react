@@ -18,7 +18,6 @@ import SearchIcon from '@material-ui/icons/Search';
 import React from 'react';
 import cookie from 'react-cookies';
 
-import { history } from '../../utils/history';
 import AccountMenu from '../AccountMenu/AccountMenu';
 
 const useStyles = makeStyles((theme) => ({
@@ -207,7 +206,8 @@ const SearchBar = () => {
   );
 
   const onBarSearch = () => {
-    history.replace('/search/' + values.searchString);
+    // history.replace('/search/' + values.searchString);
+    window.location.href = '/search/' + values.searchString;
   };
 
   return (

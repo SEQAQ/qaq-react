@@ -56,6 +56,29 @@ const SearchView = ({ match }) => {
       { author: 'Author', action: 0, title: '什么是 Q∀Q?', content: '知乎，不行！\nQ∀Q 彳亍！\n' },
       { author: 'undefined!', action: 1, title: '宇宙的终极答案是什么？', content: '4 2\n' },
     ]);
+    const searchString = str;
+    let itemList = [];
+    get(config.apiUrl + '/query/ques/title', { title: searchString }, true)
+      .then((data) => {
+        const itemData = data;
+        // console.log('no1');
+        // console.log(itemData);
+        for (let i = 0; i < itemData.length; ++i) {
+          const item = {
+            title: itemData[i].title,
+            detail: itemData[i].detail,
+            qid: itemData[i].qid,
+            user: itemData[i].users.uname,
+            ctime: itemData[i].ctime,
+            mtime: itemData[i].mtime,
+          };
+          itemList = [...itemList, item];
+        }
+        // console.log('no2');
+        setResultList(itemList);
+        // console.log(itemList);
+      })
+      .catch();
   }, []);
 
   function onSearch(i) {
