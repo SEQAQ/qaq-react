@@ -14,7 +14,9 @@ import SaveAlt from '@material-ui/icons/SaveAlt';
 import Search from '@material-ui/icons/Search';
 import ViewColumn from '@material-ui/icons/ViewColumn';
 import MaterialTable from 'material-table';
-import React, { forwardRef } from 'react';
+import React, { forwardRef, useEffect } from 'react';
+
+import { getAllUsers } from '../../services/userServices';
 
 const tableIcons = {
   Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} />),
@@ -39,65 +41,26 @@ const tableIcons = {
 const DynamicUserTable = () => {
   const { useState } = React;
 
-  // const [columns, setColumns] = useState([
-  //   { title: 'Id', field: 'id' },
-  //   { title: '用户名', field: 'userName', initialEditValue: 'QAQ' },
-  //   { title: '姓名', field: 'name', initialEditValue: '法外狂徒张三' },
-  //   { title: '性别', field: 'sex', lookup: { 1: '男', 2: '女', 3: '其他' } },
-  //   { title: '邮箱', field: 'email', initialEditValue: 'xxxx@xxx.com' },
-  //   { title: '学校', field: 'school', initialEditValue: '上海交通大学' },
-  //   { title: '学历', field: 'education', lookup: { 1: '本科在读', 2: '硕士在读', 3: '博士在读', 4: '教职人员', 5: '其他' } },
-  //   { title: '电话号码', field: 'phone' },
-  //   { title: '用户类型', field: 'userType', lookup: { 1: '管理员', 2: '普通用户', 3: '封禁中' } },
-  // ]);
-
   const columns = [
-    { title: 'Id', field: 'id' },
-    { title: '用户名', field: 'userName', initialEditValue: 'QAQ' },
-    { title: '姓名', field: 'name', initialEditValue: '法外狂徒张三' },
-    { title: '性别', field: 'sex', lookup: { 1: '男', 2: '女', 3: '其他' } },
+    { title: 'UId', field: 'uid' },
+    { title: '用户名', field: 'account', initialEditValue: 'QAQ' },
+    { title: '姓名', field: 'uname', initialEditValue: '法外狂徒张三' },
+    { title: '性别', field: 'sex', lookup: { 0: '男', 1: '女', 2: '其他' } },
     { title: '邮箱', field: 'email', initialEditValue: 'xxxx@xxx.com' },
-    { title: '学校', field: 'school', initialEditValue: '上海交通大学' },
+    { title: '学院', field: 'department', initialEditValue: '软件工程' },
     { title: '学历', field: 'education', lookup: { 1: '本科在读', 2: '硕士在读', 3: '博士在读', 4: '教职人员', 5: '其他' } },
     { title: '电话号码', field: 'phone' },
-    { title: '用户类型', field: 'userType', lookup: { 1: '管理员', 2: '普通用户', 3: '封禁中' } },
+    { title: '用户类型', field: 'role', lookup: { 0: '管理员', 1: '普通用户' } },
+    { title: '用户状态', field: 'status', lookup: { 0: '封禁中', 1: '待激活', 2: '活跃', 3: '已删除' } },
   ];
 
-  const [data, setData] = useState([
-    {
-      id: 1,
-      userName: 'hhy_userName1',
-      name: 'hhy_name1',
-      sex: 1,
-      email: '1x24x3x2xx@qq.com',
-      school: 'SJTU',
-      education: 1,
-      phone: 'xxx-xxxx-xxxx',
-      userType: 1,
-    },
-    {
-      id: 2,
-      userName: 'hhy_userName2',
-      name: 'hhy_name2',
-      sex: 2,
-      email: '1x24x3x2xx@qq.com',
-      school: 'SJTU',
-      education: 2,
-      phone: 'xxx-xxxx-xxxx',
-      userType: 1,
-    },
-    {
-      id: 3,
-      userName: 'hhy_userName3',
-      name: 'hhy_name3',
-      sex: 3,
-      email: '1x24x3x2xx@qq.com',
-      school: 'SJTU',
-      education: 3,
-      phone: 'xxx-xxxx-xxxx',
-      userType: 1,
-    },
-  ]);
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    getAllUsers().then((result) => {
+      setData(result);
+    });
+  }, []);
 
   return (
     <MaterialTable

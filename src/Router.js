@@ -3,6 +3,7 @@ import React from 'react';
 import { Redirect, Route, Router, Switch } from 'react-router-dom';
 
 import AppBar from '../src/component/AppBar/AppBar';
+// import SearchBar from './component/SearchBar/SearchBar';
 import { history } from './utils/history';
 import Activity from './views/Activity/Activity';
 import AdminView from './views/AdminView/AdminView';
