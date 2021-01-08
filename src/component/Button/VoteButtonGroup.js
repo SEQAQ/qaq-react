@@ -51,11 +51,11 @@ const VoteButtonGroup = ({ vote = 0, onUp, onDown, onCancel }) => {
           赞同
         </Button>
       )}
-      {vote !== 1 && (
+      {/* {vote !== 1 && (
         <Button {...muiBtnProps} className={sty.voteButtonLeftMargin + ' ' + sty.voteButton + ` ${vote === 2 && sty.activated}`} onClick={() => handleVote(1)} startIcon={<KeyboardArrowDownIcon />}>
           反对
         </Button>
-      )}
+      )} */}
     </>
   );
 };
