@@ -573,9 +573,9 @@ const ProfileView = () => {
                       <MenuItem value="">
                         <em>None</em>
                       </MenuItem>
-                      <MenuItem value={1}>下北泽大学</MenuItem>
-                      <MenuItem value={2}>下北泽大学（分校）</MenuItem>
-                      <MenuItem value={3}>下北泽大学（继续教育学院）</MenuItem>
+                      <MenuItem value={1}>上海交通大学</MenuItem>
+                      <MenuItem value={2}>上海交通大学（分校）</MenuItem>
+                      <MenuItem value={3}>上海交通大学（继续教育学院）</MenuItem>
                     </Select>
                     <Button
                       classes={{
