@@ -23,3 +23,5 @@ export const getAllQuestions = () => get(API_QUES_FINDALL);
 export const getRecomQues = (uid) => get(API_QUES_RECOM, { uid });
 
 export const getHotQues = (option) => get(API_HOT_GET, { option });
+
+// export const banQues = (qid) => post(API_QUES_BAN, {qid});

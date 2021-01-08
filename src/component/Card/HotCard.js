@@ -8,9 +8,9 @@ export class HotCard extends React.Component {
     this.contentToIntro = this.contentToIntro.bind(this);
   }
 
-  componentDidMount() {
-    console.log(this.props);
-  }
+  // componentDidMount() {
+  //   console.log(this.props);
+  // }
 
   /* 负责截取简介，字数上限为90字 */
   contentToIntro(content) {
@@ -40,7 +40,7 @@ export class HotCard extends React.Component {
           {/* 排行数字 */}
           <Grid item style={{ minWidth: '57px', minHeight: '105px', textAlign: 'center' }}>
             {rank === 1 || rank === 2 || rank === 3 ? <span style={{ color: 'rgb(255,150,7)', lineHeight: '1.6', fontSize: '18px', fontWeight: '600' }}>{rank}</span> : null}
-            {rank != 1 && rank != 2 && rank != 3 ? <span style={{ color: 'rgb(153,153,153)', lineHeight: '1.6', fontSize: '18px', fontWeight: '600' }}>{rank}</span> : null}
+            {rank !== 1 && rank !== 2 && rank !== 3 ? <span style={{ color: 'rgb(153,153,153)', lineHeight: '1.6', fontSize: '18px', fontWeight: '600' }}>{rank}</span> : null}
           </Grid>
 
           {/* 标题+简介 */}

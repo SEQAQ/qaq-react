@@ -26,7 +26,7 @@ import MaterialTable from 'material-table';
 import React, { forwardRef, useEffect } from 'react';
 import ReactMarkdown from 'react-markdown';
 
-import { getAnswers } from '../../services/AnswerService';
+import { banAnswer, getAnswers, unbanAnswer } from '../../services/AnswerService';
 import { getAllQuestions } from '../../services/QuestionService';
 
 // const [data, setData] = useState([
@@ -136,18 +136,26 @@ function SubTable(props) {
 
   const [answers, setAnswers] = useState([]);
 
-  console.log(props.rowData);
+  // console.log(props.rowData);
 
   useEffect(() => {
     getAnswers(props.rowData.qid).then((result) => {
       setAnswers(result);
-      console.log(answers);
+      // console.log(answers);
     });
   }, props.rowData);
 
-  const blockAnswer = (aid) => {};
+  const blockAnswer = (aid) => {
+    banAnswer(aid).then(() => {
+      // console.log('success ban');
+    });
+  };
 
-  const unblockAnswer = (aid) => {};
+  const unblockAnswer = (aid) => {
+    unbanAnswer(aid).then(() => {
+      // console.log('success unban');
+    });
+  };
 
   return (
     // <MaterialTable columns={aColumns} data={{...rowData.qAnswers}}/>
@@ -167,7 +175,7 @@ function SubTable(props) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {console.log(answers)}
+          {/* {console.log(answers)}*/}
           {answers.map((answerRow) => (
             <TableRow key={answerRow.aid}>
               <TableCell component="th" scope="row">
@@ -190,7 +198,7 @@ function SubTable(props) {
                 <>
                   <TableCell>封禁中</TableCell>
                   <TableCell>
-                    <Button>解封回答</Button>
+                    <Button onClick={unblockAnswer}>解封回答</Button>
                   </TableCell>
                 </>
               ) : null}
@@ -246,7 +254,6 @@ const DynamicQATable = () => {
 
   useEffect(() => {
     getAllQuestions().then((result) => {
-      console.log(result);
       setData(result);
     });
   }, []);

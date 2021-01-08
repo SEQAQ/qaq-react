@@ -84,7 +84,7 @@ export class HomeView extends React.Component {
       });
     } else {
       getRecomQues(a.uid).then((data) => {
-        console.log(data);
+        // console.log(data);
         const tmp = this.state.recommendQues;
         tmp.push(data);
         this.setState({
@@ -93,7 +93,7 @@ export class HomeView extends React.Component {
       });
     }
 
-    console.log(a);
+    // console.log(a);
   }
 
   listChange1() {
