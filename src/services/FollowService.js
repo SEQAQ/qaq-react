@@ -19,4 +19,4 @@ export const checkIFollowed = (uid2) => {
   return get(API_FOLLOW_CHECK, { uid1: me, uid2 });
 };
 
-export const getFollowed = (myUid) => get(API_FOLLOW_LIST, { uid: myUid });
+export const getFollowed = (myUid) => get(API_FOLLOW_LIST, { uid: myUid }, true);

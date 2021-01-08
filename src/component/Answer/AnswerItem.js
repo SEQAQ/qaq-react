@@ -3,20 +3,43 @@ import React, { useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 
 import { Comments, Editor } from '..';
-import { sendAnsReply } from '../../services/ReplyService';
+import { sendAnsReply, sendCommentReply } from '../../services/ReplyService';
 import Avatar from '../Avatar/Avatar';
 import { ActionBar } from '../Bar';
 
-const Answer = ({ data, fetchComment }) => {
+const Answer = ({ data, fetchComment, showDelete, onDelete }) => {
   const [showComment, setShowComment] = useState(false);
   const [comment, setComment] = useState('');
+  const [focus, setFocus] = useState(-1); // focused comment
+  const [placeholder, setPlaceholder] = useState('说说你的看法');
   const comments = data.comments;
+  const vote = data.tag;
 
   const commentClick = () => {
     if (!showComment) {
       fetchComment(data.aid);
     }
     setShowComment(!showComment);
+  };
+
+  // console.log(data);
+
+  const deleteMediator = () => {
+    const id = data.aid;
+    if (onDelete) {
+      onDelete(id);
+    }
+  };
+
+  const onCommentClickMediator = (data) => {
+    // if (onCommentClick) onCommentClick(data);
+    setPlaceholder(`回复 ${data.users.uname}`);
+    setFocus(data.rid);
+    // sendCommentReply(data.rid, comment).then((data) => {
+    //   console.log(data)
+    // }).catch((err) => {
+    //   console.log(err);
+    // })
   };
 
   return (
@@ -32,17 +55,21 @@ const Answer = ({ data, fetchComment }) => {
         <ReactMarkdown>{data.detail}</ReactMarkdown>
       </div>
       {/* COMMENT SECTION */}
-      <ActionBar commentClick={commentClick} />
+      <ActionBar commentClick={commentClick} showDelete={showDelete} deleteClick={deleteMediator} initialVote={vote} />
       {showComment && (
         <>
           <Editor
             onChange={(e) => setComment(e.target.value)}
             onSubmit={() => {
-              // TODO: popup error msg on failure
-              sendAnsReply(data.aid, comment).then(() => fetchComment(data.aid));
+              if (focus !== -1) {
+                sendCommentReply(focus, comment).then(() => fetchComment(data.aid));
+              } else {
+                sendAnsReply(data.aid, comment).then(() => fetchComment(data.aid));
+              }
             }}
+            placeholder={placeholder}
           />
-          <Comments dataSource={comments} />
+          <Comments dataSource={comments} onFocus={onCommentClickMediator} />
         </>
       )}
     </>

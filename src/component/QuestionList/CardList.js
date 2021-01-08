@@ -23,19 +23,19 @@ export class CardList extends React.Component {
               case 1:
                 return (
                   <div style={{ padding: '16px 20px' }} key={idx}>
-                    <RecommendCard data={ans} key={idx} />
+                    <RecommendCard data={ans} rank={idx} />
                   </div>
                 );
               case 2:
                 return (
                   <div style={{ padding: '16px 20px' }} key={idx}>
-                    <FriendCard data={ans} key={idx} />
+                    <FriendCard data={ans} rank={idx} />
                   </div>
                 );
               case 3:
                 return (
-                  <div style={{ padding: '16px 20px' }} key={idx}>
-                    <HotCard data={ans} key={idx} />
+                  <div style={{ marginTop: '10px' }} key={idx}>
+                    <HotCard data={ans} rank={idx} />
                   </div>
                 );
               default:

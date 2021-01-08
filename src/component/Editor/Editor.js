@@ -24,11 +24,11 @@ const useStyles = makeStyles((theme) => ({
  * @param {func} onChange(e, ...) e.target.value is the input value
  * @param {func} onSubmit handles click on submit button
  */
-const Editor = ({ onChange, onSubmit }) => {
+const Editor = ({ onChange, onSubmit, placeholder }) => {
   const classes = useStyles();
   return (
     <div className={classes.root}>
-      <InputBase className={classes.input} placeholder="说说你的看法" inputProps={{ 'aria-label': 'input your comment' }} onChange={onChange} />
+      <InputBase className={classes.input} placeholder={placeholder ? placeholder : '说说你的看法'} inputProps={{ 'aria-label': 'input your comment' }} onChange={onChange} />
       <IconButton type="submit" onClick={onSubmit} className={classes.iconButton} aria-label="send comment">
         <SendIcon />
       </IconButton>

@@ -3,7 +3,7 @@ import React, { useMemo } from 'react';
 
 import Answer from './AnswerItem';
 
-const AnswerList = ({ dataSource, fetchComment }) => {
+const AnswerList = ({ dataSource, fetchComment, ...moreProps }) => {
   const list = useMemo(() => [...dataSource], [dataSource]);
   if (!list || !list.length || list.length <= 0) {
     return <p>这里是知识的荒漠</p>;
@@ -12,7 +12,7 @@ const AnswerList = ({ dataSource, fetchComment }) => {
     <div>
       {list.map((ans, idx) => (
         <div style={{ padding: '16px 20px' }} key={idx}>
-          <Answer data={ans} key={idx} fetchComment={fetchComment} />
+          <Answer data={ans} key={idx} fetchComment={fetchComment} {...moreProps} />
         </div>
       ))}
     </div>

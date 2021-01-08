@@ -16,125 +16,90 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 import CardList from '../../component/QuestionList/CardList';
-import { getQuestion } from '../../services/QuestionService';
-
-/* const Questions1 = [
-  {
-    respondent: 'hhy',
-    title: '为什么你会看到这个问题呢？',
-    content: '当然是因为我只写了这一个呀',
-    imgsrc: './QAQlogo.png',
-    agree: 2333,
-  },
-  {
-    respondent: 'hhy',
-    title: '这个问题会很长？',
-    content:
-      '当然，我计划这个问题会有90+个字，这样我们才能测试我们的简介功能是否划分正确，当然如果字数实在不够的话我只能歪比歪比歪比八卜歪比歪比歪比八卜歪比歪比歪比八卜歪比歪比歪比八卜歪比歪比歪比八卜歪比歪比歪比八卜歪比歪比歪比八卜歪比歪比歪比八卜歪比歪比歪比八卜歪比歪比歪比八卜歪比歪比歪比八卜歪比歪比歪比八卜歪比歪比歪比八卜歪比歪比歪比八卜歪比歪比歪比八卜歪比歪比歪比八卜歪比歪比歪比八卜歪比歪比歪比八卜加上最后这一段我们就有213个字辣！',
-    imgsrc: './QAQlogo.png',
-    agree: 2333,
-  },
-  {
-    respondent: 'hhy',
-    title: '为什么你会看到这两个问题呢？',
-    content: '可能是因为月活用户只有我们俩',
-    imgsrc: './QAQlogo.png',
-    agree: 1,
-  },
-];
-
-const Questions2 = [
-  {
-    respondent: 'hhy',
-    title: '好好反思以下你平时都关注了谁',
-    content: '。。。。。。',
-    imgsrc: './QAQlogo.png',
-    questioner: 'xq',
-    agree: 2333,
-  },
-  {
-    respondent: 'hhy',
-    title: '不会叭不会叭，不会真有人会关注我把？',
-    content: '不会叭不会叭',
-    imgsrc: './QAQlogo.png',
-    questioner: 'xq',
-    agree: 1,
-  },
-];
-
-const Questions3 = [
-  {
-    respondent: 'hhy',
-    title: '热搜，买的',
-    content: '-8000￥',
-    imgsrc: './QAQlogo.png',
-    agree: 2333,
-  },
-  {
-    respondent: 'hhy',
-    title: '马老师，不讲武德',
-    content: '我大意了啊，没有闪',
-    imgsrc: './QAQlogo.png',
-    agree: 1,
-  },
-]; */
+import { userInfo } from '../../lib';
+import { getHotQues, getRecomQues } from '../../services/QuestionService';
 
 export class HomeView extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      user: null,
       listTag: 1,
+      hotTag: 1,
       recommendQues: [],
       friendQues: [],
-      hotQues: [],
+      dailyHotQues: [],
+      weeklyHotQues: [],
+      monthlyHotQues: [],
     };
 
     this.listChange1 = this.listChange1.bind(this);
     this.listChange2 = this.listChange2.bind(this);
     this.listChange3 = this.listChange3.bind(this);
+    this.hotlistChangeD = this.hotlistChangeD.bind(this);
+    this.hotlistChangeW = this.hotlistChangeW.bind(this);
+    this.hotlistChangeM = this.hotlistChangeM.bind(this);
     this.showList = this.showList.bind(this);
+    this.hotPart = this.hotPart.bind(this);
+    this.showHotList = this.showHotList.bind(this);
   }
 
   componentDidMount() {
-    getQuestion(1).then((data) => {
-      const tmp = this.state.recommendQues;
-      tmp.push(data);
+    // 获取用户信息
+    const u = userInfo();
+    this.setState({
+      user: u,
+    });
+
+    // 获取热榜信息
+    // 日推
+    getHotQues(0).then((data) => {
+      const tmp = this.state.dailyHotQues;
+      tmp.push(...data);
       this.setState({
-        recommendQues: tmp,
+        dailyHotQues: tmp,
       });
     });
 
-    getQuestion(2).then((data) => {
-      const tmp = this.state.recommendQues;
-      tmp.push(data);
+    // 周推
+    getHotQues(1).then((data) => {
+      const tmp = this.state.weeklyHotQues;
+      tmp.push(...data);
       this.setState({
-        recommendQues: tmp,
+        weeklyHotQues: tmp,
       });
     });
 
-    getQuestion(3).then((data) => {
-      const tmp = this.state.recommendQues;
-      tmp.push(data);
+    // 月推
+    getHotQues(2).then((data) => {
+      const tmp = this.state.monthlyHotQues;
+      tmp.push(...data);
       this.setState({
-        recommendQues: tmp,
+        monthlyHotQues: tmp,
       });
     });
 
-    getQuestion(4).then((data) => {
-      const tmp = this.state.recommendQues;
-      tmp.push(data);
-      this.setState({
-        recommendQues: tmp,
+    // 获取推荐信息
+    if (u === null) {
+      getRecomQues(-1).then((data) => {
+        const tmp = this.state.recommendQues;
+        tmp.push(...data);
+        this.setState({
+          recommendQues: tmp,
+        });
       });
-    });
+    } else {
+      getRecomQues(u.uid).then((data) => {
+        // console.log(data);
+        const tmp = this.state.recommendQues;
+        tmp.push(data);
+        this.setState({
+          recommendQues: tmp,
+        });
+      });
+    }
 
-    getQuestion(5).then((data) => {
-      const tmp = this.state.recommendQues;
-      tmp.push(data);
-      this.setState({
-        recommendQues: tmp,
-      });
-    });
+    // console.log(a);
   }
 
   listChange1() {
@@ -153,6 +118,55 @@ export class HomeView extends React.Component {
     this.setState({
       listTag: 3,
     });
+  }
+
+  hotlistChangeD() {
+    this.setState({
+      hotTag: 1,
+    });
+  }
+
+  hotlistChangeW() {
+    this.setState({
+      hotTag: 2,
+    });
+  }
+
+  hotlistChangeM() {
+    this.setState({
+      hotTag: 3,
+    });
+  }
+
+  hotPart() {
+    return (
+      <Grid container direction="row" justify="flex-start" alignItems="flex-start">
+        <Grid item style={{ height: '59px' }}>
+          <div style={{ marginTop: '10px' }}>
+            <Button onClick={this.hotlistChangeD}>{this.state.hotTag === 1 ? <span style={{ fontSize: '16px', color: 'rgb(255,150,7)' }}>日榜</span> : <span style={{ fontSize: '10px' }}>日榜</span>}</Button>
+            <Button onClick={this.hotlistChangeW}>{this.state.hotTag === 2 ? <span style={{ fontSize: '16px', color: 'rgb(255,150,7)' }}>周榜</span> : <span style={{ fontSize: '10px' }}>周榜</span>}</Button>
+            <Button onClick={this.hotlistChangeM}>{this.state.hotTag === 3 ? <span style={{ fontSize: '16px', color: 'rgb(255,150,7)' }}>月榜</span> : <span style={{ fontSize: '10px' }}>月榜</span>}</Button>
+          </div>
+        </Grid>
+        <Grid item>{this.showHotList(this.state.hotTag)}</Grid>
+      </Grid>
+    );
+  }
+
+  showHotList(i) {
+    switch (i) {
+      // 如果是日推
+      case 1:
+        return !this.state.dailyHotQues || this.state.dailyHotQues.length <= 0 ? <>{'首页施工中 Q∀Q~'}</> : <CardList dataSource={this.state.dailyHotQues} type={3} />;
+      // 如果是周推
+      case 2:
+        return !this.state.weeklyHotQues || this.state.weeklyHotQues.length <= 0 ? <>{'首页施工中 Q∀Q~'}</> : <CardList dataSource={this.state.weeklyHotQues} type={3} />;
+      // 如果是月推
+      case 3:
+        return !this.state.monthlyHotQues || this.state.monthlyHotQues.length <= 0 ? <>{'首页施工中 Q∀Q~'}</> : <CardList dataSource={this.state.monthlyHotQues} type={3} />;
+      default:
+        break;
+    }
   }
 
   showList(i) {
@@ -191,7 +205,11 @@ export class HomeView extends React.Component {
                 </div>
               </Grid>
               {/* 左侧问题List*/}
-              <Grid item>{this.showList(this.state.listTag)}</Grid>
+              <Grid item container direction="column" justify="flex-start" alignItems="flex-start">
+                {this.state.listTag === 1 ? this.showList(this.state.listTag) : null}
+                {this.state.listTag === 2 ? this.showList(this.state.listTag) : null}
+                {this.state.listTag === 3 ? this.hotPart() : null}
+              </Grid>
             </Grid>
             {/* 内容右侧边栏*/}
             <Grid item container direction="column" justify="flex-start" alignItems="center" style={{ width: '296px', marginTop: '10px' }}>
@@ -268,12 +286,14 @@ export class HomeView extends React.Component {
                   </Button>
                 </Grid>
                 <Grid item>
-                  <Link to="/admin">
-                    <Button className="homeView-button">
-                      <SupervisorAccountIcon className="homeView-button-text" />
-                      <span style={{ color: 'rgb(118,131,167)' }}>管理员页面</span>
-                    </Button>
-                  </Link>
+                  {this.state.user === null || (this.state.user !== null && this.state.user.role !== 'admin') ? null : (
+                    <Link to="/admin">
+                      <Button className="homeView-button">
+                        <SupervisorAccountIcon className="homeView-button-text" />
+                        <span style={{ color: 'rgb(118,131,167)' }}>管理员页面</span>
+                      </Button>
+                    </Link>
+                  )}
                 </Grid>
               </Grid>
 

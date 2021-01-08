@@ -5,8 +5,6 @@ import React from 'react';
 import ReactMarkdown from 'react-markdown';
 import { Link } from 'react-router-dom';
 
-import { ActionBar } from '../Bar';
-
 const StoryItem = ({ data }) => {
   const author = data.author;
   const action = data.action;
@@ -14,7 +12,8 @@ const StoryItem = ({ data }) => {
   const content = data.content;
   const link = data.link;
 
-  const actions = ['赞同了回答', '提出了问题', '关注了问题'];
+  const actions = ['回答了', '提出了问题', '关注了问题'];
+  // console.log(data);
 
   return (
     <div className="story-item-container">
@@ -28,8 +27,9 @@ const StoryItem = ({ data }) => {
           </Link>
           <ReactMarkdown className="feed-item-content">{content}</ReactMarkdown>
           <div>
-            {action === 1 && <ActionBar variant="question" />}
-            {action !== 1 && <ActionBar />}
+            {/* TODO */}
+            {/* {action === 1 && <ActionBar variant="question" />} */}
+            {/* {action !== 1 && <ActionBar />} */}
           </div>
         </div>
       </div>
