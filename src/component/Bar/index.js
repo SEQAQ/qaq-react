@@ -1,2 +1,2 @@
 export { default as ActionBar } from './ActionBar';
-export { default as QuestoinActionBar } from './QuestionAction';
+export { default as QuestionActionBar } from './QuestionAction';

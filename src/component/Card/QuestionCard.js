@@ -4,15 +4,21 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import Markdown from 'react-markdown';
 
-import { QuestoinActionBar } from '../Bar';
+import { QuestionActionBar } from '../Bar';
 
-const QuestionCard = ({ data, ...followProps }) => (
-  <div className="QuestionCardContainer">
-    <h1 className="question-title">{data.title}</h1>
-    <Markdown>{data.detail}</Markdown>
-    <QuestoinActionBar {...followProps} />
-  </div>
-);
+const QUES_CLOSE = 2;
+
+const QuestionCard = ({ data, ...followProps }) => {
+  const closed = data.status === QUES_CLOSE;
+  return (
+    <div className="QuestionCardContainer">
+      {closed && <h1>该问题已关闭</h1>}
+      <h1 className="question-title">{data.title}</h1>
+      <Markdown>{data.detail}</Markdown>
+      <QuestionActionBar {...followProps} status={data.status} />
+    </div>
+  );
+};
 
 QuestionCard.propTypes = {
   data: PropTypes.object.isRequired,

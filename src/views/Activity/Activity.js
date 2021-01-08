@@ -1,19 +1,20 @@
 import './Activity.css';
 
-import { List, ListItem, ListItemIcon, ListItemText } from '@material-ui/core';
 import Tab from '@material-ui/core/Tab';
 import Tabs from '@material-ui/core/Tabs';
 import PersonIcon from '@material-ui/icons/Person';
 import ThumbUpIcon from '@material-ui/icons/ThumbUp';
 import VisibilityIcon from '@material-ui/icons/Visibility';
+import { toString } from 'lodash';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 import { FeedList } from '../../component/Feed';
 import ProfileHeader from '../../component/Profile/ProfileHeader';
+import { userInfo } from '../../lib';
 import { getUserAnswer } from '../../services/AnswerService';
-import { checkIFollowed, follow, getFollowed, unfollow } from '../../services/FollowService';
-import { getUserQuestions } from '../../services/QuestionService';
+import { checkIFollowed, follow, unfollow } from '../../services/FollowService';
+import { getUserFollowedQuestions, getUserQuestions } from '../../services/QuestionService';
 import { fetchUser } from '../../services/userServices';
 
 function TabPanel(props) {
@@ -33,9 +34,13 @@ const Activity = () => {
   // const [feedList, setFeedList] = useState([]);
   const [answers, setAnswers] = useState([]);
   const [questions, setQuestions] = useState([]);
+  const [followedQuestions, setFollowedQuestions] = useState([]);
   const [followed, setFollowed] = useState(false);
-  const [followList, setFollowList] = useState([]);
+  // const [followList, setFollowList] = useState([]);
   const handleChange = (ev, newVal) => setValue(newVal);
+
+  const loginUser = userInfo();
+  const hideFollowButton = loginUser && toString(loginUser.uid) === id;
 
   useEffect(() => {
     fetchUser(id).then((data) => {
@@ -49,7 +54,11 @@ const Activity = () => {
       const questionsList = data.map((e) => ({ ...e, action: 1, content: e.detail ? e.detail.detail : '没有详情', link: `/question/${e.qid}` }));
       setQuestions(questionsList);
     });
-    getFollowed(id).then((data) => setFollowList(data));
+    getUserFollowedQuestions(id).then((data) => {
+      const questionsList = data.map((e) => ({ ...e, title: e.questions.title, action: 2, content: e.detail ? e.detail.detail : '没有详情', link: `/question/${e.qid}` }));
+      setFollowedQuestions(questionsList);
+    });
+    // getFollowed(id).then((data) => setFollowList(data));
     checkIFollowed(id).then((e) => setFollowed(e));
   }, []);
 
@@ -67,14 +76,15 @@ const Activity = () => {
 
   return (
     <div>
-      <ProfileHeader data={user} onFollow={onFollow} followed={followed} />
+      <ProfileHeader data={user} onFollow={onFollow} followed={followed} hideFollowButton={hideFollowButton} />
       <div className="profile-main">
         <div className="card profile-act">
           <Tabs value={value} indicatorColor="primary" textColor="primary" onChange={handleChange} aria-label="disabled tabs example">
             {/* <Tab label="动态" style={{ width: '10px' }} /> */}
             <Tab label="回答" />
             <Tab label="问题" />
-            <Tab label="关注" />
+            {/* <Tab label="关注" /> */}
+            <Tab label="关注问题" />
           </Tabs>
           <TabPanel value={value} index={0}>
             <FeedList dataSource={answers} />
@@ -83,6 +93,9 @@ const Activity = () => {
             <FeedList dataSource={questions} />
           </TabPanel>
           <TabPanel value={value} index={2}>
+            <FeedList dataSource={followedQuestions} />
+          </TabPanel>
+          {/* <TabPanel value={value} index={2}>
             <List dense={false}>
               {followList.map((e, idx) => (
                 <ListItem key={idx}>
@@ -93,7 +106,7 @@ const Activity = () => {
                 </ListItem>
               ))}
             </List>
-          </TabPanel>
+          </TabPanel> */}
         </div>
         <div className="profile-side">
           <div className="card">

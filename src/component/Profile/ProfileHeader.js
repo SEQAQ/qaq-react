@@ -18,6 +18,8 @@ const ProfileHeader = (props) => {
   const department = props.data.department;
   const img = props.data.img;
   const followed = props.followed;
+  const noShow = props.hideFollowButton;
+  // if (show === null || show === undefined) show = true;
 
   return (
     <div className={'profile-card card'}>
@@ -35,14 +37,16 @@ const ProfileHeader = (props) => {
           {(gender === 0 || gender === 1) && <div className="divider" />}
           <span className={'profile-detail'}>{department}</span>
           <div className="profile-footer">
-            <FollowButton
-              followed={followed}
-              onClick={() => {
-                if (props.onFollow) {
-                  props.onFollow(followed);
-                }
-              }}
-            />
+            {!noShow && (
+              <FollowButton
+                followed={followed}
+                onClick={() => {
+                  if (props.onFollow) {
+                    props.onFollow(followed);
+                  }
+                }}
+              />
+            )}
           </div>
         </div>
       </div>

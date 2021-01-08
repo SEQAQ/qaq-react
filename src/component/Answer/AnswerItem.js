@@ -7,7 +7,7 @@ import { sendAnsReply } from '../../services/ReplyService';
 import Avatar from '../Avatar/Avatar';
 import { ActionBar } from '../Bar';
 
-const Answer = ({ data, fetchComment }) => {
+const Answer = ({ data, fetchComment, showDelete, onDelete }) => {
   const [showComment, setShowComment] = useState(false);
   const [comment, setComment] = useState('');
   const comments = data.comments;
@@ -17,6 +17,15 @@ const Answer = ({ data, fetchComment }) => {
       fetchComment(data.aid);
     }
     setShowComment(!showComment);
+  };
+
+  // console.log(data);
+
+  const deleteMediator = () => {
+    const id = data.aid;
+    if (onDelete) {
+      onDelete(id);
+    }
   };
 
   return (
@@ -32,7 +41,7 @@ const Answer = ({ data, fetchComment }) => {
         <ReactMarkdown>{data.detail}</ReactMarkdown>
       </div>
       {/* COMMENT SECTION */}
-      <ActionBar commentClick={commentClick} />
+      <ActionBar commentClick={commentClick} showDelete={showDelete} deleteClick={deleteMediator} />
       {showComment && (
         <>
           <Editor

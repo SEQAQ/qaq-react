@@ -34,6 +34,9 @@ const BasicRoute = () => (
             <Route path="/ask">
               <AskView />
             </Route>
+            <Route path="/editQuestion/:id">
+              <AskView />
+            </Route>
             <Route exact path={'/admin'} component={AdminView} />
             <Route exact path={'/profile'} component={ProfileView} />
             <Route exact path="/users/login" component={LoginView} />

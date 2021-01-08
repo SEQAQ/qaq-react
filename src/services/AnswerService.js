@@ -1,5 +1,5 @@
 import { get, post } from '../lib';
-import { API_ANS_GET, API_ANS_GET_USER, API_ANS_NEW } from '../utils/constants';
+import { API_ANS_DEL, API_ANS_GET, API_ANS_GET_USER, API_ANS_NEW } from '../utils/constants';
 import { getUser } from './userServices';
 
 /**
@@ -27,3 +27,5 @@ export const answerQuestion = (qid, ans) => {
 export const getAnswers = (qid) => get(API_ANS_GET, { qid });
 
 export const getUserAnswer = (uid) => get(API_ANS_GET_USER, { uid });
+
+export const deleteAnswer = (aid) => get(API_ANS_DEL, { aid }, true);
