@@ -1,6 +1,5 @@
 import { Avatar, Divider, List, ListItem, ListItemAvatar, ListItemText, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-// import { CommentButton } from '../';
 import React from 'react';
 
 const useStyles = makeStyles((theme) => ({
@@ -16,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Comment = ({ dataSource }) => {
+const Comment = ({ dataSource, onFocus }) => {
   const classes = useStyles();
   // TODO: implement nested comments
   return (
@@ -24,7 +23,7 @@ const Comment = ({ dataSource }) => {
       {dataSource &&
         dataSource.map((comment, idx) => (
           <div key={idx}>
-            <ListItem key={idx} alignItems="flex-start">
+            <ListItem key={idx} alignItems="flex-start" onClick={() => onFocus(comment)}>
               <ListItemAvatar>
                 <Avatar alt="avatar" src={comment.avatar} />
               </ListItemAvatar>

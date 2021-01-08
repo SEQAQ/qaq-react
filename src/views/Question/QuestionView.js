@@ -10,7 +10,7 @@ import AnswerList from '../../component/Answer/AnswerList';
 import { Card, QuestionCard } from '../../component/Card';
 import MdEditor from '../../component/Editor/MdEditor';
 import { userInfo } from '../../lib';
-import { answerQuestion, deleteAnswer, getAnswers, parseAnswerData } from '../../services/AnswerService';
+import { answerQuestion, deleteAnswer, getAnswers, getAnswersWithVote, parseAnswerData } from '../../services/AnswerService';
 import { closeQuestion, deleteQuestion, followQuestion, getQuestion, getQuestionFollowed, openQuestion, parseQuestionData, unfollowQuestion } from '../../services/QuestionService';
 import { fetchAnsReplies, parseReply } from '../../services/ReplyService';
 import AskView from '../Ask/AskView';
@@ -26,6 +26,7 @@ const QuestionView = () => {
   const [ans, setAns] = useState('');
   const [editing, setEditing] = useState(false);
   const user = userInfo();
+  // const getAnswersFunctor = user ? getAnswersWithVote : getAnswers;
   const isAsker = user && question && user.uid === question.uid;
 
   const [open, setOpen] = useState(false);
@@ -37,10 +38,20 @@ const QuestionView = () => {
       const q = parseQuestionData(data);
       setQuestion(q);
     });
-    getAnswers(id).then((data) => {
-      const ans = data.map((e) => parseAnswerData(e)).filter((e) => e.status !== -1);
-      setAnswers(ans);
-    });
+    if (user) {
+      getAnswersWithVote(id).then((data) => {
+        const ans = data
+          .map((e) => ({ ...e.answers, tag: e.tag }))
+          .map((e) => parseAnswerData(e))
+          .filter((e) => e.status !== -1);
+        setAnswers(ans);
+      });
+    } else {
+      getAnswers(id).then((data) => {
+        const ans = data.map((e) => parseAnswerData(e)).filter((e) => e.status !== -1);
+        setAnswers(ans);
+      });
+    }
     getQuestionFollowed(id).then((data) => {
       if (data === 'Yes') {
         setFollowed(true);
@@ -76,7 +87,6 @@ const QuestionView = () => {
     });
   };
 
-  // TODO: check answerable
   const submitAnswer = () => {
     // console.log(question);
     if (question.status === QUES_CLOSE) {
@@ -146,9 +156,6 @@ const QuestionView = () => {
         setOpen(true);
       });
   };
-
-  // console.log(`isAsker: ${isAsker}`);
-  // console.log(question);
 
   return (
     <div>

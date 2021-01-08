@@ -1,5 +1,5 @@
 import { get, post } from '../lib';
-import { API_ANS_DEL, API_ANS_GET, API_ANS_GET_USER, API_ANS_NEW } from '../utils/constants';
+import { API_ANS_DEL, API_ANS_GET, API_ANS_GET_USER, API_ANS_GET_WITH_VOTE, API_ANS_NEW } from '../utils/constants';
 import { getUser } from './userServices';
 
 /**
@@ -10,7 +10,8 @@ export const parseAnswerData = (data) => {
   const detail = data.detail ? data.detail.mdText : undefined;
   const author = data.users ? data.users.uname : 'kimino namaewa~';
   const dept = data.users ? data.users.department : undefined;
-  return { ...data, author, dept, detail };
+  const vote = data.tag ? data.tag : undefined;
+  return { ...data, author, dept, detail, vote };
 };
 
 /**
@@ -21,10 +22,12 @@ export const parseAnswerData = (data) => {
  */
 export const answerQuestion = (qid, ans) => {
   const user = getUser();
-  return post(API_ANS_NEW, { qid, text: ans, uid: user.uid });
+  return post(API_ANS_NEW, { qid, text: ans, uid: user.uid }, true);
 };
 
 export const getAnswers = (qid) => get(API_ANS_GET, { qid });
+
+export const getAnswersWithVote = (qid) => get(API_ANS_GET_WITH_VOTE, { qid }, true);
 
 export const getUserAnswer = (uid) => get(API_ANS_GET_USER, { uid });
 

@@ -5,11 +5,12 @@ import React, { useState } from 'react';
 import { CommentButton, VoteButtonGroup } from '../Button';
 import DelButton from '../Button/DeleteButton';
 
-const ActionBar = ({ showDelete, deleteClick, commentClick, ...props }) => {
-  const [vote, setVote] = useState(0);
+const ActionBar = ({ showDelete, deleteClick, commentClick, initialVote, ...props }) => {
+  const [vote, setVote] = useState(initialVote === undefined ? 0 : initialVote ? 1 : 2);
   const variant = props.variant;
   const follower = props.follower;
   const followed = props.followed;
+
   if (variant === 'question') {
     return (
       <>
