@@ -180,6 +180,7 @@ const ProfileView = () => {
       setValues({ ...values, avatar: dataUrl });
       setImg(1);
       // console.log(dataUrl);
+      setProfile();
     });
   };
 
