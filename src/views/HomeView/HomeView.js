@@ -23,6 +23,7 @@ export class HomeView extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      user: null,
       listTag: 1,
       hotTag: 1,
       recommendQues: [],
@@ -44,6 +45,12 @@ export class HomeView extends React.Component {
   }
 
   componentDidMount() {
+    // 获取用户信息
+    const u = userInfo();
+    this.setState({
+      user: u,
+    });
+
     // 获取热榜信息
     // 日推
     getHotQues(0).then((data) => {
@@ -73,8 +80,7 @@ export class HomeView extends React.Component {
     });
 
     // 获取推荐信息
-    const a = userInfo();
-    if (a === null) {
+    if (u === null) {
       getRecomQues(-1).then((data) => {
         const tmp = this.state.recommendQues;
         tmp.push(...data);
@@ -83,7 +89,7 @@ export class HomeView extends React.Component {
         });
       });
     } else {
-      getRecomQues(a.uid).then((data) => {
+      getRecomQues(u.uid).then((data) => {
         // console.log(data);
         const tmp = this.state.recommendQues;
         tmp.push(data);
@@ -280,12 +286,14 @@ export class HomeView extends React.Component {
                   </Button>
                 </Grid>
                 <Grid item>
-                  <Link to="/admin">
-                    <Button className="homeView-button">
-                      <SupervisorAccountIcon className="homeView-button-text" />
-                      <span style={{ color: 'rgb(118,131,167)' }}>管理员页面</span>
-                    </Button>
-                  </Link>
+                  {this.state.user === null || (this.state.user !== null && this.state.user.role !== 'admin') ? null : (
+                    <Link to="/admin">
+                      <Button className="homeView-button">
+                        <SupervisorAccountIcon className="homeView-button-text" />
+                        <span style={{ color: 'rgb(118,131,167)' }}>管理员页面</span>
+                      </Button>
+                    </Link>
+                  )}
                 </Grid>
               </Grid>
 

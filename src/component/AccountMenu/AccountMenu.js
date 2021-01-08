@@ -8,11 +8,13 @@ import React from 'react';
 import cookie from 'react-cookies';
 import { Link } from 'react-router-dom';
 
-export default function SimpleMenu() {
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  /*  const [ifLogin, setIfLogin] = React.useState(false);*/
+import { userInfo } from '../../lib';
 
-  const target = '/people/6';
+export default function SimpleMenu() {
+  const user = userInfo();
+  const [anchorEl, setAnchorEl] = React.useState(null);
+
+  const target = user === null ? null : '/people/' + user.uid;
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -27,7 +29,7 @@ export default function SimpleMenu() {
     const tmp = cookie.load('account');
     if (tmp !== undefined) {
       cookie.remove('account', { path: '/' });
-      /*      console.log('已登出'); */
+      localStorage.clear();
     }
   };
 
@@ -37,18 +39,31 @@ export default function SimpleMenu() {
         <AccountCircle />
       </IconButton>
       <Menu id="simple-menu" anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={handleClose}>
-        <Link to="/users/login" className="text-link">
-          <MenuItem onClick={handleClose}>登录</MenuItem>
-        </Link>
-        <Link to={target} className="text-link">
-          <MenuItem onClick={handleClose}>我的主页</MenuItem>
-        </Link>
-        <Link to="/" className="text-link">
-          <MenuItem onClick={handleClose}>设置</MenuItem>
-        </Link>
-        <Link to="/" className="text-link">
-          <MenuItem onClick={logout}>退出</MenuItem>
-        </Link>
+        {user !== null ? null : (
+          <Link to="/users/login" className="text-link">
+            <MenuItem onClick={handleClose}>用户登录</MenuItem>
+          </Link>
+        )}
+        {user !== null ? null : (
+          <Link to="/users/register" className="text-link">
+            <MenuItem onClick={handleClose}>用户注册</MenuItem>
+          </Link>
+        )}
+        {user === null ? null : (
+          <Link to={target} className="text-link">
+            <MenuItem onClick={handleClose}>我的主页</MenuItem>
+          </Link>
+        )}
+        {user === null ? null : (
+          <Link to="/" className="text-link">
+            <MenuItem onClick={handleClose}>设置</MenuItem>
+          </Link>
+        )}
+        {user === null ? null : (
+          <a href="/" className="text-link">
+            <MenuItem onClick={logout}>退出</MenuItem>
+          </a>
+        )}
       </Menu>
     </>
   );

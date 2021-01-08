@@ -53,7 +53,7 @@ const QAQAppBar = () => {
   };
 
   const onSearch = () => {
-    history.push('/search' + searchString);
+    history.replace('/search/' + searchString);
   };
 
   return (
