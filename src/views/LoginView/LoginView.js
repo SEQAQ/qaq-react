@@ -203,12 +203,6 @@ export default function LoginView() {
             accountBanned();
           } else if (response.data.msg === '用户未激活') {
             notActive();
-            loginSuccess();
-            sleep(1000)
-              .next()
-              .value.then(() => {
-                history.push('/users/activate');
-              });
           } else if (response.data.msg === '无效的用户名') {
             noSuchUser();
           } else if (response.data.msg === '密码错误') {
@@ -316,7 +310,7 @@ export default function LoginView() {
       </Snackbar>
       <Snackbar open={open4} autoHideDuration={6000} onClose={handleClose4}>
         <Alert onClose={handleClose4} severity="warning">
-          账号等待激活，即将进行跳转
+          账号等待激活，请检查您的邮件
         </Alert>
       </Snackbar>
       <Snackbar open={open5} autoHideDuration={6000} onClose={handleClose5}>
