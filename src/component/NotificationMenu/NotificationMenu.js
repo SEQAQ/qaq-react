@@ -12,7 +12,8 @@ import FormatListBulletedIcon from '@material-ui/icons/FormatListBulleted';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import PeopleIcon from '@material-ui/icons/People';
 import React from 'react';
-import WsClient from "../../WsWrapper";
+
+// import WsClient from '../../WsWrapper';
 
 // 1 表示 answer
 // 2 表示 question
