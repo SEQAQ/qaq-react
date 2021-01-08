@@ -223,6 +223,7 @@ export default function RegisterView() {
       password: values.password,
       phone: values.phone,
       sex: values.sex,
+      email: values.email,
     };
     if (values.password !== values.confirmPassword) {
       confilmFail();
