@@ -7,11 +7,15 @@ const WS_API = process.env.REACT_APP_WS_URL;
 /**
  * A websocket based notification client
  * call activate() to activate the client
+ * Returns null if no user is logged in
  *
  * @param {function} onNewNotification this function will be called when a new notification message receives, the first paramter is message data
  */
 const WsClient = (onNewNotification) => {
   const user = userInfo();
+  if (!user) {
+    return null;
+  }
 
   const client = new Client({
     brokerURL: WS_API,
