@@ -84,7 +84,7 @@ export default function LoginView() {
   const [open3, setOpen3] = React.useState(false);
   const [open4, setOpen4] = React.useState(false);
   const [open5, setOpen5] = React.useState(false);
-  const [open6, setOpen6] = React.useState(false);
+  // const [open6, setOpen6] = React.useState(false);
 
   const loginSuccess = () => {
     setOpen1(true);
@@ -146,17 +146,17 @@ export default function LoginView() {
     setOpen5(false);
   };
 
-  const serverError = () => {
-    setOpen6(true);
-  };
-
-  const handleClose6 = (event, reason) => {
-    if (reason === 'clickaway') {
-      return;
-    }
-
-    setOpen6(false);
-  };
+  // const serverError = () => {
+  //   setOpen6(true);
+  // };
+  //
+  // const handleClose6 = (event, reason) => {
+  //   if (reason === 'clickaway') {
+  //     return;
+  //   }
+  //
+  //   setOpen6(false);
+  // };
 
   const login = () => {
     axios({
@@ -192,7 +192,7 @@ export default function LoginView() {
             cookie.remove('account', { path: '/' });
             cookie.save('account', values.account, { path: '/' });
             loginSuccess();
-            sleep(1000)
+            sleep(10000)
               .next()
               .value.then(() => {
                 window.location.replace('/');
@@ -207,7 +207,7 @@ export default function LoginView() {
           } else if (response.data.msg === '密码错误') {
             passwordError();
           } else {
-            serverError();
+            // serverError();
           }
         }
       })
@@ -317,11 +317,11 @@ export default function LoginView() {
           您的账户已被封禁，请联系管理员处理
         </Alert>
       </Snackbar>
-      <Snackbar open={open6} autoHideDuration={6000} onClose={handleClose6}>
-        <Alert onClose={handleClose6} severity="error">
-          服务器异常，请稍后再试
-        </Alert>
-      </Snackbar>
+      {/* <Snackbar open={open6} autoHideDuration={6000} onClose={handleClose6}>*/}
+      {/* <Alert onClose={handleClose6} severity="error">*/}
+      {/*   服务器异常，请稍后再试*/}
+      {/* </Alert>*/}
+      {/* </Snackbar>*/}
     </Container>
   );
 }
