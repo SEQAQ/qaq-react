@@ -196,7 +196,7 @@ export default function LoginView() {
             sleep(1000)
               .next()
               .value.then(() => {
-                history.push('/');
+                window.location.replace('/');
               });
           } else if (response.data.data === "User didn't existed!") {
             noSuchUser();

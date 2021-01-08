@@ -50,10 +50,11 @@ const QAQAppBar = () => {
 
   const handleSearchStringChange = (event) => {
     setSearchString(event.target.value);
+    console.log(searchString);
   };
 
   const onSearch = () => {
-    history.push('/search' + searchString);
+    history.replace('/search/' + searchString);
   };
 
   return (

@@ -21,7 +21,7 @@ export const parseAnswerData = (data) => {
  */
 export const answerQuestion = (qid, ans) => {
   const user = getUser();
-  return post(API_ANS_NEW, { qid, text: ans, uid: user.uid });
+  return post(API_ANS_NEW, { qid, text: ans, uid: user.uid }, true);
 };
 
 export const getAnswers = (qid) => get(API_ANS_GET, { qid });
